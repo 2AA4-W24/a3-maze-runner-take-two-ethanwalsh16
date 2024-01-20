@@ -7,7 +7,7 @@ public class Maze {
 	}
 
 	public String createPath() {
-		return "";
+		return "FFFFF";
 	}
 
 }

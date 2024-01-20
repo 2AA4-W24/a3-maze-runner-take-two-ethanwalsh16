@@ -22,10 +22,12 @@ public class Main {
 			//System.out.println(config);
 			// Removing for purpose of Minimum Viable Product
 			// Reader.read(config.input_filename());
-
+			logger.info("** Starting Maze Runner");
+			logger.info("** Importing maze");
 			Maze inputMaze = new Maze("./examples/mvp.maz.txt");
 			String path = inputMaze.createPath();
-			System.out.println(path);
+			logger.info("**** Path is: " + path);
+			logger.info("End of Maze Runner");
 
 			/* 
 			if(!config.user_path().isEmpty()){
