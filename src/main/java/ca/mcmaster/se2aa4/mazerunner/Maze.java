@@ -6,7 +6,7 @@ public class Maze {
 		
 	}
 
-	public static String createPath() {
+	public String createPath() {
 		return "";
 	}
 
