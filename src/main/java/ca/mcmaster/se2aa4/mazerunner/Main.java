@@ -20,15 +20,14 @@ public class Main {
 			logger.info("** Starting Maze Runner");
 			Configuration config = configure(args);
 			logger.info("** Importing maze");
-			Reader.read(config.input_filename());
-			Maze inputMaze = new Maze("./examples/mvp.maz.txt");
-			String path = inputMaze.createPath();
+			Maze inputMaze = new Maze(config.input_filename());
+			String path = inputMaze.generatePath();
 			logger.info("**** Path is: " + path);
 			logger.info("** End of Maze Runner");
  
 			/* 
 			if(!config.user_path().isEmpty()){
-				String pathsEqual = Comparer.comparePath(path, config.user_path());
+				String pathsEqual = Verifier.verifyPath(path, config.user_path());
 				System.out.println(pathsEqual);
 			}
 			*/	

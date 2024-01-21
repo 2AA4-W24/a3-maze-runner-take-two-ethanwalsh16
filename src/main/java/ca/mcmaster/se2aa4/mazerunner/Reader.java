@@ -12,11 +12,11 @@ public class Reader {
 
 	private static final Logger logger = LogManager.getLogger();
 
-	public static void read(String input_filename) throws FileNotFoundException{
+	public static ArrayList<ArrayList<String>> read(String input_filename) throws FileNotFoundException{
 		BufferedReader reader = new BufferedReader(new FileReader(input_filename));	
 		String line;
 		ArrayList<ArrayList<String>> matrix = new ArrayList<ArrayList<String>>();
-		int i=0,j=0;
+		int i=0;
 		try {
 			while ((line = reader.readLine()) != null) {
 				matrix.add(new ArrayList<String>());
@@ -26,13 +26,15 @@ public class Reader {
 						matrix.get(i).add("W");
 					} else if (line.charAt(idx) == ' ') {
 						System.out.print("PASS ");
-						matrix.get(i).add(" ");
+						matrix.get(i).add("P");
 					}
 				}
 				System.out.print(System.lineSeparator());
+				i++;
 			}
 		} catch (IOException e) {
 			logger.error("/!\\ An error has occured /!\\");
 		}
+		return matrix;
 	}
 }
