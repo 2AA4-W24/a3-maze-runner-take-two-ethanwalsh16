@@ -12,7 +12,7 @@ public class Maze {
 	}
 
 	public String generatePath() {
-		return matrix.get(2).get(1);
+		MazeSolver solver = new RightHand();
+		return solver.solveMaze(matrix);
 	}
-
 }

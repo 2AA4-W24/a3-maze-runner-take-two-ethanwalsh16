@@ -27,8 +27,8 @@ public class Main {
  
 			/* 
 			if(!config.user_path().isEmpty()){
-				String pathsEqual = Verifier.verifyPath(path, config.user_path());
-				System.out.println(pathsEqual);
+				String correctPath = Verifier.verifyPath(path, config.user_path());
+				System.out.println(correctPath);
 			}
 			*/	
 			
