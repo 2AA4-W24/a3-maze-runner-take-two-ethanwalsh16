@@ -17,11 +17,9 @@ public class Main {
 
     public static void main(String[] args) {
 		try{
-
 			logger.info("** Starting Maze Runner");
-			logger.info("** Importing maze");
 			Configuration config = configure(args);
-
+			logger.info("** Importing maze");
 			Reader.read(config.input_filename());
 			Maze inputMaze = new Maze("./examples/mvp.maz.txt");
 			String path = inputMaze.createPath();
@@ -43,7 +41,6 @@ public class Main {
     }
 
 	private static Configuration configure(String [] args) throws ParseException, FileNotFoundException{
- 
 		Options options = new Options();
 		options.addOption("i", true, "Name of input maze file");
 		options.addOption("p", true, "User input path to compare");
