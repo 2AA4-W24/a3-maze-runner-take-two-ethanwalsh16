@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Tremaux implements MazeSolver {
 	@Override
-	public String solveMaze(ArrayList<ArrayList<String>> maze) {
+	public String solveMaze(ArrayList<ArrayList<String>> maze, Coordinate entry1, Coordinate entry2) {
 		return "Tremaux method not implemented yet.";
 	}
 }
