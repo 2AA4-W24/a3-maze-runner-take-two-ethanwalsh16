@@ -1,23 +1,31 @@
 package ca.mcmaster.se2aa4.mazerunner;
-import java.util.ArrayList;
 
 public class Factorization {
 
-	public static ArrayList<String> FactorPath(String input){
-		ArrayList<String> factorizedPath = new ArrayList<String>();
-		char runner = input.charAt(0);
-		int count = 0;
-		for(int i=0; i<input.length()-1; i++){
-			if(input.charAt(i) == input.charAt(i+1)){
-				count += 1;
+	public static String FactorPath(String input){
+		System.out.println("LENGTH: " + input.length());
+		String factorizedPath = "";
+		String current = "";
+		for(int i=0; i<input.length(); i++){
+			if(current.isEmpty()){
+				current += input.charAt(i);
+			}else if (input.charAt(i) == current.charAt(0)){
+				current += input.charAt(i);
 			}else{
-				if(count>1){
-					factorizedPath.add(count + String.valueOf(input.charAt(i)));
-				}else if (count > 0){
-					factorizedPath.add(String.valueOf(input.charAt(i)));
+				if(!current.isEmpty()){
+					if(current.length() > 1){
+						factorizedPath += current.length() + String.valueOf(current.charAt(0)) + " ";
+					}else{
+						factorizedPath += String.valueOf(current.charAt(0)) + " ";
+					}
 				}
-				count = 0;
+				current = String.valueOf(input.charAt(i));
 			}
+		}
+		if(current.length() > 1){
+			factorizedPath += current.length() + String.valueOf(current.charAt(0)) + " ";
+		}else{
+			factorizedPath += String.valueOf(input.charAt(input.length()-1)) + " ";
 		}
 		return factorizedPath;
 	}

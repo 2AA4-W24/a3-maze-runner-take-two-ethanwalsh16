@@ -111,12 +111,8 @@ public class RightHand implements MazeSolver {
 			}
 		}
 		System.out.println("PATH: " + path);
-		ArrayList<String> factorizedPathElements = Factorization.FactorPath(path);
-		String factorizedString = "";
-		for(int i=0; i<factorizedPathElements.size(); i++){
-			factorizedString += factorizedPathElements.get(i) + " ";
-		}
-		return factorizedString;
+		String factorizedPath = Factorization.FactorPath(path);
+		return factorizedPath;
 	}
 	
 }
