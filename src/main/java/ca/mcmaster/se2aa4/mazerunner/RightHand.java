@@ -84,7 +84,7 @@ public class RightHand implements MazeSolver {
 					if(!maze.get(currentPosition.getY()-1).get(currentPosition.getX()).equals("W")){
 						currentPosition.setY(currentPosition.getY()-1);
 						path += "RF";
-						direction = Orientation.DOWN;
+						direction = Orientation.UP;
 					}
 					else if(!maze.get(currentPosition.getY()).get(currentPosition.getX()-1).equals("W")){
 						currentPosition.setX(currentPosition.getX()-1);
@@ -93,11 +93,11 @@ public class RightHand implements MazeSolver {
 					else if(!maze.get(currentPosition.getY()+1).get(currentPosition.getX()).equals("W")){
 						currentPosition.setY(currentPosition.getY()+1);
 						path += "LF";
-						direction = Orientation.UP;
+						direction = Orientation.DOWN;
 					}else{
 						currentPosition.setX(currentPosition.getX()+1);
 						path += "RRF";
-						direction = Orientation.LEFT;
+						direction = Orientation.RIGHT;
 					}
 					break;
 			}
