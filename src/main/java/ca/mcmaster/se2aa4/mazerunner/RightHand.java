@@ -13,7 +13,7 @@ enum Orientation {
 public class RightHand implements MazeSolver {
 
 	@Override
-	public String solveMaze(ArrayList<ArrayList<String>> maze, Coordinate entry1, Coordinate entry2) {
+	public String[] solveMaze(ArrayList<ArrayList<String>> maze, Coordinate entry1, Coordinate entry2) {
 
 		String path = "";
 		// To monitor current location, as well as end point (assuming end is right entry)
@@ -110,9 +110,9 @@ public class RightHand implements MazeSolver {
 					break;
 			}
 		}
-		System.out.println("PATH: " + path);
 		String factorizedPath = Factorization.FactorPath(path);
-		return factorizedPath;
+		String[] paths = {path, factorizedPath};
+		return paths;
 	}
 	
 }

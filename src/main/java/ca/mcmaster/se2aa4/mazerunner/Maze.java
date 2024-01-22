@@ -11,12 +11,9 @@ public class Maze {
 		matrix = Reader.read(input);
 	}
 
-	public String generatePath() {
+	public String[] generatePath() {
 		MazeSolver solver = new RightHand();
 		Coordinate[] entries = findEntries();
-		System.out.println("SIZE: " + matrix.size() + ", " + matrix.get(0).size());
-		System.out.println("ENTRY 1: " + entries[0].getX() + ", " + entries[0].getY());
-		System.out.println("ENTRY 2: " + entries[1].getX() + ", " + entries[1].getY());
 		return solver.solveMaze(matrix,entries[0],entries[1]);
 	}
 

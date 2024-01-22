@@ -21,8 +21,9 @@ public class Main {
 			Configuration config = configure(args);
 			logger.info("** Importing maze");
 			Maze inputMaze = new Maze(config.input_filename());
-			String path = inputMaze.generatePath();
-			logger.info("**** Path is: " + path);
+			String[] paths = inputMaze.generatePath();
+			logger.info("**** Path is: " + paths[0]);
+			logger.info("**** Factorized Path is: " + paths[1]);
 			logger.info("** End of Maze Runner");
  
 			/* 
