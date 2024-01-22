@@ -3,13 +3,6 @@ package ca.mcmaster.se2aa4.mazerunner;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-enum Orientation {
-	UP,
-	RIGHT,
-	DOWN,
-	LEFT
-}
-
 public class Maze {
 
 	ArrayList<ArrayList<String>> matrix;
