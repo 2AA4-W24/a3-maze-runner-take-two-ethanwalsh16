@@ -14,32 +14,40 @@ public class RightHand implements MazeSolver {
 
 	@Override
 	public String solveMaze(ArrayList<ArrayList<String>> maze, Coordinate entry1, Coordinate entry2) {
+
 		String path = "";
+		// To monitor current location, as well as end point (assuming end is right entry)
 		Coordinate currentPosition = entry1;
 		Coordinate endPosition = entry2;
+		// Enum for tracking orientation within maze, as 2D array coordinates will vary
 		Orientation direction = Orientation.RIGHT;
 		while(!Coordinate.equivalentTo(endPosition,currentPosition)){
 			switch (direction){
 				case RIGHT:
+					// If right turn available, do as such
 					if(!maze.get(currentPosition.getY()+1).get(currentPosition.getX()).equals("W")){
 						currentPosition.setY(currentPosition.getY()+1);
 						path += "RF";
 						direction = Orientation.DOWN;
 					}
+					// If no right, go straight
 					else if(!maze.get(currentPosition.getY()).get(currentPosition.getX()+1).equals("W")){
 						currentPosition.setX(currentPosition.getX()+1);
 						path += "F";
 					}
+					// If no straight, go left
 					else if(!maze.get(currentPosition.getY()-1).get(currentPosition.getX()).equals("W")){
 						currentPosition.setY(currentPosition.getY()-1);
 						path += "LF";
 						direction = Orientation.UP;
+					// If all else fails, go back.
 					}else{
 						currentPosition.setX(currentPosition.getX()-1);
 						path += "RRF";
 						direction = Orientation.LEFT;
 					}
 					break;
+				// Cases UP, DOWN, and LEFT all have the same decision logic of RIGHT (go right -> go straight -> go left -> turn around).
 				case UP:
 					if(!maze.get(currentPosition.getY()).get(currentPosition.getX()+1).equals("W")){
 						currentPosition.setX(currentPosition.getX()+1);
@@ -101,12 +109,6 @@ public class RightHand implements MazeSolver {
 					}
 					break;
 			}
-			// Example for going right
-			// If you can go right, go right (need to access one row lower at same x (y+1),(x))
-			// Append RF to path string
-			// If you cannot go right, check to see if you can go straight (check (x,y+1))
-			// If you cannot go right or straight, go left (check (x,y-1))
-			// If you cannot go left, go back on the path you came.
 		}
 		return path;
 	}
