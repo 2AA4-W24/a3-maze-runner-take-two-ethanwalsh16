@@ -24,7 +24,7 @@ public class Maze {
 		return isCorrect;
 	}
 
-	public String[] generatePath() {
+	public String[] generatePaths() {
 		MazeSolver solver = new RightHand();
 		Coordinate[] entries = findEntries();
 		return solver.solveMaze(matrix,entries[0],entries[1]);

@@ -2,16 +2,33 @@ package ca.mcmaster.se2aa4.mazerunner;
 import java.util.ArrayList;
 
 public class Verifier {
+	// Confirming the method is suitable to verify (only contains correct characters)
+	public static boolean correctPath(String userPath){
+		boolean correctChars = true;
+		for(int i=0; i<userPath.length(); i++){
+			if(userPath.charAt(i) != 'F' && userPath.charAt(i) != 'R' && userPath.charAt(i) != 'L'){
+				correctChars = false;
+				return correctChars;
+			}
+		}
+		return correctChars;
+	}
 	
+	// Testing user entered path to see if it is a valid maze solution.
 	public static String verifyPath(String userPath, ArrayList<ArrayList<String>> matrix, Coordinate[] entries){
+
+		// Tracking position and orientation for moving through the maze.
 		Coordinate currentPos = entries[0];
 		Coordinate endPoint = entries[1];
 		Orientation direction = Orientation.RIGHT;
 		String result = "Incorrect";
+		userPath = userPath.replaceAll("\\s","");
+		
 		for(int i=0; i<userPath.length(); i++){
 			switch(direction){
 				case RIGHT:
 					if(userPath.charAt(i) == 'F'){
+						// Check for path, then move
 						if(matrix.get(currentPos.getY()).get(currentPos.getX()+1).equals("W")){
 							return result;
 						}else{
@@ -25,7 +42,7 @@ public class Verifier {
 					break;
 				case DOWN:
 					if(userPath.charAt(i) == 'F'){
-						// Check for path, then increase
+						// Check for path, then move
 						if(matrix.get(currentPos.getY()+1).get(currentPos.getX()).equals("W")){
 							return result;
 						}else{
@@ -39,7 +56,7 @@ public class Verifier {
 					break;
 				case LEFT:
 					if(userPath.charAt(i) == 'F'){
-						// Check for path, then increase
+						// Check for path, then move
 						if(matrix.get(currentPos.getY()).get(currentPos.getX()-1).equals("W")){
 							return result;
 						}else{
@@ -72,16 +89,5 @@ public class Verifier {
 			}
 		}
 		return result;
-	}
-
-	public static boolean correctPath(String userPath){
-		boolean correctChars = true;
-		for(int i=0; i<userPath.length(); i++){
-			if(userPath.charAt(i) != 'F' && userPath.charAt(i) != 'R' && userPath.charAt(i) != 'L'){
-				correctChars = false;
-				return correctChars;
-			}
-		}
-		return correctChars;
 	}
 }

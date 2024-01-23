@@ -19,22 +19,25 @@ public class Main {
 		try{
 			logger.info("** Starting Maze Runner");
 			Configuration config = configure(args);
+			
 			logger.info("** Importing maze");
 			Maze inputMaze = new Maze(config.input_filename());
-			String[] paths = inputMaze.generatePath();
-			logger.info("**** Path is: " + paths[0]);
-			logger.info("**** Factorized Path is: " + paths[1]);
-			logger.info("**** User path is: " + config.user_path());
-	
+			
+			
 			if(!config.user_path().isEmpty()){
 				boolean correctEntry = Verifier.correctPath(config.user_path());
 				if(correctEntry){
 					String isCorrect = inputMaze.testUserPath(config.user_path());
-					logger.info("**** User path: " + isCorrect);
+					System.out.println(isCorrect);
 				}else{
-					logger.info("**** User path is: Incorrectly formatted.");
+					logger.error("** Incorrect path formatting.");
 				}
+			}else{
+				String[] paths = inputMaze.generatePaths();
+				System.out.println(paths[0]);
+				System.out.println(paths[1]);
 			}
+
 			logger.info("** End of Maze Runner");	
 			
 		}catch (Exception e){
