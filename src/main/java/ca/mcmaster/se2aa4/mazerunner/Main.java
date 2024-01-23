@@ -28,7 +28,12 @@ public class Main {
  
 			if(!config.user_path().isEmpty()){
 				boolean correctEntry = Verifier.correctPath(config.user_path());
-				System.out.println(correctEntry);
+				if(correctEntry){
+					String isCorrect = inputMaze.testUserPath(config.user_path());
+					System.out.println(isCorrect);
+				}else{
+					System.out.println("Incorrect");
+				}
 			}	
 			
 		}catch (Exception e){
