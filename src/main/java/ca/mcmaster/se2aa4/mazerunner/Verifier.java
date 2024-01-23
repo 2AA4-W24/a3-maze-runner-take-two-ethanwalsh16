@@ -12,7 +12,6 @@ public class Verifier {
 			switch(direction){
 				case RIGHT:
 					if(userPath.charAt(i) == 'F'){
-						// Check for path, then increase
 						if(matrix.get(currentPos.getY()).get(currentPos.getX()+1).equals("W")){
 							return result;
 						}else{
