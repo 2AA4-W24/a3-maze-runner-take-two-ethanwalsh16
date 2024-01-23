@@ -7,18 +7,13 @@ public class Verifier {
 		Coordinate currentPos = entries[0];
 		Coordinate endPoint = entries[1];
 		Orientation direction = Orientation.RIGHT;
-		String result = "";
+		String result = "Incorrect";
 		for(int i=0; i<userPath.length(); i++){
-			if(Coordinate.equivalentTo(currentPos,endPoint)){
-				result = "correct";
-				break;
-			}
 			switch(direction){
 				case RIGHT:
 					if(userPath.charAt(i) == 'F'){
 						// Check for path, then increase
 						if(matrix.get(currentPos.getY()).get(currentPos.getX()+1).equals("W")){
-							result = "Incorrect";
 							return result;
 						}else{
 							currentPos.setX(currentPos.getX()+1);
@@ -28,11 +23,11 @@ public class Verifier {
 					}else if(userPath.charAt(i) == 'L'){
 						direction = Orientation.UP;
 					}
+					break;
 				case DOWN:
 					if(userPath.charAt(i) == 'F'){
 						// Check for path, then increase
 						if(matrix.get(currentPos.getY()+1).get(currentPos.getX()).equals("W")){
-							result = "Incorrect";
 							return result;
 						}else{
 							currentPos.setY(currentPos.getY()+1);
@@ -42,11 +37,11 @@ public class Verifier {
 					}else if(userPath.charAt(i) == 'L'){
 						direction = Orientation.RIGHT;
 					}
+					break;
 				case LEFT:
 					if(userPath.charAt(i) == 'F'){
 						// Check for path, then increase
 						if(matrix.get(currentPos.getY()).get(currentPos.getX()-1).equals("W")){
-							result = "Incorrect";
 							return result;
 						}else{
 							currentPos.setX(currentPos.getX()-1);
@@ -56,11 +51,11 @@ public class Verifier {
 					}else if(userPath.charAt(i) == 'L'){
 						direction = Orientation.DOWN;
 					}
+					break;
 				case UP:
 					if(userPath.charAt(i) == 'F'){
 						// Check for path, then increase
 						if(matrix.get(currentPos.getY()-1).get(currentPos.getX()).equals("W")){
-							result = "Incorrect";
 							return result;
 						}else{
 							currentPos.setY(currentPos.getY()-1);
@@ -70,16 +65,20 @@ public class Verifier {
 					}else if(userPath.charAt(i) == 'L'){
 						direction = Orientation.LEFT;
 					}
+					break;
+			}
+			if(Coordinate.equivalentTo(currentPos,endPoint)){
+				result = "Correct";
+				break;
 			}
 		}
-		result = "Incorrect";
 		return result;
 	}
 
 	public static boolean correctPath(String userPath){
 		boolean correctChars = true;
 		for(int i=0; i<userPath.length(); i++){
-			if(userPath.charAt(i) != 'F' || userPath.charAt(i) != 'R' || userPath.charAt(i) != 'L'){
+			if(userPath.charAt(i) != 'F' && userPath.charAt(i) != 'R' && userPath.charAt(i) != 'L'){
 				correctChars = false;
 				return correctChars;
 			}

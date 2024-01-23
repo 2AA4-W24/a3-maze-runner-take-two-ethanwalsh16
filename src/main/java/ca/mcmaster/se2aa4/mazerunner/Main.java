@@ -24,17 +24,18 @@ public class Main {
 			String[] paths = inputMaze.generatePath();
 			logger.info("**** Path is: " + paths[0]);
 			logger.info("**** Factorized Path is: " + paths[1]);
-			logger.info("** End of Maze Runner");
- 
+			logger.info("**** User path is: " + config.user_path());
+	
 			if(!config.user_path().isEmpty()){
 				boolean correctEntry = Verifier.correctPath(config.user_path());
 				if(correctEntry){
 					String isCorrect = inputMaze.testUserPath(config.user_path());
-					System.out.println(isCorrect);
+					logger.info("**** User path: " + isCorrect);
 				}else{
-					System.out.println("Incorrect");
+					logger.info("**** User path is: Incorrectly formatted.");
 				}
-			}	
+			}
+			logger.info("** End of Maze Runner");	
 			
 		}catch (Exception e){
 			logger.error("An error has occured");
@@ -52,7 +53,6 @@ public class Main {
 		CommandLine cmd = parser.parse(options, args);
 		String input_filename = cmd.getOptionValue("i", "");
 		String user_path = cmd.getOptionValue("p", "");
-		
 		return new Configuration(input_filename,user_path);	  
 	}
 

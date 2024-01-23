@@ -2,14 +2,6 @@ package ca.mcmaster.se2aa4.mazerunner;
 
 import java.util.ArrayList;
 
-
-enum Orientation {
-	UP,
-	RIGHT,
-	DOWN,
-	LEFT
-}
-
 public class RightHand implements MazeSolver {
 
 	@Override
