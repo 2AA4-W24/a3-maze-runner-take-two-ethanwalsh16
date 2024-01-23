@@ -23,7 +23,21 @@ public class Verifier {
 		Orientation direction = Orientation.RIGHT;
 		String result = "Incorrect";
 		userPath = userPath.replaceAll("\\s","");
-		
+		// Testing if left to right method works
+		result = iteration(direction, currentPos, endPoint, userPath, matrix);
+		if(result != "Correct"){
+			// If not, also testing path as right to left.
+			currentPos = entries[1];
+			endPoint = entries[0];
+			direction = Orientation.LEFT;
+			result = iteration(direction, currentPos, endPoint, userPath, matrix);
+		}
+		return result;
+	}
+
+	// Method for handling left to right and right to left path verification.
+	public static String iteration(Orientation direction, Coordinate currentPos, Coordinate endPoint, String userPath, ArrayList<ArrayList<String>> matrix){
+		String result = "Incorrect";
 		for(int i=0; i<userPath.length(); i++){
 			switch(direction){
 				case RIGHT:
