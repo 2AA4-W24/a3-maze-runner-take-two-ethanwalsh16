@@ -2,8 +2,9 @@ package ca.mcmaster.se2aa4.mazerunner;
 
 import java.util.ArrayList;
 
-public class RightHand implements MazeSolver {
 
+public class RightHand implements MazeSolver {
+	// Specific solver iteration, using right hand algorithm.
 	@Override
 	public String[] solveMaze(ArrayList<ArrayList<String>> maze, Coordinate entry1, Coordinate entry2) {
 
@@ -32,7 +33,7 @@ public class RightHand implements MazeSolver {
 						currentPosition.setY(currentPosition.getY()-1);
 						path += "LF";
 						direction = Orientation.UP;
-					// If all else fails, go back.
+					// If all else fails, go back (appending RRF to represent 180 degree turn, then a move forward).
 					}else{
 						currentPosition.setX(currentPosition.getX()-1);
 						path += "RRF";
@@ -102,6 +103,7 @@ public class RightHand implements MazeSolver {
 					break;
 			}
 		}
+		// Obtaining factorized path prior to returning both results.
 		String factorizedPath = Factorization.FactorPath(path);
 		String[] paths = {path, factorizedPath};
 		return paths;

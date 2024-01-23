@@ -14,7 +14,7 @@ public class Verifier {
 		return correctChars;
 	}
 	
-	// Testing user entered path to see if it is a valid maze solution.
+	// Testing user entered path to see if it is a valid maze solution (requires a true value from correctPath in order to be run).
 	public static String verifyPath(String userPath, ArrayList<ArrayList<String>> matrix, Coordinate[] entries){
 
 		// Tracking position and orientation for moving through the maze.

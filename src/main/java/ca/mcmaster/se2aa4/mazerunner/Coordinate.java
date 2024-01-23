@@ -1,6 +1,7 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 public class Coordinate {
+	// Class to handle coordinates, used for moving through mazes and finding solution path.
 	int x;
 	int y;
 
@@ -25,6 +26,7 @@ public class Coordinate {
 		this.y = new_y;
 	}
 
+	// Comparator function, used to determine whether path is at end of maze.
 	public static boolean equivalentTo(Coordinate c1, Coordinate c2){
 		if((c2.getX() == c1.getX()) && (c2.getY() == c1.getY())){
 			return true;

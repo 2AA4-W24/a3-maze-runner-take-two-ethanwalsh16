@@ -1,7 +1,7 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 public class Factorization {
-
+	// Used to convert paths from unfactorized (e.g. FFFFF) to factorized (e.g. 5F)
 	public static String FactorPath(String input){
 		String factorizedPath = "";
 		String current = "";
