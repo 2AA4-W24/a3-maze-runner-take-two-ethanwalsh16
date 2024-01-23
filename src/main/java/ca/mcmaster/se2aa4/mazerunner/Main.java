@@ -26,12 +26,10 @@ public class Main {
 			logger.info("**** Factorized Path is: " + paths[1]);
 			logger.info("** End of Maze Runner");
  
-			/* 
 			if(!config.user_path().isEmpty()){
-				String correctPath = Verifier.verifyPath(path, config.user_path());
-				System.out.println(correctPath);
-			}
-			*/	
+				boolean correctEntry = Verifier.correctPath(config.user_path());
+				System.out.println(correctEntry);
+			}	
 			
 		}catch (Exception e){
 			logger.error("An error has occured");

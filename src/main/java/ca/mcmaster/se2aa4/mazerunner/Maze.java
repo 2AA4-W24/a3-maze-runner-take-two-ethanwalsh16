@@ -43,4 +43,8 @@ public class Maze {
 		}
 		return column;
 	}
+
+	public int returnRowLength(){
+		return matrix.get(0).size();
+	}
 }
