@@ -11,6 +11,12 @@ public class Maze {
 		matrix = Reader.read(input);
 	}
 
+	public String testUserPath(String userString){
+		Coordinate[] entries = findEntries();
+		String isCorrect= Verifier.verifyPath(userString, matrix, entries);
+		return isCorrect;
+	}
+
 	public String[] generatePath() {
 		MazeSolver solver = new RightHand();
 		Coordinate[] entries = findEntries();

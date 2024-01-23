@@ -1,8 +1,16 @@
 package ca.mcmaster.se2aa4.mazerunner;
+import java.util.ArrayList;
 
 public class Verifier {
 	
-	public static String verifyPath(String userPath, Maze inputMaze){
+	public static String verifyPath(String userPath, ArrayList<ArrayList<String>> matrix, Coordinate[] entries){
+		Coordinate startPoint = entries[0];
+		Coordinate endPoint = entries[1];
+		
+		for(int i=0; i<userPath.length(); i++){
+
+		}
+
 		return "";
 	}
 
