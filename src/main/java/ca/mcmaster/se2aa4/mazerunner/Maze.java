@@ -26,10 +26,16 @@ public class Maze {
 	}
 
 	// Creates factorized and non-factorized paths.
-	public String[] generatePaths() {
-		MazeSolver solver = new RightHand();
+	public String[] generatePaths(String method) {
 		Coordinate[] entries = findEntries();
-		return solver.solveMaze(matrix,entries[0],entries[1]);
+		if(method.equals("tremaux")){
+			MazeSolver solver = new Tremaux();
+			return solver.solveMaze(matrix,entries[0],entries[1]);
+		}else{
+			MazeSolver solver = new RightHand();
+			return solver.solveMaze(matrix,entries[0],entries[1]);
+		}
+		
 	}
 
 	// Finds entry and exit points of a maze by scanning the first and last columns.

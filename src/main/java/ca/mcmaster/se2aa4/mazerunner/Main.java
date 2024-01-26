@@ -34,8 +34,7 @@ public class Main {
 					logger.error("** Incorrect path formatting.");
 				}
 			}else{
-				String[] paths = inputMaze.generatePaths();
-				System.out.println(paths[0]);
+				String[] paths = inputMaze.generatePaths(config.method());
 				System.out.println(paths[1]);
 			}
 
@@ -52,15 +51,17 @@ public class Main {
 		Options options = new Options();
 		options.addOption("i", true, "Name of input maze file");
 		options.addOption("p", true, "User input path to compare");
+		options.addOption("method", true, "Method to solve maze (righthand or tremaux)");
 
         CommandLineParser parser = new DefaultParser();
 		CommandLine cmd = parser.parse(options, args);
 		String input_filename = cmd.getOptionValue("i", "");
 		String user_path = cmd.getOptionValue("p", "");
-		return new Configuration(input_filename,user_path);	  
+		String method = cmd.getOptionValue("method", "righthand");
+		return new Configuration(input_filename,user_path,method);	  
 	}
 
-	private record Configuration(String input_filename, String user_path){
+	private record Configuration(String input_filename, String user_path, String method){
 		Configuration {
 
 		}
