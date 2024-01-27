@@ -33,11 +33,13 @@ public class Factorization {
 		return factorizedPath;
 	}
 
+	// Used for conversion of factorized paths to unfactorized (e.g. 5F -> FFFFF)
 	public static String unfactorize(String userPath){
 		userPath = userPath.replaceAll("\\s","");
 		String newPath = "";
 		boolean lastCaught = false;
 		for(int i=0; i<userPath.length()-1; i++){
+			// Finding numbers (while loop to handle numbers with more than one digit (e.g. 10))
 			if(Character.isDigit(userPath.charAt(i))){
 				int j = 0;
 				String num = "";
@@ -50,10 +52,12 @@ public class Factorization {
 			}else{
 				newPath += String.valueOf(userPath.charAt(i));
 			}
+			// Handling last case, as last letter may not be picked up by loop. If it is this is true.
 			if(i == userPath.length()-1){
 				lastCaught = true;
 			}
 		}
+		// Picking up case of last letter being missed by initial loop, and appending to path.
 		if(!lastCaught){
 			newPath += String.valueOf(userPath.charAt(userPath.length()-1));
 		}

@@ -14,7 +14,9 @@ public class RightHand implements MazeSolver {
 		Coordinate endPosition = entry2;
 		// Enum for tracking orientation within maze, as 2D array coordinates will vary
 		Orientation direction = Orientation.RIGHT;
+
 		while(!Coordinate.equivalentTo(endPosition,currentPosition)){
+			// Different process depending on orientation.
 			switch (direction){
 				case RIGHT:
 					// If right turn available, do as such

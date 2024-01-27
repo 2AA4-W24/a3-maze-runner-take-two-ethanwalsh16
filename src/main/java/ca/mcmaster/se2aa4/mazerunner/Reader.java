@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 
 public class Reader {
-	// Intended to read in maze from command line and convert into 2D array data structure that will be used to solve / verify paths.
+	// Intended to read in maze file name from command line and convert into 2D array data structure that will be used to solve / verify paths.
 	private static final Logger logger = LogManager.getLogger();
 
 	public static ArrayList<ArrayList<String>> read(String input_filename) throws FileNotFoundException{

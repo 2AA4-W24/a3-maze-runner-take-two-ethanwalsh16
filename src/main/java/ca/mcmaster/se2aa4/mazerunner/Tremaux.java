@@ -5,7 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Tremaux implements MazeSolver {
-	// Tremaux method, to be potentially implemented as bonus option for project.
+	// Tremaux method, implemented as bonus option for project.
+	// Note: In the future, the goal with this algorithm would be to have a more modular approach, however due to the bonus
+	// nature of this part (and that it was relatively complex for a programmer new to this), this component ended up being more
+	// complex and not as modular.
 	@Override
 	public String[] solveMaze(ArrayList<ArrayList<String>> maze, Coordinate entry1, Coordinate entry2) {
 		String path = "";

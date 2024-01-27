@@ -19,7 +19,6 @@ public class Main {
 		try{
 			logger.info("** Starting Maze Runner");
 			Configuration config = configure(args);
-			
 			logger.info("** Importing maze");
 			Maze inputMaze = new Maze(config.input_filename());
 			
@@ -42,6 +41,7 @@ public class Main {
 				}
 			}else{
 				String[] paths = inputMaze.generatePaths(config.method());
+				// Returning factorized path
 				System.out.println(paths[1]);
 			}
 
