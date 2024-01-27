@@ -23,7 +23,6 @@ public class Main {
 			logger.info("** Importing maze");
 			Maze inputMaze = new Maze(config.input_filename());
 			
-			
 			// Outputting if user path is correct (if no user path flag provided, performing maze solving and returning generated path.)
 			if(!config.user_path().isEmpty()){
 				boolean correctEntry = Verifier.correctPath(config.user_path());
@@ -35,6 +34,7 @@ public class Main {
 				}
 			}else{
 				String[] paths = inputMaze.generatePaths(config.method());
+				System.out.println(paths[0]);
 				System.out.println(paths[1]);
 			}
 
