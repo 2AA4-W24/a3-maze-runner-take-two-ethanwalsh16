@@ -29,6 +29,7 @@ public class Reader {
 				}
 				i++;
 			}
+
 		} catch (IOException e) {
 			logger.error("/!\\ An error has occured /!\\");
 		}

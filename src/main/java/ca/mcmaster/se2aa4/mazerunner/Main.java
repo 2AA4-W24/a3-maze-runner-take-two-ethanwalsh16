@@ -25,10 +25,18 @@ public class Main {
 			
 			// Outputting if user path is correct (if no user path flag provided, performing maze solving and returning generated path.)
 			if(!config.user_path().isEmpty()){
-				boolean correctEntry = Verifier.correctPath(config.user_path());
+				boolean correctEntry = Verifier.correctPath(config.user_path())[0];
+				boolean factorized = Verifier.correctPath(config.user_path())[1];
+				String user_path;
+				if(factorized){
+					user_path = Factorization.unfactorize(config.user_path());
+					correctEntry = Verifier.correctPath(user_path)[0];
+				}else{
+					user_path = config.user_path();
+				}
 				if(correctEntry){
-					String isCorrect = inputMaze.testUserPath(config.user_path());
-					System.out.println(isCorrect + "path");
+					String isCorrect = inputMaze.testUserPath(user_path);
+					System.out.println(isCorrect + " path");
 				}else{
 					logger.error("Incorrect path formatting.");
 				}

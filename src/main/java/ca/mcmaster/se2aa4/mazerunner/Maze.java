@@ -47,7 +47,7 @@ public class Maze {
 				entry1 = new Coordinate(0,i);
 			}
 		}
-		ArrayList<String> endColumn = returnColumn(matrix.size()-1);
+		ArrayList<String> endColumn = returnColumn(matrix.get(0).size()-1);
 		for(int i=0; i<endColumn.size(); i++){
 			if(!endColumn.get(i).equals("W")){
 				entry2 = new Coordinate(matrix.get(0).size()-1,i);

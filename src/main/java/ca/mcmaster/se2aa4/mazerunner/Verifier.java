@@ -3,20 +3,27 @@ import java.util.ArrayList;
 
 public class Verifier {
 	// Confirming the method is suitable to verify (only contains correct characters)
-	public static boolean correctPath(String userPath){
+	public static boolean[] correctPath(String userPath){
 		boolean correctChars = true;
+		boolean factorized = false;
+		for(int i=0; i<userPath.length(); i++){
+			if(Character.isDigit(userPath.charAt(i))){
+				factorized = true;
+				break;
+			}
+		}
 		for(int i=0; i<userPath.length(); i++){
 			if(userPath.charAt(i) != 'F' && userPath.charAt(i) != 'R' && userPath.charAt(i) != 'L'){
 				correctChars = false;
-				return correctChars;
+				break;
 			}
 		}
-		return correctChars;
+		boolean[] results = {correctChars, factorized};
+		return results;
 	}
 	
 	// Testing user entered path to see if it is a valid maze solution (requires a true value from correctPath in order to be run).
 	public static String verifyPath(String userPath, ArrayList<ArrayList<String>> matrix, Coordinate[] entries){
-
 		// Tracking position and orientation for moving through the maze.
 		Coordinate currentPos = entries[0];
 		Coordinate endPoint = entries[1];
