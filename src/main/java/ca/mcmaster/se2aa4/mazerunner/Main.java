@@ -28,13 +28,12 @@ public class Main {
 				boolean correctEntry = Verifier.correctPath(config.user_path());
 				if(correctEntry){
 					String isCorrect = inputMaze.testUserPath(config.user_path());
-					System.out.println(isCorrect);
+					System.out.println(isCorrect + "path");
 				}else{
-					logger.error("** Incorrect path formatting.");
+					logger.error("Incorrect path formatting.");
 				}
 			}else{
 				String[] paths = inputMaze.generatePaths(config.method());
-				System.out.println(paths[0]);
 				System.out.println(paths[1]);
 			}
 

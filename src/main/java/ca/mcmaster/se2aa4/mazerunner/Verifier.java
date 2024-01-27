@@ -32,7 +32,7 @@ public class Verifier {
 			direction = Orientation.LEFT;
 			result = iteration(direction, currentPos, endPoint, userPath, matrix);
 		}
-		return result;
+		return result.toLowerCase();
 	}
 
 	// Method for handling left to right and right to left path verification.

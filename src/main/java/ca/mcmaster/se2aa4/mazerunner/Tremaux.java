@@ -63,6 +63,7 @@ public class Tremaux implements MazeSolver {
 								currentPosition.setX(currentPosition.getX()+1);
 								path += "F";
 							}
+						// Returning on original path
 						}else if(prev == 1){
 							prevVal = intMaze.get(currentPosition.getY()).get(currentPosition.getX()-1);
 							intMaze.get(currentPosition.getY()).set(currentPosition.getX()-1,prevVal+1);
@@ -70,6 +71,7 @@ public class Tremaux implements MazeSolver {
 							path += "RRF";
 							direction = Orientation.LEFT;
 						}else{
+							// Otherwise selecting lowest flagged option (path travelled 0 times is ideal, then 1)
 							int min = Integer.MAX_VALUE;
 							String min_string = "";
 							for (Map.Entry<String, Integer> nearbyCell : surroundingCells.entrySet()) {
@@ -493,6 +495,7 @@ public class Tremaux implements MazeSolver {
 		return paths;
 	}
 
+	// Converting to integer 2D Array to track junction entrance visits.
 	public ArrayList<ArrayList<Integer>> convertToInteger(ArrayList<ArrayList<String>> maze){
 		ArrayList<ArrayList<Integer>> intMaze = new ArrayList<ArrayList<Integer>>();
 		for(int i=0; i<maze.size(); i++){
