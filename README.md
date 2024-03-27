@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/8jM7fhXE)
 # Assignment A1 - Maze Runner
 
@@ -111,7 +110,3 @@ mosser@azrael A1-Template % java -jar target/mazerunner.jar -i ./examples/straig
 inccorrect path
 mosser@azrael A1-Template %
 ```
-
-=======
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/IPHBGZ6v)
->>>>>>> a45baac6850ac13cf885d89a3c7f37aad47bd3b2
