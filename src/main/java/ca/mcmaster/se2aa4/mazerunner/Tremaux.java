@@ -496,8 +496,6 @@ public class Tremaux implements MazeSolver {
 					}
 					break;
 			}
-			System.out.println(path);
-			System.out.println(direction);
 		}
 		// Obtaining factorized path prior to returning both results.
 		String factorizedPath = Factorization.FactorPath(path);
