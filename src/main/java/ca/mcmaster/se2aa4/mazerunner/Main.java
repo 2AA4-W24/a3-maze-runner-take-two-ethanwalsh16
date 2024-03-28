@@ -11,6 +11,8 @@ import org.apache.commons.cli.ParseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.List;
+
 public class Main {
 
     private static final Logger logger = LogManager.getLogger();
@@ -21,15 +23,17 @@ public class Main {
 			Configuration config = configure(args);
 			logger.info("** Importing maze");
 			Maze inputMaze = new Maze(config.input_filename());
+			Verifier verifier = new Verifier();
 			
 			// Outputting if user path is correct (if no user path flag provided, performing maze solving and returning generated path.)
 			if(!config.user_path().isEmpty()){
-				boolean correctEntry = Verifier.correctPath(config.user_path())[0];
-				boolean factorized = Verifier.correctPath(config.user_path())[1];
+				List<Boolean> results = verifier.correctPath(config.user_path());
+				boolean correctEntry = results.get(0);
+				boolean factorized = results.get(1);
 				String user_path;
 				if(factorized){
 					user_path = Factorization.unfactorize(config.user_path());
-					correctEntry = Verifier.correctPath(user_path)[0];
+					correctEntry = results.get(0);
 				}else{
 					user_path = config.user_path();
 				}
@@ -40,9 +44,9 @@ public class Main {
 					logger.error("Incorrect path formatting.");
 				}
 			}else{
-				String[] paths = inputMaze.generatePaths(config.method());
+				List<String> paths = inputMaze.generatePaths(config.method());
 				// Returning factorized path
-				System.out.println(paths[1]);
+				System.out.println(paths.get(1));
 			}
 
 			logger.info("** End of Maze Runner");	
@@ -68,9 +72,5 @@ public class Main {
 		return new Configuration(input_filename,user_path,method);	  
 	}
 
-	private record Configuration(String input_filename, String user_path, String method){
-		Configuration {
-
-		}
-	}
+	private record Configuration(String input_filename, String user_path, String method){ Configuration {} }
 }

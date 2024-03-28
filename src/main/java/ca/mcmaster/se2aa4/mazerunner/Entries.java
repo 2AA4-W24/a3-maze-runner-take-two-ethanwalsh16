@@ -1,10 +1,11 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Entries {
 	// Finds entry and exit points of a maze by scanning the first and last columns.
-	public Coordinate[] findEntries(ArrayList<ArrayList<String>> matrix){
+	public List<Coordinate> findEntries(ArrayList<ArrayList<String>> matrix){
 		ArrayList<String> startColumn = returnColumn(0,matrix);
 		Coordinate entry1 = new Coordinate(0,0), entry2 = new Coordinate(0,0);
 		for(int i=0; i<startColumn.size(); i++){
@@ -18,7 +19,9 @@ public class Entries {
 				entry2 = new Coordinate(matrix.get(0).size()-1,i);
 			}
 		}
-		Coordinate[] entries = {entry1,entry2};
+		List<Coordinate> entries = new ArrayList<Coordinate>();
+		entries.add(entry1);
+		entries.add(entry2);
 		return entries;
 	}
 

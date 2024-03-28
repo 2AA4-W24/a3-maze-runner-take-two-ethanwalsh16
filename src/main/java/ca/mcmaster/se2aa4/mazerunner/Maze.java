@@ -2,40 +2,33 @@ package ca.mcmaster.se2aa4.mazerunner;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-
-// To track orientation while solving the maze (F move will act differently when facing UP vs. facing LEFT)
-enum Orientation {
-	UP,
-	RIGHT,
-	DOWN,
-	LEFT
-}
+import java.util.List;
 
 public class Maze {
 
+	Entries entryFinder = new Entries();
 	ArrayList<ArrayList<String>> matrix;
-	private Entries entryFinder = new Entries();
+	List<Coordinate> entryPoints;
 
-	public Maze(String input) throws FileNotFoundException {
-		matrix = new ArrayList<ArrayList<String>>();
-		matrix = Reader.read(input);
+	public Maze(String file_input) throws FileNotFoundException{
+		matrix = Reader.read(file_input);
+		entryPoints = entryFinder.findEntries(matrix); 	
+	}
+
+	public List<String> generatePaths(String method) {
+		if(method.equals("tremaux")){
+			MazeSolver solver = new Tremaux();
+			return solver.solveMaze(matrix,entryPoints.get(0),entryPoints.get(1));
+		}else{
+			MazeSolver solver = new RightHand();
+			return solver.solveMaze(matrix,entryPoints.get(0),entryPoints.get(1));
+		}
 	}
 
 	public String testUserPath(String userString){
-		Coordinate[] entries = entryFinder.findEntries(matrix);
-		String isCorrect= Verifier.verifyPath(userString, matrix, entries);
+		Verifier verifier = new Verifier();
+		String isCorrect= verifier.verifyPath(userString, matrix, entryPoints);
 		return isCorrect;
-	}
 
-	// Creates factorized and non-factorized paths.
-	public String[] generatePaths(String method) {
-		Coordinate[] entries = entryFinder.findEntries(matrix);
-		if(method.equals("tremaux")){
-			MazeSolver solver = new Tremaux();
-			return solver.solveMaze(matrix,entries[0],entries[1]);
-		}else{
-			MazeSolver solver = new RightHand();
-			return solver.solveMaze(matrix,entries[0],entries[1]);
-		}
 	}
 }

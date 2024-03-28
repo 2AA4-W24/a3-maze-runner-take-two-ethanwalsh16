@@ -1,12 +1,13 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class RightHand implements MazeSolver {
 	// Specific solver iteration, using right hand algorithm.
 	@Override
-	public String[] solveMaze(ArrayList<ArrayList<String>> maze, Coordinate entry1, Coordinate entry2) {
+	public List<String> solveMaze(ArrayList<ArrayList<String>> maze, Coordinate entry1, Coordinate entry2) {
 
 		String path = "";
 		// To monitor current location, as well as end point (assuming end is right entry)
@@ -107,7 +108,9 @@ public class RightHand implements MazeSolver {
 		}
 		// Obtaining factorized path prior to returning both results.
 		String factorizedPath = Factorization.FactorPath(path);
-		String[] paths = {path, factorizedPath};
+		List<String> paths = new ArrayList<String>();
+		paths.add(path);
+		paths.add(factorizedPath);
 		return paths;
 	}
 	

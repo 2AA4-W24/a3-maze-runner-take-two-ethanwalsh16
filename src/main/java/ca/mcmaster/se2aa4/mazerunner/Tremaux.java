@@ -1,8 +1,9 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
+import java.util.List;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.HashMap;
 
 public class Tremaux implements MazeSolver {
 	// Tremaux method, implemented as bonus option for project.
@@ -14,7 +15,7 @@ public class Tremaux implements MazeSolver {
 	// error is caused by the 2x2 open grid on lines 4-5, columns 5-6 being treated as a junction, when it would be more efficient
 	// to follow the right wall and exit the maze. Due to time constraint it was unable to be fixed.
 	@Override
-	public String[] solveMaze(ArrayList<ArrayList<String>> maze, Coordinate entry1, Coordinate entry2) {
+	public List<String> solveMaze(ArrayList<ArrayList<String>> maze, Coordinate entry1, Coordinate entry2) {
 		String path = "";
 		Orientation direction = Orientation.RIGHT;
 		Coordinate currentPosition = new Coordinate(entry1.getX(), entry1.getY());
@@ -498,8 +499,9 @@ public class Tremaux implements MazeSolver {
 			}
 		}
 		// Obtaining factorized path prior to returning both results.
-		String factorizedPath = Factorization.FactorPath(path);
-		String[] paths = {path, factorizedPath};
+		List<String> paths = new ArrayList<String>();
+		paths.add(path);
+		paths.add(Factorization.FactorPath(path));
 		return paths;
 	}
 

@@ -1,9 +1,11 @@
 package ca.mcmaster.se2aa4.mazerunner;
+
+import java.util.List;
 import java.util.ArrayList;
 
 public class Verifier {
 	// Confirming the method is suitable to verify (only contains correct characters)
-	public static boolean[] correctPath(String userPath){
+	public List<Boolean> correctPath(String userPath){
 		boolean correctChars = true;
 		boolean factorized = false;
 		for(int i=0; i<userPath.length(); i++){
@@ -18,15 +20,17 @@ public class Verifier {
 				break;
 			}
 		}
-		boolean[] results = {correctChars, factorized};
+		List<Boolean> results = new ArrayList<Boolean>();
+		results.add(correctChars);
+		results.add(factorized);
 		return results;
 	}
 	
 	// Testing user entered path to see if it is a valid maze solution (requires a true value from correctPath in order to be run).
-	public static String verifyPath(String userPath, ArrayList<ArrayList<String>> matrix, Coordinate[] entries){
+	public String verifyPath(String userPath, ArrayList<ArrayList<String>> matrix, List<Coordinate> entries){
 		// Tracking position and orientation for moving through the maze.
-		Coordinate currentPos = entries[0];
-		Coordinate endPoint = entries[1];
+		Coordinate currentPos = entries.get(0);
+		Coordinate endPoint = entries.get(1);
 		Orientation direction = Orientation.RIGHT;
 		String result = "Incorrect";
 		userPath = userPath.replaceAll("\\s","");
@@ -34,8 +38,8 @@ public class Verifier {
 		result = iteration(direction, currentPos, endPoint, userPath, matrix);
 		if(result != "Correct"){
 			// If not, also testing path as right to left.
-			currentPos = entries[1];
-			endPoint = entries[0];
+			currentPos = entries.get(1);
+			endPoint = entries.get(0);
 			direction = Orientation.LEFT;
 			result = iteration(direction, currentPos, endPoint, userPath, matrix);
 		}
@@ -43,7 +47,7 @@ public class Verifier {
 	}
 
 	// Method for handling left to right and right to left path verification.
-	public static String iteration(Orientation direction, Coordinate currentPos, Coordinate endPoint, String userPath, ArrayList<ArrayList<String>> matrix){
+	public String iteration(Orientation direction, Coordinate currentPos, Coordinate endPoint, String userPath, ArrayList<ArrayList<String>> matrix){
 		String result = "Incorrect";
 		for(int i=0; i<userPath.length(); i++){
 			switch(direction){
