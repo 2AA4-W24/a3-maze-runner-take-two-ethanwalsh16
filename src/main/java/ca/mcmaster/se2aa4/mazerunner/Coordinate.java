@@ -44,38 +44,34 @@ public class Coordinate {
 
 		switch(o){
 			case Orientation.DOWN:
-				this.x = this.x + (1*mult);
+				this.x += 1*mult;
 				break;
 			case Orientation.UP:
-				this.x = this.x + ((-1)*mult);
+				this.x += (-1)*mult;
 				break;
 			case Orientation.LEFT:
-				this.y = this.y + (1*mult);
+				this.y += mult;
 				break;
 			case Orientation.RIGHT:
-				this.y = this.y + ((-1)*mult);
+				this.y += (-1)*mult;
 				break;
 		}
 	}
 
 	public void straight(Orientation o, Moves m){
 		int mult = m.equals(Moves.FORWARD) ? 1 : -1;
-		System.out.println("STRAIGHT MULT: " + mult);
 		switch(o){
 			case Orientation.DOWN:
-				System.out.println("MOVING DOWN");
-				System.out.println(this.y);
-				this.y += (1*mult);
-				System.out.println(this.y);
+				this.y += mult;
 				break;
 			case Orientation.UP:
-				this.y = this.y + ((-1)*mult);
+				this.y += (-1)*mult;
 				break;
 			case Orientation.LEFT:
-				this.x = this.x + ((-1)*mult);
+				this.x += (-1)*mult;
 				break;
 			case Orientation.RIGHT:
-				this.x = this.x + (1*mult);
+				this.x += mult;
 				break;
 		}
 	}

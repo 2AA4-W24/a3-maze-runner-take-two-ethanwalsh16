@@ -6,7 +6,7 @@ public enum Orientation {
     LEFT,
     RIGHT;
 
-    // Credit to Alexandre Lachance of 2AA4 Teaching team for the turnRight and turnLeft methods.
+    // Credit to Alexandre Lachance of 2AA4 teaching team for the turnRight and turnLeft methods.
 	public Orientation turnRight() {
         switch (this) {
             case UP -> {

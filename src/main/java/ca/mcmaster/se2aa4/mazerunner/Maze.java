@@ -24,8 +24,6 @@ public class Maze {
 	}
 
 	public boolean rightTurnAvailable(Coordinate currentPos, Orientation direction){
-		System.out.println("Position: " + currentPos.toString());
-		System.out.println("DIRECTION: " + direction);
 		boolean result = true;
 		switch(direction){
 			case Orientation.RIGHT:
