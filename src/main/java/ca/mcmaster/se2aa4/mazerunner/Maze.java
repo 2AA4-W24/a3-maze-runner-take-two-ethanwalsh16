@@ -15,13 +15,80 @@ public class Maze {
 		entryPoints = entryFinder.findEntries(matrix); 	
 	}
 
-	public List<String> generatePaths(String method) {
+	public Coordinate getStart(){
+		return this.entryPoints.get(0);
+	}
+
+	public Coordinate getEnd(){
+		return this.entryPoints.get(1);
+	}
+
+	public boolean rightTurnAvailable(Coordinate currentPos, Orientation direction){
+		System.out.println("Position: " + currentPos.toString());
+		System.out.println("DIRECTION: " + direction);
+		boolean result = true;
+		switch(direction){
+			case Orientation.RIGHT:
+				result = matrix.get(currentPos.getY()+1).get(currentPos.getX()).equals("P");
+				break;
+			case Orientation.DOWN:
+				result = matrix.get(currentPos.getY()).get(currentPos.getX()-1).equals("P");
+				break;
+			case Orientation.LEFT:
+				result = matrix.get(currentPos.getY()-1).get(currentPos.getX()).equals("P");
+				break;
+			case Orientation.UP:
+				result = matrix.get(currentPos.getY()).get(currentPos.getX()+1).equals("P");
+				break;
+		}
+		return result;
+	}
+
+	public boolean leftTurnAvailable(Coordinate currentPos, Orientation direction){
+		boolean result = false;
+		switch(direction){
+			case Orientation.RIGHT:
+				result = matrix.get(currentPos.getY()-1).get(currentPos.getX()).equals("P");
+				break;
+			case Orientation.DOWN:
+				result = matrix.get(currentPos.getY()).get(currentPos.getX()+1).equals("P");
+				break;
+			case Orientation.LEFT:
+				result = matrix.get(currentPos.getY()+1).get(currentPos.getX()).equals("P");
+				break;
+			case Orientation.UP:
+				result = matrix.get(currentPos.getY()).get(currentPos.getX()-1).equals("P");
+				break;
+		}
+		return result;
+	}
+
+	public boolean straightAvailable(Coordinate currentPos, Orientation direction){
+		boolean result = false;
+		switch(direction){
+			case Orientation.RIGHT:
+				result = matrix.get(currentPos.getY()).get(currentPos.getX()+1).equals("P");
+				break;
+			case Orientation.DOWN:
+				result = matrix.get(currentPos.getY()+1).get(currentPos.getX()).equals("P");
+				break;
+			case Orientation.LEFT:
+				result = matrix.get(currentPos.getY()).get(currentPos.getX()-1).equals("P");
+				break;
+			case Orientation.UP:
+				result = matrix.get(currentPos.getY()-1).get(currentPos.getX()).equals("P");
+				break;
+		}
+		return result;
+	}
+
+	public List<String> generatePaths(String method) throws InterruptedException {
 		if(method.equals("tremaux")){
 			MazeSolver solver = new Tremaux();
-			return solver.solveMaze(matrix,entryPoints.get(0),entryPoints.get(1));
+			return solver.solveMaze(this);
 		}else{
 			MazeSolver solver = new RightHand();
-			return solver.solveMaze(matrix,entryPoints.get(0),entryPoints.get(1));
+			return solver.solveMaze(this);
 		}
 	}
 
@@ -29,6 +96,5 @@ public class Maze {
 		Verifier verifier = new Verifier();
 		String isCorrect= verifier.verifyPath(userString, matrix, entryPoints);
 		return isCorrect;
-
 	}
 }

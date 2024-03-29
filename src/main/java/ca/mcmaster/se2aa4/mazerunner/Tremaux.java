@@ -15,14 +15,16 @@ public class Tremaux implements MazeSolver {
 	// error is caused by the 2x2 open grid on lines 4-5, columns 5-6 being treated as a junction, when it would be more efficient
 	// to follow the right wall and exit the maze. Due to time constraint it was unable to be fixed.
 	@Override
-	public List<String> solveMaze(ArrayList<ArrayList<String>> maze, Coordinate entry1, Coordinate entry2) {
+	public List<String> solveMaze(Maze maze) {
+
 		String path = "";
+		/*
 		Orientation direction = Orientation.RIGHT;
 		Coordinate currentPosition = new Coordinate(entry1.getX(), entry1.getY());
 		Coordinate endPosition = entry2;
 		System.out.println(entry2.getX() + ", " + entry2.getY());
 		ArrayList<ArrayList<Integer>> intMaze = convertToInteger(maze);
-		while(!Coordinate.equivalentTo(endPosition,currentPosition)){
+		while(currentPosition.equivalentTo(endPosition)){
 			switch(direction){
 				case RIGHT:
 					// If three options (including straight and turn around) are available, junction has been reached.
@@ -498,6 +500,7 @@ public class Tremaux implements MazeSolver {
 					break;
 			}
 		}
+		*/
 		// Obtaining factorized path prior to returning both results.
 		List<String> paths = new ArrayList<String>();
 		paths.add(path);

@@ -108,7 +108,7 @@ public class Verifier {
 					}
 					break;
 			}
-			if(Coordinate.equivalentTo(currentPos,endPoint)){
+			if(currentPos.equivalentTo(endPoint)){
 				result = "Correct";
 				break;
 			}

@@ -26,12 +26,57 @@ public class Coordinate {
 		this.y = new_y;
 	}
 
+	public String toString(){
+		return "(" + this.x + ", " + this.y + ")";
+	}
+
 	// Comparator function, used to determine whether path is at end of maze.
-	public static boolean equivalentTo(Coordinate c1, Coordinate c2){
-		if((c2.getX() == c1.getX()) && (c2.getY() == c1.getY())){
+	public boolean equivalentTo(Coordinate c){
+		if((this.getX() == c.getX()) && (this.getY() == c.getY())){
 			return true;
 		}else{
 			return false;
+		}
+	}
+
+	public void turn(Orientation o, Moves m){
+		int mult = m.equals(Moves.LEFT) ? 1 : -1;
+
+		switch(o){
+			case Orientation.DOWN:
+				this.x = this.x + (1*mult);
+				break;
+			case Orientation.UP:
+				this.x = this.x + ((-1)*mult);
+				break;
+			case Orientation.LEFT:
+				this.y = this.y + (1*mult);
+				break;
+			case Orientation.RIGHT:
+				this.y = this.y + ((-1)*mult);
+				break;
+		}
+	}
+
+	public void straight(Orientation o, Moves m){
+		int mult = m.equals(Moves.FORWARD) ? 1 : -1;
+		System.out.println("STRAIGHT MULT: " + mult);
+		switch(o){
+			case Orientation.DOWN:
+				System.out.println("MOVING DOWN");
+				System.out.println(this.y);
+				this.y += (1*mult);
+				System.out.println(this.y);
+				break;
+			case Orientation.UP:
+				this.y = this.y + ((-1)*mult);
+				break;
+			case Orientation.LEFT:
+				this.x = this.x + ((-1)*mult);
+				break;
+			case Orientation.RIGHT:
+				this.x = this.x + (1*mult);
+				break;
 		}
 	}
 }

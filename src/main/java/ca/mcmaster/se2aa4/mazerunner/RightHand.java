@@ -6,18 +6,47 @@ import java.util.List;
 
 public class RightHand implements MazeSolver {
 	// Specific solver iteration, using right hand algorithm.
-	@Override
-	public List<String> solveMaze(ArrayList<ArrayList<String>> maze, Coordinate entry1, Coordinate entry2) {
+	// Enum for tracking orientation within maze, as 2D array coordinates will vary
 
+	@Override
+	public List<String> solveMaze(Maze maze){
 		String path = "";
 		// To monitor current location, as well as end point (assuming end is right entry)
-		Coordinate currentPosition = entry1;
-		Coordinate endPosition = entry2;
-		// Enum for tracking orientation within maze, as 2D array coordinates will vary
+		Coordinate currentPos = maze.getStart();
+		Coordinate endPos = maze.getEnd();
 		Orientation direction = Orientation.RIGHT;
 
-		while(!Coordinate.equivalentTo(endPosition,currentPosition)){
+		while(!currentPos.equivalentTo(endPos)){
 			// Different process depending on orientation.
+			if(maze.rightTurnAvailable(currentPos,direction)){
+				path += "RF";
+				currentPos.turn(direction,Moves.RIGHT);
+				direction = direction.turnRight();
+
+			}else if(maze.straightAvailable(currentPos,direction)){
+				path += "F";
+				currentPos.straight(direction,Moves.FORWARD);
+			
+			}else if(maze.leftTurnAvailable(currentPos,direction)){
+				path += "LF";
+				currentPos.turn(direction,Moves.LEFT);
+				direction = direction.turnLeft();
+
+			}else{
+				path += "RRF";
+				currentPos.straight(direction,Moves.UTURN);
+				direction = direction.turnRight();
+				direction = direction.turnRight();
+
+			}
+		}
+		// Obtaining factorized path prior to returning both results.
+		String factorizedPath = Factorization.FactorPath(path);
+		List<String> paths = new ArrayList<String>();
+		paths.add(path);
+		paths.add(factorizedPath);
+		return paths;
+		/* 
 			switch (direction){
 				case RIGHT:
 					// If right turn available, do as such
@@ -106,12 +135,8 @@ public class RightHand implements MazeSolver {
 					break;
 			}
 		}
-		// Obtaining factorized path prior to returning both results.
-		String factorizedPath = Factorization.FactorPath(path);
-		List<String> paths = new ArrayList<String>();
-		paths.add(path);
-		paths.add(factorizedPath);
-		return paths;
+		*/
 	}
+	
 	
 }
