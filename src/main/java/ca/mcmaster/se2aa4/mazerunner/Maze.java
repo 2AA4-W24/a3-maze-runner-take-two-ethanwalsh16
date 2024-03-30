@@ -9,9 +9,10 @@ public class Maze {
 	Entries entryFinder = new Entries();
 	ArrayList<ArrayList<String>> matrix;
 	List<Coordinate> entryPoints;
+	Reader reader = new Reader();
 
 	public Maze(String file_input) throws FileNotFoundException{
-		matrix = Reader.read(file_input);
+		matrix = reader.read(file_input);
 		entryPoints = entryFinder.findEntries(matrix); 	
 	}
 
@@ -102,7 +103,7 @@ public class Maze {
 		return result;
 	}
 
-	public List<String> generatePaths(String method) throws InterruptedException {
+	public String generatePaths(String method) throws InterruptedException {
 		if(method.equals("tremaux")){
 			MazeSolver solver = new Tremaux();
 			return solver.solveMaze(this);

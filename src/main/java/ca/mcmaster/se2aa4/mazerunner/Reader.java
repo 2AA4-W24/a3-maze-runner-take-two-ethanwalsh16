@@ -12,7 +12,7 @@ public class Reader {
 	// Intended to read in maze file name from command line and convert into 2D array data structure that will be used to solve / verify paths.
 	private static final Logger logger = LogManager.getLogger();
 
-	public static ArrayList<ArrayList<String>> read(String input_filename) throws FileNotFoundException{
+	public ArrayList<ArrayList<String>> read(String input_filename) throws FileNotFoundException{
 		BufferedReader reader = new BufferedReader(new FileReader(input_filename));	
 		String line;
 		ArrayList<ArrayList<String>> matrix = new ArrayList<ArrayList<String>>();

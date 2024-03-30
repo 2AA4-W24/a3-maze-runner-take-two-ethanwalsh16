@@ -13,7 +13,7 @@ public class Tremaux implements MazeSolver {
 	// to follow the right wall and exit the maze. Due to time constraint it was unable to be fixed.
 
 	@Override
-	public List<String> solveMaze(Maze maze) {
+	public String solveMaze(Maze maze) {
 
 		String path = "";
 		
@@ -538,11 +538,7 @@ public class Tremaux implements MazeSolver {
 			}
 		}
 		*/
-		// Obtaining factorized path prior to returning both results.
-		List<String> paths = new ArrayList<String>();
-		paths.add(path);
-		paths.add(Factorization.FactorPath(path));
-		return paths;
+		return path;
 	}	
 }
 

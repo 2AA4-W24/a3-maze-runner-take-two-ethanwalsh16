@@ -2,7 +2,7 @@ package ca.mcmaster.se2aa4.mazerunner;
 
 public class Factorization {
 	// Used to convert paths from unfactorized (e.g. FFFFF) to factorized (e.g. 5F)
-	public static String FactorPath(String input){
+	public String FactorPath(String input){
 		
 		String factorizedPath = "";
 		String current = "";
@@ -34,7 +34,7 @@ public class Factorization {
 	}
 
 	// Used for conversion of factorized paths to unfactorized (e.g. 5F -> FFFFF)
-	public static String unfactorize(String userPath){
+	public String unfactorize(String userPath){
 		userPath = userPath.replaceAll("\\s","");
 		String newPath = "";
 		boolean lastCaught = false;

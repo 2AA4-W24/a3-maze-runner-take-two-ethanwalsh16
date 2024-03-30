@@ -27,6 +27,7 @@ public class Main {
 			Configuration config = configure(args);
 			Maze maze = new Maze(config.input_filename());
 			Verifier verifier = new Verifier();
+			Factorization factorizer = new Factorization();
 			
 			// Determining if user path is correct.
 			if(!config.user_path().isEmpty()){
@@ -38,7 +39,7 @@ public class Main {
 				String user_path = "";
 				
 				if(isFactorized){
-					user_path = Factorization.unfactorize(config.user_path());
+					user_path = factorizer.unfactorize(config.user_path());
 					correctEntry = verifier.correctPath(user_path).get(0);
 				}else{
 					user_path = config.user_path();
@@ -52,9 +53,10 @@ public class Main {
 				}
 
 			}else{
-				List<String> paths = maze.generatePaths(config.method());
+				String path = maze.generatePaths(config.method());
+				String factorizedPath = factorizer.FactorPath(path);
 				// Returning factorized path
-				System.out.println(paths.get(1));
+				System.out.println(factorizedPath);
 			}
 
 			logger.info("** End of Maze Runner");	
