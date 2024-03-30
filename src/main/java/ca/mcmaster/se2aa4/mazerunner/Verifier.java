@@ -27,87 +27,42 @@ public class Verifier {
 	}
 	
 	// Testing user entered path to see if it is a valid maze solution (requires a true value from correctPath in order to be run).
-	public String verifyPath(String userPath, ArrayList<ArrayList<String>> matrix, List<Coordinate> entries){
+	public String verifyPath(String userPath, Maze maze, List<Coordinate> entries){
+		
 		// Tracking position and orientation for moving through the maze.
-		Coordinate currentPos = entries.get(0);
+		Coordinate currentPos = new Coordinate(entries.get(0).getX(), entries.get(0).getY());
 		Coordinate endPoint = entries.get(1);
 		Orientation direction = Orientation.RIGHT;
 		String result = "Incorrect";
 		userPath = userPath.replaceAll("\\s","");
-		// Testing if left to right method works
-		result = iteration(direction, currentPos, endPoint, userPath, matrix);
+		// Verifying path from Left to right.
+		result = iteration(direction, currentPos, endPoint, userPath, maze);
 		if(result != "Correct"){
-			// If not, also testing path as right to left.
-			currentPos = entries.get(1);
+			// If not, also verifying path as right to left.
+			currentPos = new Coordinate(entries.get(1).getX(), entries.get(1).getY());
 			endPoint = entries.get(0);
 			direction = Orientation.LEFT;
-			result = iteration(direction, currentPos, endPoint, userPath, matrix);
+			result = iteration(direction, currentPos, endPoint, userPath, maze);
 		}
 		return result.toLowerCase();
 	}
 
 	// Method for handling left to right and right to left path verification.
-	public String iteration(Orientation direction, Coordinate currentPos, Coordinate endPoint, String userPath, ArrayList<ArrayList<String>> matrix){
+	public String iteration(Orientation direction, Coordinate currentPos, Coordinate endPoint, String userPath, Maze maze){
 		String result = "Incorrect";
 		for(int i=0; i<userPath.length(); i++){
-			switch(direction){
-				case RIGHT:
-					if(userPath.charAt(i) == 'F'){
-						// Check for path, then move
-						if(matrix.get(currentPos.getY()).get(currentPos.getX()+1).equals("W")){
-							return result;
-						}else{
-							currentPos.setX(currentPos.getX()+1);
-						}
-					}else if(userPath.charAt(i) == 'R'){
-						direction = Orientation.DOWN;
-					}else if(userPath.charAt(i) == 'L'){
-						direction = Orientation.UP;
-					}
-					break;
-				case DOWN:
-					if(userPath.charAt(i) == 'F'){
-						// Check for path, then move
-						if(matrix.get(currentPos.getY()+1).get(currentPos.getX()).equals("W")){
-							return result;
-						}else{
-							currentPos.setY(currentPos.getY()+1);
-						}
-					}else if(userPath.charAt(i) == 'R'){
-						direction = Orientation.LEFT;
-					}else if(userPath.charAt(i) == 'L'){
-						direction = Orientation.RIGHT;
-					}
-					break;
-				case LEFT:
-					if(userPath.charAt(i) == 'F'){
-						// Check for path, then move
-						if(matrix.get(currentPos.getY()).get(currentPos.getX()-1).equals("W")){
-							return result;
-						}else{
-							currentPos.setX(currentPos.getX()-1);
-						}
-					}else if(userPath.charAt(i) == 'R'){
-						direction = Orientation.UP;
-					}else if(userPath.charAt(i) == 'L'){
-						direction = Orientation.DOWN;
-					}
-					break;
-				case UP:
-					if(userPath.charAt(i) == 'F'){
-						// Check for path, then increase
-						if(matrix.get(currentPos.getY()-1).get(currentPos.getX()).equals("W")){
-							return result;
-						}else{
-							currentPos.setY(currentPos.getY()-1);
-						}
-					}else if(userPath.charAt(i) == 'R'){
-						direction = Orientation.RIGHT;
-					}else if(userPath.charAt(i) == 'L'){
-						direction = Orientation.LEFT;
-					}
-					break;
+			if(userPath.charAt(i) == 'F'){
+				if(!maze.straightAvailable(currentPos,direction)){
+					return result;
+				}else{
+					currentPos.straight(direction,Moves.FORWARD);
+				}
+			}else if(userPath.charAt(i) == 'R'){
+				direction = direction.turnRight();
+			}else if(userPath.charAt(i) == 'L'){
+				direction = direction.turnLeft();
 			}
+			
 			if(currentPos.equivalentTo(endPoint)){
 				result = "Correct";
 				break;

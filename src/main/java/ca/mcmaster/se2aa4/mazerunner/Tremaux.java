@@ -6,24 +6,61 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class Tremaux implements MazeSolver {
-	// Tremaux method, implemented as bonus option for project.
-	// Note: In the future, the goal with this algorithm would be to have a more modular approach, however due to the bonus
-	// nature of this part (and that it was relatively complex for a programmer new to this), this component ended up being more
-	// complex and not as modular.
+	// Tremaux maze solving method, implemented as bonus option for assignment 1.
 
 	// Note 2: For every maze except for the direct.maz.txt, the algorithm works and generates a correct path. I believe that this
 	// error is caused by the 2x2 open grid on lines 4-5, columns 5-6 being treated as a junction, when it would be more efficient
 	// to follow the right wall and exit the maze. Due to time constraint it was unable to be fixed.
+
 	@Override
 	public List<String> solveMaze(Maze maze) {
 
 		String path = "";
-		/*
+		
+		Coordinate startPosition = maze.getStart();
+		Coordinate currentPosition = new Coordinate(startPosition.getX(),startPosition.getY());
+		Coordinate endPosition = maze.getEnd();
 		Orientation direction = Orientation.RIGHT;
-		Coordinate currentPosition = new Coordinate(entry1.getX(), entry1.getY());
-		Coordinate endPosition = entry2;
-		System.out.println(entry2.getX() + ", " + entry2.getY());
-		ArrayList<ArrayList<Integer>> intMaze = convertToInteger(maze);
+
+		List<Integer> dimensions = maze.getDimensions();
+		int[][] intMaze = new int[dimensions.get(0)][dimensions.get(1)];
+		intMaze = maze.toInt();
+
+		while(!currentPosition.equivalentTo(endPosition)){
+
+			int rTurn = 0, sPath = 0, lTurn = 0, uTurn = 0;
+
+			if(!currentPosition.equivalentTo(startPosition)){
+				rTurn = (maze.rightTurnAvailable(currentPosition, direction)) ? 1 : 0;
+				sPath = (maze.straightAvailable(currentPosition, direction)) ? 1 : 0;
+				lTurn = (maze.leftTurnAvailable(currentPosition, direction)) ? 1 : 0;
+			}
+
+			int turnSum = rTurn + sPath + lTurn + uTurn;
+
+			if(turnSum >= 3){
+				int prevVal = 0;
+				switch(direction){
+					case Orientation.DOWN:
+						prevVal = intMaze[currentPosition.getY()-1][currentPosition.getX()];
+						break;
+					case Orientation.LEFT:
+						prevVal = intMaze[currentPosition.getY()][currentPosition.getX()+1];
+						break;
+					case Orientation.UP:
+						prevVal = intMaze[currentPosition.getY()+1][currentPosition.getX()];
+						break;
+					case Orientation.RIGHT:
+						prevVal = intMaze[currentPosition.getY()][currentPosition.getX()-1];
+						break;
+				}
+				//NEED METHOD HERE
+				// get IntMaze at previous place
+
+			}
+		}
+		//ArrayList<ArrayList<Integer>> intMaze = convertToInteger(maze);
+		/*
 		while(currentPosition.equivalentTo(endPosition)){
 			switch(direction){
 				case RIGHT:
@@ -506,22 +543,6 @@ public class Tremaux implements MazeSolver {
 		paths.add(path);
 		paths.add(Factorization.FactorPath(path));
 		return paths;
-	}
-
-	// Converting to integer 2D Array to track junction entrance visits.
-	public ArrayList<ArrayList<Integer>> convertToInteger(ArrayList<ArrayList<String>> maze){
-		ArrayList<ArrayList<Integer>> intMaze = new ArrayList<ArrayList<Integer>>();
-		for(int i=0; i<maze.size(); i++){
-			intMaze.add(new ArrayList<Integer>());
-			for(int j=0; j<maze.get(0).size(); j++){
-				if(maze.get(i).get(j).equals("W")){
-					intMaze.get(i).add(-1);
-				}else{
-					intMaze.get(i).add(0);
-				}
-			}
-		}
-		return intMaze;
 	}	
 }
 

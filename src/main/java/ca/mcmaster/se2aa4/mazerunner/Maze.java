@@ -23,6 +23,28 @@ public class Maze {
 		return this.entryPoints.get(1);
 	}
 
+	public List<Integer> getDimensions(){
+		List<Integer> dimensions = new ArrayList<Integer>();
+		dimensions.add(matrix.get(0).size()); // Adding x dimension
+		dimensions.add(matrix.size()); // Adding y dimension
+		return dimensions;
+	}
+
+	public int[][] toInt(){
+		List<Integer> dimensions = this.getDimensions();
+		int[][] intMaze = new int[dimensions.get(1)][dimensions.get(0)];
+		for(int i=0; i<dimensions.get(1); i++){
+			for(int j=0; j<dimensions.get(0); j++){
+				if(matrix.get(i).get(j).equals("W")){
+					intMaze[i][j] = -1;
+				}else{
+					intMaze[i][j] = 0;
+				}
+			}
+		}
+		return intMaze;
+	}
+
 	public boolean rightTurnAvailable(Coordinate currentPos, Orientation direction){
 		boolean result = true;
 		switch(direction){
@@ -92,7 +114,7 @@ public class Maze {
 
 	public String testUserPath(String userString){
 		Verifier verifier = new Verifier();
-		String isCorrect= verifier.verifyPath(userString, matrix, entryPoints);
+		String isCorrect= verifier.verifyPath(userString, this, entryPoints);
 		return isCorrect;
 	}
 }
