@@ -103,6 +103,25 @@ public class Maze {
 		return result;
 	}
 
+	public boolean prevAvailable(Coordinate currentPos, Orientation direction){
+		boolean result = false;
+		switch(direction){
+			case Orientation.RIGHT:
+				result = matrix.get(currentPos.getY()).get(currentPos.getX()-1).equals("P");
+				break;
+			case Orientation.DOWN:
+				result = matrix.get(currentPos.getY()-1).get(currentPos.getX()).equals("P");
+				break;
+			case Orientation.LEFT:
+				result = matrix.get(currentPos.getY()).get(currentPos.getX()+1).equals("P");
+				break;
+			case Orientation.UP:
+				result = matrix.get(currentPos.getY()+1).get(currentPos.getX()).equals("P");
+				break;
+		}
+		return result;
+	}
+
 	public String generatePaths(String method) throws InterruptedException {
 		if(method.equals("tremaux")){
 			MazeSolver solver = new Tremaux();
