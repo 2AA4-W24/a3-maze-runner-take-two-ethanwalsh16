@@ -27,4 +27,8 @@ public class JunctionList {
 	public Junction get(int index){
 		return junctions.get(index);
 	}
+
+	public int getSize(){
+		return junctions.size();
+	}
 }

@@ -1,5 +1,9 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Iterator;
+
 public class Junction {
 	int x;
 	int y;
@@ -9,40 +13,34 @@ public class Junction {
 	int left;
 
 	public Junction(Coordinate c, Orientation direction, Maze maze){
-		this.x = c.getX();
-		this.y = c.getY();
-		this.top = 0;
-		this.bottom = 0;
-		this.right = 0;
-		this.left = 0;
-		/*
+		this.x = c.X();
+		this.y = c.Y();
 		switch(direction){
 			case Orientation.UP:
 				this.bottom = 0;
-				this.top = (maze.straightAvailable(c, direction)) ? 0 : -1;
-				this.left = (maze.leftTurnAvailable(c, direction)) ? 0 : -1;
-				this.right = (maze.rightTurnAvailable(c, direction)) ? 0 : -1;
+				this.top = (maze.straightAvailable(c, direction)) ? 0 : Integer.MAX_VALUE;
+				this.left = (maze.leftTurnAvailable(c, direction)) ? 0 : Integer.MAX_VALUE;
+				this.right = (maze.rightTurnAvailable(c, direction)) ? 0 : Integer.MAX_VALUE;
 				break;
 			case Orientation.DOWN:
 				this.top = 0;
-				this.bottom = (maze.straightAvailable(c, direction)) ? 0 : -1;
-				this.right = (maze.leftTurnAvailable(c, direction)) ? 0 : -1;
-				this.left = (maze.rightTurnAvailable(c, direction)) ? 0 : -1;
+				this.bottom = (maze.straightAvailable(c, direction)) ? 0 : Integer.MAX_VALUE;
+				this.right = (maze.leftTurnAvailable(c, direction)) ? 0 : Integer.MAX_VALUE;
+				this.left = (maze.rightTurnAvailable(c, direction)) ? 0 : Integer.MAX_VALUE;
 				break;
 			case Orientation.LEFT:
 				this.right = 0;
-				this.left = (maze.straightAvailable(c, direction)) ? 0 : -1;
-				this.bottom = (maze.leftTurnAvailable(c, direction)) ? 0 : -1;
-				this.top = (maze.rightTurnAvailable(c, direction)) ? 0 : -1;
+				this.left = (maze.straightAvailable(c, direction)) ? 0 : Integer.MAX_VALUE;
+				this.bottom = (maze.leftTurnAvailable(c, direction)) ? 0 : Integer.MAX_VALUE;
+				this.top = (maze.rightTurnAvailable(c, direction)) ? 0 : Integer.MAX_VALUE;
 				break;
 			case Orientation.RIGHT:
 				this.left = 0;
-				this.right = (maze.straightAvailable(c, direction)) ? 0 : -1;
-				this.top = (maze.leftTurnAvailable(c, direction)) ? 0 : -1;
-				this.bottom = (maze.rightTurnAvailable(c, direction)) ? 0 : -1;
+				this.right = (maze.straightAvailable(c, direction)) ? 0 : Integer.MAX_VALUE;
+				this.top = (maze.leftTurnAvailable(c, direction)) ? 0 : Integer.MAX_VALUE;
+				this.bottom = (maze.rightTurnAvailable(c, direction)) ? 0 : Integer.MAX_VALUE;
 				break;
 		}
-		 */
 	}
 
 	public int x(){return this.x;}
@@ -88,28 +86,40 @@ public class Junction {
 
 	public String minMark(Orientation direction){
 		String result = "";
-		if(this.left <= this.right && this.left <= this.top && this.left <= this.bottom){
-			result = "LEFT";
-		}else if(this.right <= this.left && this.right <= this.top && this.right <= this.bottom){
-			result = "RIGHT";
-		}else if(this.top <= this.left && this.top <= this.bottom && this.top <= this.right){
-			result = "FORWARD";
-		}else{
-			result = "PREV";
+		Map<String, Integer> turn_values = new HashMap<String, Integer>();
+		turn_values.put("left",this.left);
+		turn_values.put("right",this.right);
+		turn_values.put("top",this.top);
+		turn_values.put("bottom",this.bottom);
+		Iterator<Map.Entry<String, Integer>> iterator = turn_values.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, Integer> entry = iterator.next();
+            if (entry.getValue() == Integer.MAX_VALUE) {
+                iterator.remove();
+            }
+        }
+		int min = Integer.MAX_VALUE;
+		String min_string = "";
+		for (Map.Entry<String, Integer> nearbyCell : turn_values.entrySet()) {
+			if(nearbyCell.getValue()<min && nearbyCell.getValue() >= 0){
+				min = nearbyCell.getValue();
+				min_string = nearbyCell.getKey();
+			}
 		}
+		result = min_string;
 		String move = "";
 		switch(direction){
 			case Orientation.UP:
-				move = result;
+				if(result.equals("left")){move="LEFT";}else if(result.equals("right")){move="RIGHT";}else if(result.equals("bottom")){move="PREV";}else{move="FORWARD";}
 				break;
 			case Orientation.DOWN:
-				if(result.equals("LEFT")){move="RIGHT";}else if(result.equals("RIGHT")){move="LEFT";}else if(result.equals("FORWARD")){move="PREV";}else{move="PREV";}
+				if(result.equals("left")){move="RIGHT";}else if(result.equals("right")){move="LEFT";}else if(result.equals("bottom")){move="FORWARD";}else{move="PREV";}
 				break;
 			case Orientation.LEFT:
-				if(result.equals("LEFT")){move="FORWARD";}else if(result.equals("RIGHT")){move="PREV";}else if(result.equals("FORWARD")){move="RIGHT";}else{move="LEFT";}
+				if(result.equals("left")){move="FORWARD";}else if(result.equals("right")){move="PREV";}else if(result.equals("bottom")){move="LEFT";}else{move="RIGHT";}
 				break;
 			case Orientation.RIGHT:
-				if(result.equals("LEFT")){move="PREV";}else if(result.equals("RIGHT")){move="FORWARD";}else if(result.equals("FORWARD")){move="LEFT";}else{move="RIGHT";}
+				if(result.equals("left")){move="PREV";}else if(result.equals("right")){move="FORWARD";}else if(result.equals("bottom")){move="RIGHT";}else{move="LEFT";}
 				break;
 		}
 		return move;

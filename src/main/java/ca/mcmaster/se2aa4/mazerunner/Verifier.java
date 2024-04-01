@@ -30,7 +30,7 @@ public class Verifier {
 	public String verifyPath(String userPath, Maze maze, List<Coordinate> entries){
 		
 		// Tracking position and orientation for moving through the maze.
-		Coordinate currentPos = new Coordinate(entries.get(0).getX(), entries.get(0).getY());
+		Coordinate currentPos = new Coordinate(entries.get(0).X(), entries.get(0).Y());
 		Coordinate endPoint = entries.get(1);
 		Orientation direction = Orientation.RIGHT;
 		String result = "Incorrect";
@@ -39,7 +39,7 @@ public class Verifier {
 		result = iteration(direction, currentPos, endPoint, userPath, maze);
 		if(result != "Correct"){
 			// If not, also verifying path as right to left.
-			currentPos = new Coordinate(entries.get(1).getX(), entries.get(1).getY());
+			currentPos = new Coordinate(entries.get(1).X(), entries.get(1).Y());
 			endPoint = entries.get(0);
 			direction = Orientation.LEFT;
 			result = iteration(direction, currentPos, endPoint, userPath, maze);

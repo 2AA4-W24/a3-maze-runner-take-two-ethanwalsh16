@@ -50,16 +50,16 @@ public class Maze {
 		boolean result = true;
 		switch(direction){
 			case Orientation.RIGHT:
-				result = matrix.get(currentPos.getY()+1).get(currentPos.getX()).equals("P");
+				result = matrix.get(currentPos.Y()+1).get(currentPos.X()).equals("P");
 				break;
 			case Orientation.DOWN:
-				result = matrix.get(currentPos.getY()).get(currentPos.getX()-1).equals("P");
+				result = matrix.get(currentPos.Y()).get(currentPos.X()-1).equals("P");
 				break;
 			case Orientation.LEFT:
-				result = matrix.get(currentPos.getY()-1).get(currentPos.getX()).equals("P");
+				result = matrix.get(currentPos.Y()-1).get(currentPos.X()).equals("P");
 				break;
 			case Orientation.UP:
-				result = matrix.get(currentPos.getY()).get(currentPos.getX()+1).equals("P");
+				result = matrix.get(currentPos.Y()).get(currentPos.X()+1).equals("P");
 				break;
 		}
 		return result;
@@ -69,16 +69,16 @@ public class Maze {
 		boolean result = false;
 		switch(direction){
 			case Orientation.RIGHT:
-				result = matrix.get(currentPos.getY()-1).get(currentPos.getX()).equals("P");
+				result = matrix.get(currentPos.Y()-1).get(currentPos.X()).equals("P");
 				break;
 			case Orientation.DOWN:
-				result = matrix.get(currentPos.getY()).get(currentPos.getX()+1).equals("P");
+				result = matrix.get(currentPos.Y()).get(currentPos.X()+1).equals("P");
 				break;
 			case Orientation.LEFT:
-				result = matrix.get(currentPos.getY()+1).get(currentPos.getX()).equals("P");
+				result = matrix.get(currentPos.Y()+1).get(currentPos.X()).equals("P");
 				break;
 			case Orientation.UP:
-				result = matrix.get(currentPos.getY()).get(currentPos.getX()-1).equals("P");
+				result = matrix.get(currentPos.Y()).get(currentPos.X()-1).equals("P");
 				break;
 		}
 		return result;
@@ -88,16 +88,16 @@ public class Maze {
 		boolean result = false;
 		switch(direction){
 			case Orientation.RIGHT:
-				result = matrix.get(currentPos.getY()).get(currentPos.getX()+1).equals("P");
+				result = matrix.get(currentPos.Y()).get(currentPos.X()+1).equals("P");
 				break;
 			case Orientation.DOWN:
-				result = matrix.get(currentPos.getY()+1).get(currentPos.getX()).equals("P");
+				result = matrix.get(currentPos.Y()+1).get(currentPos.X()).equals("P");
 				break;
 			case Orientation.LEFT:
-				result = matrix.get(currentPos.getY()).get(currentPos.getX()-1).equals("P");
+				result = matrix.get(currentPos.Y()).get(currentPos.X()-1).equals("P");
 				break;
 			case Orientation.UP:
-				result = matrix.get(currentPos.getY()-1).get(currentPos.getX()).equals("P");
+				result = matrix.get(currentPos.Y()-1).get(currentPos.X()).equals("P");
 				break;
 		}
 		return result;
@@ -107,16 +107,16 @@ public class Maze {
 		boolean result = false;
 		switch(direction){
 			case Orientation.RIGHT:
-				result = matrix.get(currentPos.getY()).get(currentPos.getX()-1).equals("P");
+				result = matrix.get(currentPos.Y()).get(currentPos.X()-1).equals("P");
 				break;
 			case Orientation.DOWN:
-				result = matrix.get(currentPos.getY()-1).get(currentPos.getX()).equals("P");
+				result = matrix.get(currentPos.Y()-1).get(currentPos.X()).equals("P");
 				break;
 			case Orientation.LEFT:
-				result = matrix.get(currentPos.getY()).get(currentPos.getX()+1).equals("P");
+				result = matrix.get(currentPos.Y()).get(currentPos.X()+1).equals("P");
 				break;
 			case Orientation.UP:
-				result = matrix.get(currentPos.getY()+1).get(currentPos.getX()).equals("P");
+				result = matrix.get(currentPos.Y()+1).get(currentPos.X()).equals("P");
 				break;
 		}
 		return result;
@@ -136,5 +136,14 @@ public class Maze {
 		Verifier verifier = new Verifier();
 		String isCorrect= verifier.verifyPath(userString, this, entryPoints);
 		return isCorrect;
+	}
+
+	public boolean inBounds(Coordinate currentPos) {
+		List<Integer> dimensions = this.getDimensions();
+		if((1 <= currentPos.X() && currentPos.X() < dimensions.get(0)-1) && (1 <= currentPos.Y() && currentPos.Y() < dimensions.get(1)-1)){
+			return true;
+		}else{
+			return false;
+		}
 	}
 }

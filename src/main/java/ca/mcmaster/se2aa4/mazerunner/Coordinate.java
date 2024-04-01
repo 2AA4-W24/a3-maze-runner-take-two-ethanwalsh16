@@ -10,20 +10,12 @@ public class Coordinate {
 		y = yCoordinate;
 	}
 
-	public int getX(){
+	public int X(){
 		return this.x;
 	}
 
-	public int getY(){
+	public int Y(){
 		return this.y;
-	}
-
-	public void setX(int new_x){
-		this.x = new_x;
-	}
-
-	public void setY(int new_y){
-		this.y = new_y;
 	}
 
 	public String toString(){
@@ -32,7 +24,7 @@ public class Coordinate {
 
 	// Comparator function, used to determine whether path is at end of maze.
 	public boolean equivalentTo(Coordinate c){
-		if((this.getX() == c.getX()) && (this.getY() == c.getY())){
+		if((this.X() == c.X()) && (this.Y() == c.Y())){
 			return true;
 		}else{
 			return false;
