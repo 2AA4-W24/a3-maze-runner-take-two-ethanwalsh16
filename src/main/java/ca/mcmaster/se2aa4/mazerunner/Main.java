@@ -8,9 +8,6 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-import java.time.Duration;
-import java.time.Instant;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,15 +29,18 @@ public class Main {
 			Maze maze = new Maze(config.input_filename());
 			double readEnd = System.currentTimeMillis();
 			double readTime = readEnd - readStart;
-			Verifier verifier = new Verifier();
 			Factorization factorizer = new Factorization();
 			
 			// Determining if user path is correct.
 			if(!config.benchmark().isEmpty() && !config.method().isEmpty()){
 				System.out.println("Maze read time: " + readTime + "ms");
-				
+				Benchmark measurer = new Benchmark();
+				System.out.println("Baseline: " + config.benchmark());
+				double speedup = measurer.benchmarkResults(maze, config.method(), config.benchmark());
+				System.out.println("Speedup: " + speedup);
 			}
 			else if(!config.user_path().isEmpty()){
+				Verifier verifier = new Verifier();
 				List<Boolean> pathResults = verifier.correctPath(config.user_path());
 				boolean correctEntry = pathResults.get(0);
 				boolean isFactorized = pathResults.get(1);
@@ -77,6 +77,7 @@ public class Main {
 				}
 				String factorizedPath = factorizer.FactorPath(path);
 				// Returning factorized path
+				System.out.println(path);
 				System.out.println(factorizedPath);
 			}
 

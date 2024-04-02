@@ -14,7 +14,7 @@ public class Tremaux implements MazeSolver {
 		System.out.println("Now carving path...");
 		String path = createPath(junctions, startPos, endPos, maze, direction);
 		System.out.println("Completed path.");
-		
+		System.out.println("Path: " + path);
 		return path;
 	}
 
