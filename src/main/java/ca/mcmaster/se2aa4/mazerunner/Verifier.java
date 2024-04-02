@@ -27,11 +27,11 @@ public class Verifier {
 	}
 	
 	// Testing user entered path to see if it is a valid maze solution (requires a true value from correctPath in order to be run).
-	public String verifyPath(String userPath, Maze maze, List<Coordinate> entries){
+	public String verifyPath(String userPath, Maze maze, Coordinate entry1, Coordinate entry2){
 		
 		// Tracking position and orientation for moving through the maze.
-		Coordinate currentPos = new Coordinate(entries.get(0).X(), entries.get(0).Y());
-		Coordinate endPoint = entries.get(1);
+		Coordinate currentPos = new Coordinate(entry1.X(), entry1.Y());
+		Coordinate endPoint = entry2;
 		Orientation direction = Orientation.RIGHT;
 		String result = "Incorrect";
 		userPath = userPath.replaceAll("\\s","");
@@ -39,8 +39,8 @@ public class Verifier {
 		result = iteration(direction, currentPos, endPoint, userPath, maze);
 		if(result != "Correct"){
 			// If not, also verifying path as right to left.
-			currentPos = new Coordinate(entries.get(1).X(), entries.get(1).Y());
-			endPoint = entries.get(0);
+			currentPos = new Coordinate(entry2.X(), entry2.Y());
+			endPoint = entry1;
 			direction = Orientation.LEFT;
 			result = iteration(direction, currentPos, endPoint, userPath, maze);
 		}

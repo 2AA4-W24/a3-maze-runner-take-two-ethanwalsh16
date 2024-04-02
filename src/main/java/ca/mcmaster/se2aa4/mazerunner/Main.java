@@ -25,13 +25,15 @@ public class Main {
 			logger.info("** Importing maze");
 
 			Configuration config = configure(args);
+			double readStart = System.currentTimeMillis();
 			Maze maze = new Maze(config.input_filename());
-			Verifier verifier = new Verifier();
+			double readEnd = System.currentTimeMillis();
+			double readTime = readEnd - readStart;
 			Factorization factorizer = new Factorization();
 			
 			// Determining if user path is correct.
 			if(!config.user_path().isEmpty()){
-
+				Verifier verifier = new Verifier();
 				List<Boolean> pathResults = verifier.correctPath(config.user_path());
 				boolean correctEntry = pathResults.get(0);
 				boolean isFactorized = pathResults.get(1);
@@ -46,17 +48,46 @@ public class Main {
 				}
 
 				if(correctEntry){
-					String isCorrect = maze.testUserPath(user_path);
+					String isCorrect= verifier.verifyPath(user_path, maze, maze.getStart(), maze.getEnd());
 					System.out.println(isCorrect + " path");
 				}else{
 					logger.error("Incorrect path formatting.");
 				}
 
 			}else{
-				String path = maze.generatePaths(config.method());
-				String factorizedPath = factorizer.FactorPath(path);
-				// Returning factorized path
-				System.out.println(factorizedPath);
+				
+				MazeSolver solver;
+				String method = config.method();
+				String path = "";
+				if(method.equals("tremaux")){
+					solver = new Tremaux();
+					path = solver.solveMaze(maze);
+				}else if(method.equals("graph")){
+					solver = new GraphAlgorithm();
+					path = solver.solveMaze(maze);
+				}else{
+					solver = new RightHand();
+					path = solver.solveMaze(maze);
+				}
+
+				if(!config.benchmark().isEmpty()){
+					Benchmark measurer = new Benchmark();
+					String baseline = measurer.benchmarkResults(maze, config.benchmark());
+
+					double pathLength = path.length();
+					double baselineLength = baseline.length();
+					double speedup = Math.round((baselineLength / pathLength)*100) / 100.0;
+
+					System.out.println("Maze read time: " + readTime + "ms");
+					System.out.println("Speedup: " + speedup);
+
+				}else{
+
+					String factorizedPath = factorizer.FactorPath(path);
+					// Returning factorized path
+					System.out.println(path);
+					System.out.println(factorizedPath);
+				}
 			}
 
 			logger.info("** End of Maze Runner");	
@@ -74,6 +105,7 @@ public class Main {
 		options.addOption("i", true, "Name of input maze file");
 		options.addOption("p", true, "User input path to compare");
 		options.addOption("method", true, "Method to solve maze (righthand or tremaux)");
+		options.addOption("baseline", true, "Method for benchmarking and measuring speedup.");
 
         CommandLineParser parser = new DefaultParser();
 		CommandLine cmd = parser.parse(options, args);
@@ -81,9 +113,10 @@ public class Main {
 		String input_filename = cmd.getOptionValue("i", "");
 		String user_path = cmd.getOptionValue("p", "");
 		String method = cmd.getOptionValue("method", "righthand");
+		String benchmark = cmd.getOptionValue("baseline", "");
 
-		return new Configuration(input_filename,user_path,method);	  
+		return new Configuration(input_filename,user_path,method,benchmark);	  
 	}
 
-	private record Configuration(String input_filename, String user_path, String method){ Configuration {} }
+	private record Configuration(String input_filename, String user_path, String method, String benchmark){ Configuration {} }
 }

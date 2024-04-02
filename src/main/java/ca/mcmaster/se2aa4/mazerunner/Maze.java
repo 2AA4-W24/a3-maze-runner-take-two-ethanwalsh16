@@ -31,21 +31,6 @@ public class Maze {
 		return dimensions;
 	}
 
-	public int[][] toInt(){
-		List<Integer> dimensions = this.getDimensions();
-		int[][] intMaze = new int[dimensions.get(1)][dimensions.get(0)];
-		for(int i=0; i<dimensions.get(1); i++){
-			for(int j=0; j<dimensions.get(0); j++){
-				if(matrix.get(i).get(j).equals("W")){
-					intMaze[i][j] = -1;
-				}else{
-					intMaze[i][j] = 0;
-				}
-			}
-		}
-		return intMaze;
-	}
-
 	public boolean rightTurnAvailable(Coordinate currentPos, Orientation direction){
 		boolean result = true;
 		switch(direction){
@@ -122,21 +107,7 @@ public class Maze {
 		return result;
 	}
 
-	public String generatePaths(String method) throws InterruptedException {
-		if(method.equals("tremaux")){
-			MazeSolver solver = new Tremaux();
-			return solver.solveMaze(this);
-		}else{
-			MazeSolver solver = new RightHand();
-			return solver.solveMaze(this);
-		}
-	}
-
-	public String testUserPath(String userString){
-		Verifier verifier = new Verifier();
-		String isCorrect= verifier.verifyPath(userString, this, entryPoints);
-		return isCorrect;
-	}
+	
 
 	public boolean inBounds(Coordinate currentPos) {
 		List<Integer> dimensions = this.getDimensions();
