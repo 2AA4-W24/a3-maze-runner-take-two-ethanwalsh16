@@ -46,14 +46,26 @@ public class Main {
 				}
 
 				if(correctEntry){
-					String isCorrect = maze.testUserPath(user_path);
+					String isCorrect= verifier.verifyPath(user_path, maze, maze.getStart(), maze.getEnd());
 					System.out.println(isCorrect + " path");
 				}else{
 					logger.error("Incorrect path formatting.");
 				}
 
 			}else{
-				String path = maze.generatePaths(config.method());
+				MazeSolver solver;
+				String method = config.method();
+				String path = "";
+				if(method.equals("tremaux")){
+					solver = new Tremaux();
+					path = solver.solveMaze(maze);
+				}else if(method.equals("graph")){
+					solver = new GraphAlgorithm();
+					path = solver.solveMaze(maze);
+				}else{
+					solver = new RightHand();
+					path = solver.solveMaze(maze);
+				}
 				String factorizedPath = factorizer.FactorPath(path);
 				// Returning factorized path
 				System.out.println(factorizedPath);
