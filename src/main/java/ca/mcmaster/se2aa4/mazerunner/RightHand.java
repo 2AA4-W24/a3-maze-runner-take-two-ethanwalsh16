@@ -1,114 +1,39 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import java.util.ArrayList;
-
-
 public class RightHand implements MazeSolver {
 	// Specific solver iteration, using right hand algorithm.
-	@Override
-	public String[] solveMaze(ArrayList<ArrayList<String>> maze, Coordinate entry1, Coordinate entry2) {
+	// Enum for tracking orientation within maze, as 2D array coordinates will vary
 
+	@Override
+	public String solveMaze(Maze maze){
 		String path = "";
 		// To monitor current location, as well as end point (assuming end is right entry)
-		Coordinate currentPosition = entry1;
-		Coordinate endPosition = entry2;
-		// Enum for tracking orientation within maze, as 2D array coordinates will vary
+		Coordinate currentPos = maze.getStart();
+		Coordinate endPos = maze.getEnd();
 		Orientation direction = Orientation.RIGHT;
 
-		while(!Coordinate.equivalentTo(endPosition,currentPosition)){
+		while(!currentPos.equivalentTo(endPos)){
 			// Different process depending on orientation.
-			switch (direction){
-				case RIGHT:
-					// If right turn available, do as such
-					if(!maze.get(currentPosition.getY()+1).get(currentPosition.getX()).equals("W")){
-						currentPosition.setY(currentPosition.getY()+1);
-						path += "RF";
-						direction = Orientation.DOWN;
-					}
-					// If no right, go straight
-					else if(!maze.get(currentPosition.getY()).get(currentPosition.getX()+1).equals("W")){
-						currentPosition.setX(currentPosition.getX()+1);
-						path += "F";
-					}
-					// If no straight, go left
-					else if(!maze.get(currentPosition.getY()-1).get(currentPosition.getX()).equals("W")){
-						currentPosition.setY(currentPosition.getY()-1);
-						path += "LF";
-						direction = Orientation.UP;
-					// If all else fails, go back (appending RRF to represent 180 degree turn, then a move forward).
-					}else{
-						currentPosition.setX(currentPosition.getX()-1);
-						path += "RRF";
-						direction = Orientation.LEFT;
-					}
-					break;
-				// Cases UP, DOWN, and LEFT all have the same decision logic of RIGHT (go right -> go straight -> go left -> turn around).
-				case UP:
-					if(!maze.get(currentPosition.getY()).get(currentPosition.getX()+1).equals("W")){
-						currentPosition.setX(currentPosition.getX()+1);
-						path += "RF";
-						direction = Orientation.RIGHT;
-					}
-					else if(!maze.get(currentPosition.getY()-1).get(currentPosition.getX()).equals("W")){
-						currentPosition.setY(currentPosition.getY()-1);
-						path += "F";
-					}
-					else if(!maze.get(currentPosition.getY()).get(currentPosition.getX()-1).equals("W")){
-						currentPosition.setX(currentPosition.getX()-1);
-						path += "LF";
-						direction = Orientation.LEFT;
-					}else{
-						currentPosition.setY(currentPosition.getY()+1);
-						path += "RRF";
-						direction = Orientation.DOWN;
-					}
-					break;
-				case DOWN:
-					if(!maze.get(currentPosition.getY()).get(currentPosition.getX()-1).equals("W")){
-						currentPosition.setX(currentPosition.getX()-1);
-						path += "RF";
-						direction = Orientation.LEFT;
-					}
-					else if(!maze.get(currentPosition.getY()+1).get(currentPosition.getX()).equals("W")){
-						currentPosition.setY(currentPosition.getY()+1);
-						path += "F";
-					}
-					else if(!maze.get(currentPosition.getY()).get(currentPosition.getX()+1).equals("W")){
-						currentPosition.setX(currentPosition.getX()+1);
-						path += "LF";
-						direction = Orientation.RIGHT;
-					}else{
-						currentPosition.setY(currentPosition.getY()-1);
-						path += "RRF";
-						direction = Orientation.UP;
-					}
-					break;
-				case LEFT:
-					if(!maze.get(currentPosition.getY()-1).get(currentPosition.getX()).equals("W")){
-						currentPosition.setY(currentPosition.getY()-1);
-						path += "RF";
-						direction = Orientation.UP;
-					}
-					else if(!maze.get(currentPosition.getY()).get(currentPosition.getX()-1).equals("W")){
-						currentPosition.setX(currentPosition.getX()-1);
-						path += "F";
-					}
-					else if(!maze.get(currentPosition.getY()+1).get(currentPosition.getX()).equals("W")){
-						currentPosition.setY(currentPosition.getY()+1);
-						path += "LF";
-						direction = Orientation.DOWN;
-					}else{
-						currentPosition.setX(currentPosition.getX()+1);
-						path += "RRF";
-						direction = Orientation.RIGHT;
-					}
-					break;
+			if(maze.rightTurnAvailable(currentPos,direction)){
+				path += "RF";
+				currentPos.turn(direction,Moves.RIGHT);
+				direction = direction.turnRight();
+
+			}else if(maze.straightAvailable(currentPos,direction)){
+				path += "F";
+				currentPos.straight(direction,Moves.FORWARD);
+			
+			}else if(maze.leftTurnAvailable(currentPos,direction)){
+				path += "LF";
+				currentPos.turn(direction,Moves.LEFT);
+				direction = direction.turnLeft();
+
+			}else{
+				path += "RRF";
+				currentPos.straight(direction,Moves.UTURN);
+				direction = direction.opposite();
 			}
 		}
-		// Obtaining factorized path prior to returning both results.
-		String factorizedPath = Factorization.FactorPath(path);
-		String[] paths = {path, factorizedPath};
-		return paths;
+		return path;
 	}
-	
 }

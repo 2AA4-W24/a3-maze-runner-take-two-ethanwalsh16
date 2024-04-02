@@ -11,38 +11,52 @@ import org.apache.commons.cli.ParseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.List;
+
 public class Main {
 
     private static final Logger logger = LogManager.getLogger();
 
     public static void main(String[] args) {
+
 		try{
+
 			logger.info("** Starting Maze Runner");
-			Configuration config = configure(args);
 			logger.info("** Importing maze");
-			Maze inputMaze = new Maze(config.input_filename());
+
+			Configuration config = configure(args);
+			Maze maze = new Maze(config.input_filename());
+			Verifier verifier = new Verifier();
+			Factorization factorizer = new Factorization();
 			
-			// Outputting if user path is correct (if no user path flag provided, performing maze solving and returning generated path.)
+			// Determining if user path is correct.
 			if(!config.user_path().isEmpty()){
-				boolean correctEntry = Verifier.correctPath(config.user_path())[0];
-				boolean factorized = Verifier.correctPath(config.user_path())[1];
-				String user_path;
-				if(factorized){
-					user_path = Factorization.unfactorize(config.user_path());
-					correctEntry = Verifier.correctPath(user_path)[0];
+
+				List<Boolean> pathResults = verifier.correctPath(config.user_path());
+				boolean correctEntry = pathResults.get(0);
+				boolean isFactorized = pathResults.get(1);
+				
+				String user_path = "";
+				
+				if(isFactorized){
+					user_path = factorizer.unfactorize(config.user_path());
+					correctEntry = verifier.correctPath(user_path).get(0);
 				}else{
 					user_path = config.user_path();
 				}
+
 				if(correctEntry){
-					String isCorrect = inputMaze.testUserPath(user_path);
+					String isCorrect = maze.testUserPath(user_path);
 					System.out.println(isCorrect + " path");
 				}else{
 					logger.error("Incorrect path formatting.");
 				}
+
 			}else{
-				String[] paths = inputMaze.generatePaths(config.method());
+				String path = maze.generatePaths(config.method());
+				String factorizedPath = factorizer.FactorPath(path);
 				// Returning factorized path
-				System.out.println(paths[1]);
+				System.out.println(factorizedPath);
 			}
 
 			logger.info("** End of Maze Runner");	
@@ -55,6 +69,7 @@ public class Main {
     }
 
 	private static Configuration configure(String [] args) throws ParseException, FileNotFoundException{
+
 		Options options = new Options();
 		options.addOption("i", true, "Name of input maze file");
 		options.addOption("p", true, "User input path to compare");
@@ -62,15 +77,13 @@ public class Main {
 
         CommandLineParser parser = new DefaultParser();
 		CommandLine cmd = parser.parse(options, args);
+
 		String input_filename = cmd.getOptionValue("i", "");
 		String user_path = cmd.getOptionValue("p", "");
 		String method = cmd.getOptionValue("method", "righthand");
+
 		return new Configuration(input_filename,user_path,method);	  
 	}
 
-	private record Configuration(String input_filename, String user_path, String method){
-		Configuration {
-
-		}
-	}
+	private record Configuration(String input_filename, String user_path, String method){ Configuration {} }
 }

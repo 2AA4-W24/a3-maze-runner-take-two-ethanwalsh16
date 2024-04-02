@@ -1,9 +1,11 @@
 package ca.mcmaster.se2aa4.mazerunner;
+
+import java.util.List;
 import java.util.ArrayList;
 
 public class Verifier {
 	// Confirming the method is suitable to verify (only contains correct characters)
-	public static boolean[] correctPath(String userPath){
+	public List<Boolean> correctPath(String userPath){
 		boolean correctChars = true;
 		boolean factorized = false;
 		for(int i=0; i<userPath.length(); i++){
@@ -18,93 +20,50 @@ public class Verifier {
 				break;
 			}
 		}
-		boolean[] results = {correctChars, factorized};
+		List<Boolean> results = new ArrayList<Boolean>();
+		results.add(correctChars);
+		results.add(factorized);
 		return results;
 	}
 	
 	// Testing user entered path to see if it is a valid maze solution (requires a true value from correctPath in order to be run).
-	public static String verifyPath(String userPath, ArrayList<ArrayList<String>> matrix, Coordinate[] entries){
+	public String verifyPath(String userPath, Maze maze, List<Coordinate> entries){
+		
 		// Tracking position and orientation for moving through the maze.
-		Coordinate currentPos = entries[0];
-		Coordinate endPoint = entries[1];
+		Coordinate currentPos = new Coordinate(entries.get(0).X(), entries.get(0).Y());
+		Coordinate endPoint = entries.get(1);
 		Orientation direction = Orientation.RIGHT;
 		String result = "Incorrect";
 		userPath = userPath.replaceAll("\\s","");
-		// Testing if left to right method works
-		result = iteration(direction, currentPos, endPoint, userPath, matrix);
+		// Verifying path from Left to right.
+		result = iteration(direction, currentPos, endPoint, userPath, maze);
 		if(result != "Correct"){
-			// If not, also testing path as right to left.
-			currentPos = entries[1];
-			endPoint = entries[0];
+			// If not, also verifying path as right to left.
+			currentPos = new Coordinate(entries.get(1).X(), entries.get(1).Y());
+			endPoint = entries.get(0);
 			direction = Orientation.LEFT;
-			result = iteration(direction, currentPos, endPoint, userPath, matrix);
+			result = iteration(direction, currentPos, endPoint, userPath, maze);
 		}
 		return result.toLowerCase();
 	}
 
 	// Method for handling left to right and right to left path verification.
-	public static String iteration(Orientation direction, Coordinate currentPos, Coordinate endPoint, String userPath, ArrayList<ArrayList<String>> matrix){
+	public String iteration(Orientation direction, Coordinate currentPos, Coordinate endPoint, String userPath, Maze maze){
 		String result = "Incorrect";
 		for(int i=0; i<userPath.length(); i++){
-			switch(direction){
-				case RIGHT:
-					if(userPath.charAt(i) == 'F'){
-						// Check for path, then move
-						if(matrix.get(currentPos.getY()).get(currentPos.getX()+1).equals("W")){
-							return result;
-						}else{
-							currentPos.setX(currentPos.getX()+1);
-						}
-					}else if(userPath.charAt(i) == 'R'){
-						direction = Orientation.DOWN;
-					}else if(userPath.charAt(i) == 'L'){
-						direction = Orientation.UP;
-					}
-					break;
-				case DOWN:
-					if(userPath.charAt(i) == 'F'){
-						// Check for path, then move
-						if(matrix.get(currentPos.getY()+1).get(currentPos.getX()).equals("W")){
-							return result;
-						}else{
-							currentPos.setY(currentPos.getY()+1);
-						}
-					}else if(userPath.charAt(i) == 'R'){
-						direction = Orientation.LEFT;
-					}else if(userPath.charAt(i) == 'L'){
-						direction = Orientation.RIGHT;
-					}
-					break;
-				case LEFT:
-					if(userPath.charAt(i) == 'F'){
-						// Check for path, then move
-						if(matrix.get(currentPos.getY()).get(currentPos.getX()-1).equals("W")){
-							return result;
-						}else{
-							currentPos.setX(currentPos.getX()-1);
-						}
-					}else if(userPath.charAt(i) == 'R'){
-						direction = Orientation.UP;
-					}else if(userPath.charAt(i) == 'L'){
-						direction = Orientation.DOWN;
-					}
-					break;
-				case UP:
-					if(userPath.charAt(i) == 'F'){
-						// Check for path, then increase
-						if(matrix.get(currentPos.getY()-1).get(currentPos.getX()).equals("W")){
-							return result;
-						}else{
-							currentPos.setY(currentPos.getY()-1);
-						}
-					}else if(userPath.charAt(i) == 'R'){
-						direction = Orientation.RIGHT;
-					}else if(userPath.charAt(i) == 'L'){
-						direction = Orientation.LEFT;
-					}
-					break;
+			if(userPath.charAt(i) == 'F'){
+				if(!maze.straightAvailable(currentPos,direction)){
+					return result;
+				}else{
+					currentPos.straight(direction,Moves.FORWARD);
+				}
+			}else if(userPath.charAt(i) == 'R'){
+				direction = direction.turnRight();
+			}else if(userPath.charAt(i) == 'L'){
+				direction = direction.turnLeft();
 			}
-			if(Coordinate.equivalentTo(currentPos,endPoint)){
+			
+			if(currentPos.equivalentTo(endPoint)){
 				result = "Correct";
 				break;
 			}

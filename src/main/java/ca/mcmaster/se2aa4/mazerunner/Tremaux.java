@@ -1,524 +1,240 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 public class Tremaux implements MazeSolver {
-	// Tremaux method, implemented as bonus option for project.
-	// Note: In the future, the goal with this algorithm would be to have a more modular approach, however due to the bonus
-	// nature of this part (and that it was relatively complex for a programmer new to this), this component ended up being more
-	// complex and not as modular.
-
-	// Note 2: For every maze except for the direct.maz.txt, the algorithm works and generates a correct path. I believe that this
-	// error is caused by the 2x2 open grid on lines 4-5, columns 5-6 being treated as a junction, when it would be more efficient
-	// to follow the right wall and exit the maze. Due to time constraint it was unable to be fixed.
+	// Tremaux maze solving method, implemented as bonus option for assignment 1.
 	@Override
-	public String[] solveMaze(ArrayList<ArrayList<String>> maze, Coordinate entry1, Coordinate entry2) {
-		String path = "";
+	public String solveMaze(Maze maze) {
+
+		Coordinate startPos = maze.getStart();
+		Coordinate endPos = maze.getEnd();
 		Orientation direction = Orientation.RIGHT;
-		Coordinate currentPosition = new Coordinate(entry1.getX(), entry1.getY());
-		Coordinate endPosition = entry2;
-		System.out.println(entry2.getX() + ", " + entry2.getY());
-		ArrayList<ArrayList<Integer>> intMaze = convertToInteger(maze);
-		while(!Coordinate.equivalentTo(endPosition,currentPosition)){
-			switch(direction){
-				case RIGHT:
-					// If three options (including straight and turn around) are available, junction has been reached.
-					int rTurn = 0, sPath = 0, lTurn = 0, pTurn = 0;
-					if(!Coordinate.equivalentTo(currentPosition,entry1)){
-						rTurn = (intMaze.get(currentPosition.getY()+1).get(currentPosition.getX()) >= 0) ? 1 : 0;
-						sPath = (intMaze.get(currentPosition.getY()).get(currentPosition.getX()+1) >= 0) ? 1 : 0;
-						lTurn = (intMaze.get(currentPosition.getY()-1).get(currentPosition.getX()) >= 0) ? 1 : 0;
-						pTurn = (intMaze.get(currentPosition.getY()).get(currentPosition.getX()-1) >= 0) ? 1 : 0;
-					}
-					if((rTurn + sPath + lTurn + pTurn) >= 3){
-						// Increment previous entrance to mark accordingly.
-						int prevVal = intMaze.get(currentPosition.getY()).get(currentPosition.getX()-1);
-						intMaze.get(currentPosition.getY()).set(currentPosition.getX()-1,prevVal+1);
-						Map<String, Integer> surroundingCells = new HashMap<String, Integer>();
 
-						// Storing values of junction entrances
-						int prev = intMaze.get(currentPosition.getY()).get(currentPosition.getX()-1);
-						int right = intMaze.get(currentPosition.getY()+1).get(currentPosition.getX());
-						int straight = intMaze.get(currentPosition.getY()).get(currentPosition.getX()+1);
-						int left = intMaze.get(currentPosition.getY()-1).get(currentPosition.getX());
-						surroundingCells.put("right",right);
-						surroundingCells.put("ahead",straight);
-						surroundingCells.put("left",left);
-						surroundingCells.put("prev",prev);
-
-						// If only previous entrance is marked, make a turn
-						if(prev >= 1 && right <= 0 && straight <= 0 && left <= 0){
-							// Checking for left turn availability
-							if(lTurn == 1){
-								prevVal = intMaze.get(currentPosition.getY()-1).get(currentPosition.getX());
-								intMaze.get(currentPosition.getY()-1).set(currentPosition.getX(),prevVal+1);
-								currentPosition.setY(currentPosition.getY()-1);
-								path += "LF";
-								direction = Orientation.UP;
-							// Checking for right turn availability
-							}else if(rTurn == 1){
-								prevVal = intMaze.get(currentPosition.getY()+1).get(currentPosition.getX());
-								intMaze.get(currentPosition.getY()+1).set(currentPosition.getX(),prevVal+1);
-								currentPosition.setY(currentPosition.getY()+1);
-								path += "RF";
-								direction = Orientation.DOWN;
-							// Checking for straight ability
-							}else if(sPath == 1){
-								prevVal = intMaze.get(currentPosition.getY()).get(currentPosition.getX()+1);
-								intMaze.get(currentPosition.getY()).set(currentPosition.getX()+1,prevVal+1);
-								currentPosition.setX(currentPosition.getX()+1);
-								path += "F";
-							}
-						// Returning on original path
-						}else if(prev == 1){
-							prevVal = intMaze.get(currentPosition.getY()).get(currentPosition.getX()-1);
-							intMaze.get(currentPosition.getY()).set(currentPosition.getX()-1,prevVal+1);
-							currentPosition.setX(currentPosition.getX()-1);
-							path += "RRF";
-							direction = Orientation.LEFT;
-						}else{
-							// Otherwise selecting lowest flagged option (path travelled 0 times is ideal, then 1)
-							int min = Integer.MAX_VALUE;
-							String min_string = "";
-							for (Map.Entry<String, Integer> nearbyCell : surroundingCells.entrySet()) {
-								if(nearbyCell.getValue()<min && nearbyCell.getValue() >= 0){
-									min = nearbyCell.getValue();
-									min_string = nearbyCell.getKey();
-								}
-							}
-							switch(min_string){
-								case "right":
-									prevVal = intMaze.get(currentPosition.getY()+1).get(currentPosition.getX());
-									intMaze.get(currentPosition.getY()+1).set(currentPosition.getX(),prevVal+1);
-									currentPosition.setY(currentPosition.getY()+1);
-									path += "RF";
-									direction = Orientation.DOWN;
-									break;
-								case "ahead":
-									prevVal = intMaze.get(currentPosition.getY()).get(currentPosition.getX()+1);
-									intMaze.get(currentPosition.getY()).set(currentPosition.getX()+1,prevVal+1);
-									currentPosition.setX(currentPosition.getX()+1);
-									path += "F";
-									break;
-								case "left":
-									prevVal = intMaze.get(currentPosition.getY()-1).get(currentPosition.getX());
-									intMaze.get(currentPosition.getY()-1).set(currentPosition.getX(),prevVal+1);
-									currentPosition.setY(currentPosition.getY()-1);
-									path += "LF";
-									direction = Orientation.UP;
-									break;
-								case "prev":
-									prevVal = intMaze.get(currentPosition.getY()).get(currentPosition.getX()-1);
-									intMaze.get(currentPosition.getY()).set(currentPosition.getX()-1,prevVal+1);
-									currentPosition.setX(currentPosition.getX()-1);
-									path += "RRF";
-									direction = Orientation.LEFT;
-									break;
-							}
-						}
-						surroundingCells.clear();
-					}else{
-						// Handling the case it is not a junction, where has to move forward or turn.
-						// If right turn available, do as such
-						if(!maze.get(currentPosition.getY()+1).get(currentPosition.getX()).equals("W")){
-							currentPosition.setY(currentPosition.getY()+1);
-							path += "RF";
-							direction = Orientation.DOWN;
-						}
-						// If no right, go straight
-						else if(!maze.get(currentPosition.getY()).get(currentPosition.getX()+1).equals("W")){
-							currentPosition.setX(currentPosition.getX()+1);
-							path += "F";
-						}
-						// If no straight, go left
-						else if(!maze.get(currentPosition.getY()-1).get(currentPosition.getX()).equals("W")){
-							currentPosition.setY(currentPosition.getY()-1);
-							path += "LF";
-							direction = Orientation.UP;
-						// If all else fails, go back (appending RRF to represent 180 degree turn, then a move forward).
-						}else{
-							currentPosition.setX(currentPosition.getX()-1);
-							path += "RRF";
-							direction = Orientation.LEFT;
-						}
-					}
-					
-					break;	
-				case DOWN:
-					rTurn = 0; sPath = 0; lTurn = 0; pTurn = 0;
-					if(!Coordinate.equivalentTo(currentPosition,entry1)){
-						rTurn = (intMaze.get(currentPosition.getY()).get(currentPosition.getX()-1) >= 0) ? 1 : 0;
-						sPath = (intMaze.get(currentPosition.getY()+1).get(currentPosition.getX()) >= 0) ? 1 : 0;
-						lTurn = (intMaze.get(currentPosition.getY()).get(currentPosition.getX()+1) >= 0) ? 1 : 0;
-						pTurn = (intMaze.get(currentPosition.getY()-1).get(currentPosition.getX()) >= 0) ? 1 : 0;
-					}
-					// If two options available from current junction (e.g. straight and right), mark as a junction.
-					// If it is a junction
-					if((rTurn + sPath + lTurn + pTurn) >= 3){
-						// Increment previous entrance to mark accordingly.
-						int prevVal = intMaze.get(currentPosition.getY()-1).get(currentPosition.getX());
-						intMaze.get(currentPosition.getY()-1).set(currentPosition.getX(),prevVal+1);
-						Map<String, Integer> surroundingCells = new HashMap<String, Integer>();
-						// Storing values of junction entrances
-						int prev = intMaze.get(currentPosition.getY()-1).get(currentPosition.getX());
-						int right = intMaze.get(currentPosition.getY()).get(currentPosition.getX()-1);
-						int straight = intMaze.get(currentPosition.getY()+1).get(currentPosition.getX());
-						int left = intMaze.get(currentPosition.getY()).get(currentPosition.getX()+1);
-						surroundingCells.put("right",right);
-						surroundingCells.put("ahead",straight);
-						surroundingCells.put("left",left);
-						surroundingCells.put("prev",prev);
-
-						// If only previous entrance is marked, make a turn
-						if(prev >= 1 && right <= 0 && straight <= 0 && left <= 0){
-							// Checking for left turn availability
-							if(lTurn == 1){
-								prevVal = intMaze.get(currentPosition.getY()).get(currentPosition.getX()+1);
-								intMaze.get(currentPosition.getY()).set(currentPosition.getX()+1,prevVal+1);
-								currentPosition.setX(currentPosition.getX()+1);
-								path += "LF";
-								direction = Orientation.RIGHT;
-							// Checking for right turn availability
-							}else if(rTurn == 1){
-								prevVal = intMaze.get(currentPosition.getY()).get(currentPosition.getX()-1);
-								intMaze.get(currentPosition.getY()).set(currentPosition.getX()-1,prevVal+1);
-								currentPosition.setX(currentPosition.getX()-1);
-								path += "RF";
-								direction = Orientation.LEFT;
-							// Checking for straight ability
-							}else if(sPath == 1){
-								prevVal = intMaze.get(currentPosition.getY()+1).get(currentPosition.getX());
-								intMaze.get(currentPosition.getY()+1).set(currentPosition.getX(),prevVal+1);
-								currentPosition.setY(currentPosition.getY()+1);
-								path += "F";
-							}
-						}else if(prev == 1){
-							prevVal = intMaze.get(currentPosition.getY()-1).get(currentPosition.getX());
-							intMaze.get(currentPosition.getY()-1).set(currentPosition.getX(),prevVal+1);
-							currentPosition.setY(currentPosition.getY()-1);
-							path += "RRF";
-							direction = Orientation.UP;
-						}else{
-							int min = Integer.MAX_VALUE;
-							String min_string = "";
-							for (Map.Entry<String, Integer> nearbyCell : surroundingCells.entrySet()) {
-								if(nearbyCell.getValue()<min && nearbyCell.getValue() >= 0){
-									min = nearbyCell.getValue();
-									min_string = nearbyCell.getKey();
-								}
-							}
-							switch(min_string){
-								case "right":
-									prevVal = intMaze.get(currentPosition.getY()).get(currentPosition.getX()-1);
-									intMaze.get(currentPosition.getY()).set(currentPosition.getX()-1,prevVal+1);
-									currentPosition.setX(currentPosition.getX()-1);
-									path += "RF";
-									direction = Orientation.LEFT;
-									break;
-								case "ahead":
-									prevVal = intMaze.get(currentPosition.getY()+1).get(currentPosition.getX());
-									intMaze.get(currentPosition.getY()+1).set(currentPosition.getX(),prevVal+1);
-									currentPosition.setY(currentPosition.getY()+1);
-									path += "F";
-									break;
-								case "left":
-									prevVal = intMaze.get(currentPosition.getY()).get(currentPosition.getX()+1);
-									intMaze.get(currentPosition.getY()).set(currentPosition.getX()+1,prevVal+1);
-									currentPosition.setX(currentPosition.getX()+1);
-									path += "LF";
-									direction = Orientation.RIGHT;
-									break;
-								case "prev":
-									prevVal = intMaze.get(currentPosition.getY()-1).get(currentPosition.getX());
-									intMaze.get(currentPosition.getY()-1).set(currentPosition.getX(),prevVal+1);
-									currentPosition.setY(currentPosition.getY()-1);
-									path += "RRF";
-									direction = Orientation.UP;
-									break;
-							}
-						}
-						surroundingCells.clear();
-					}else{
-						// Handling the case it is not a junction, where has to move forward or turn.
-						if(!maze.get(currentPosition.getY()).get(currentPosition.getX()-1).equals("W")){
-							currentPosition.setX(currentPosition.getX()-1);
-							path += "RF";
-							direction = Orientation.LEFT;
-						}
-						else if(!maze.get(currentPosition.getY()+1).get(currentPosition.getX()).equals("W")){
-							currentPosition.setY(currentPosition.getY()+1);
-							path += "F";
-						}
-						else if(!maze.get(currentPosition.getY()).get(currentPosition.getX()+1).equals("W")){
-							currentPosition.setX(currentPosition.getX()+1);
-							path += "LF";
-							direction = Orientation.RIGHT;
-						}else{
-							currentPosition.setY(currentPosition.getY()-1);
-							path += "RRF";
-							direction = Orientation.UP;
-						}
-					}
-					break;
-				case LEFT:
-					rTurn = 0; sPath = 0; lTurn = 0; pTurn = 0;
-					if(!Coordinate.equivalentTo(currentPosition,entry1)){
-						// If two options available from current junction (e.g. straight and right), mark as a junction.
-						rTurn = (intMaze.get(currentPosition.getY()-1).get(currentPosition.getX()) >= 0) ? 1 : 0;
-						sPath = (intMaze.get(currentPosition.getY()).get(currentPosition.getX()-1) >= 0) ? 1 : 0;
-						lTurn = (intMaze.get(currentPosition.getY()+1).get(currentPosition.getX()) >= 0) ? 1 : 0;
-						pTurn = (intMaze.get(currentPosition.getY()).get(currentPosition.getX()+1) >= 0) ? 1 : 0;
-					}
-					// If it is a junction
-					if((rTurn + sPath + lTurn + pTurn) >= 3){
-						// Increment previous entrance to mark accordingly.
-						int prevVal = intMaze.get(currentPosition.getY()).get(currentPosition.getX()+1);
-						intMaze.get(currentPosition.getY()).set(currentPosition.getX()+1,prevVal+1);
-						Map<String, Integer> surroundingCells = new HashMap<String, Integer>();
-						// Storing values of junction entrances
-						int prev = intMaze.get(currentPosition.getY()).get(currentPosition.getX()+1);
-						int right = intMaze.get(currentPosition.getY()-1).get(currentPosition.getX());
-						int straight = intMaze.get(currentPosition.getY()).get(currentPosition.getX()-1);
-						int left = intMaze.get(currentPosition.getY()+1).get(currentPosition.getX());
-						surroundingCells.put("right",right);
-						surroundingCells.put("ahead",straight);
-						surroundingCells.put("left",left);
-						surroundingCells.put("prev",prev);
-
-						// If only previous entrance is marked, make a turn
-						if(prev >= 1 && right <= 0 && straight <= 0 && left <= 0){
-							// Checking for left turn availability
-							if(lTurn == 1){
-								prevVal = intMaze.get(currentPosition.getY()+1).get(currentPosition.getX());
-								intMaze.get(currentPosition.getY()+1).set(currentPosition.getX(),prevVal+1);
-								currentPosition.setY(currentPosition.getY()+1);
-								path += "LF";
-								direction = Orientation.DOWN;
-							// Checking for right turn availability
-							}else if(rTurn == 1){
-								prevVal = intMaze.get(currentPosition.getY()-1).get(currentPosition.getX());
-								intMaze.get(currentPosition.getY()-1).set(currentPosition.getX(),prevVal+1);
-								currentPosition.setY(currentPosition.getY()-1);
-								path += "RF";
-								direction = Orientation.UP;
-							// Checking for straight ability
-							}else if(sPath == 1){
-								prevVal = intMaze.get(currentPosition.getY()).get(currentPosition.getX()-1);
-								intMaze.get(currentPosition.getY()).set(currentPosition.getX()-1,prevVal+1);
-								currentPosition.setX(currentPosition.getX()-1);
-								path += "F";
-							}
-						}else if(prev == 1){
-							prevVal = intMaze.get(currentPosition.getY()).get(currentPosition.getX()+1);
-							intMaze.get(currentPosition.getY()).set(currentPosition.getX()+1,prevVal+1);
-							currentPosition.setX(currentPosition.getX()+1);
-							path += "RRF";
-							direction = Orientation.RIGHT;
-						}else{
-							int min = Integer.MAX_VALUE;
-							String min_string = "";
-							for (Map.Entry<String, Integer> nearbyCell : surroundingCells.entrySet()) {
-								if(nearbyCell.getValue()<min && nearbyCell.getValue() >= 0){
-									min = nearbyCell.getValue();
-									min_string = nearbyCell.getKey();
-								}
-							}
-							switch(min_string){
-								case "right":
-									prevVal = intMaze.get(currentPosition.getY()-1).get(currentPosition.getX());
-									intMaze.get(currentPosition.getY()-1).set(currentPosition.getX(),prevVal+1);
-									currentPosition.setY(currentPosition.getY()-1);
-									path += "RF";
-									direction = Orientation.UP;
-									break;
-								case "ahead":
-									prevVal = intMaze.get(currentPosition.getY()).get(currentPosition.getX()-1);
-									intMaze.get(currentPosition.getY()).set(currentPosition.getX()-1,prevVal+1);
-									currentPosition.setX(currentPosition.getX()-1);
-									path += "F";
-									break;
-								case "left":
-									prevVal = intMaze.get(currentPosition.getY()+1).get(currentPosition.getX());
-									intMaze.get(currentPosition.getY()+1).set(currentPosition.getX(),prevVal+1);
-									currentPosition.setY(currentPosition.getY()+1);
-									path += "LF";
-									direction = Orientation.DOWN;
-									break;
-								case "prev":
-									prevVal = intMaze.get(currentPosition.getY()).get(currentPosition.getX()+1);
-									intMaze.get(currentPosition.getY()).set(currentPosition.getX()+1,prevVal+1);
-									currentPosition.setX(currentPosition.getX()+1);
-									path += "RRF";
-									direction = Orientation.RIGHT;
-									break;
-							}
-						}
-						surroundingCells.clear();
-					}else{
-						// Handling the case it is not a junction, where has to move forward or turn.
-						if(!maze.get(currentPosition.getY()-1).get(currentPosition.getX()).equals("W")){
-							currentPosition.setY(currentPosition.getY()-1);
-							path += "RF";
-							direction = Orientation.UP;
-						}
-						else if(!maze.get(currentPosition.getY()).get(currentPosition.getX()-1).equals("W")){
-							currentPosition.setX(currentPosition.getX()-1);
-							path += "F";
-						}
-						else if(!maze.get(currentPosition.getY()+1).get(currentPosition.getX()).equals("W")){
-							currentPosition.setY(currentPosition.getY()+1);
-							path += "LF";
-							direction = Orientation.DOWN;
-						}else{
-							currentPosition.setX(currentPosition.getX()+1);
-							path += "RRF";
-							direction = Orientation.RIGHT;
-						}
-						break;
-					}
-					break;
-				case UP:
-					rTurn = 0; sPath = 0; lTurn = 0; pTurn = 0;
-					if(!Coordinate.equivalentTo(currentPosition,entry1)){
-						// If two options available from current junction (e.g. straight and right), mark as a junction.
-						rTurn = (intMaze.get(currentPosition.getY()).get(currentPosition.getX()+1) >= 0) ? 1 : 0;
-						sPath = (intMaze.get(currentPosition.getY()-1).get(currentPosition.getX()) >= 0) ? 1 : 0;
-						lTurn = (intMaze.get(currentPosition.getY()).get(currentPosition.getX()-1) >= 0) ? 1 : 0;
-						pTurn = (intMaze.get(currentPosition.getY()+1).get(currentPosition.getX()) >= 0) ? 1 : 0;
-					}
-					// If it is a junction
-					if((rTurn + sPath + lTurn + pTurn) >= 3){
-						// Increment previous entrance to mark accordingly.
-						int prevVal = intMaze.get(currentPosition.getY()+1).get(currentPosition.getX());
-						intMaze.get(currentPosition.getY()+1).set(currentPosition.getX(),prevVal+1);
-						Map<String, Integer> surroundingCells = new HashMap<String, Integer>();
-						// Storing values of junction entrances
-						int prev = intMaze.get(currentPosition.getY()+1).get(currentPosition.getX());
-						int right = intMaze.get(currentPosition.getY()).get(currentPosition.getX()+1);
-						int straight = intMaze.get(currentPosition.getY()-1).get(currentPosition.getX());
-						int left = intMaze.get(currentPosition.getY()).get(currentPosition.getX()-1);
-						surroundingCells.put("right",right);
-						surroundingCells.put("ahead",straight);
-						surroundingCells.put("left",left);
-						surroundingCells.put("prev",prev);
-						// If only previous entrance is marked, make a turn
-						if(prev >= 1 && right <= 0 && straight <= 0 && left <= 0){
-							// Checking for left turn availability
-							if(lTurn == 1){
-								prevVal = intMaze.get(currentPosition.getY()).get(currentPosition.getX()-1);
-								intMaze.get(currentPosition.getY()).set(currentPosition.getX()-1,prevVal+1);
-								currentPosition.setX(currentPosition.getX()-1);
-								path += "LF";
-								direction = Orientation.LEFT;
-							// Checking for right turn availability
-							}else if(rTurn == 1){
-								prevVal = intMaze.get(currentPosition.getY()).get(currentPosition.getX()+1);
-								intMaze.get(currentPosition.getY()).set(currentPosition.getX()+1,prevVal+1);
-								currentPosition.setX(currentPosition.getX()+1);
-								path += "RF";
-								direction = Orientation.RIGHT;
-							// Checking for straight ability
-							}else if(sPath == 1){
-								prevVal = intMaze.get(currentPosition.getY()-1).get(currentPosition.getX());
-								intMaze.get(currentPosition.getY()-1).set(currentPosition.getX(),prevVal+1);
-								currentPosition.setY(currentPosition.getY()-1);
-								path += "F";
-							}
-						}else if(prev == 1){
-							prevVal = intMaze.get(currentPosition.getY()+1).get(currentPosition.getX());
-							intMaze.get(currentPosition.getY()+1).set(currentPosition.getX()-1,prevVal+1);
-							currentPosition.setY(currentPosition.getY()+1);
-							path += "RRF";
-							direction = Orientation.DOWN;
-						}else{
-							int min = Integer.MAX_VALUE;
-							String min_string = "";
-							for (Map.Entry<String, Integer> nearbyCell : surroundingCells.entrySet()) {
-								if(nearbyCell.getValue()<min && nearbyCell.getValue() >= 0){
-									min = nearbyCell.getValue();
-									min_string = nearbyCell.getKey();
-								}
-							}
-							switch(min_string){
-								case "right":
-									prevVal = intMaze.get(currentPosition.getY()).get(currentPosition.getX()+1);
-									intMaze.get(currentPosition.getY()).set(currentPosition.getX()+1,prevVal+1);
-									currentPosition.setX(currentPosition.getX()+1);
-									path += "RF";
-									direction = Orientation.RIGHT;
-									break;
-								case "ahead":
-									prevVal = intMaze.get(currentPosition.getY()-1).get(currentPosition.getX());
-									intMaze.get(currentPosition.getY()-1).set(currentPosition.getX(),prevVal+1);
-									currentPosition.setY(currentPosition.getY()-1);
-									path += "F";
-									break;
-								case "left":
-									prevVal = intMaze.get(currentPosition.getY()).get(currentPosition.getX()-1);
-									intMaze.get(currentPosition.getY()).set(currentPosition.getX()-1,prevVal+1);
-									currentPosition.setX(currentPosition.getX()-1);
-									path += "LF";
-									direction = Orientation.LEFT;
-									break;
-								case "prev":
-									prevVal = intMaze.get(currentPosition.getY()+1).get(currentPosition.getX());
-									intMaze.get(currentPosition.getY()+1).set(currentPosition.getX(),prevVal+1);
-									currentPosition.setY(currentPosition.getY()+1);
-									path += "RRF";
-									direction = Orientation.DOWN;
-									break;
-							}
-						}
-						surroundingCells.clear();
-					}else{
-						// Handling the case it is not a junction, where has to move forward or turn.
-						if(!maze.get(currentPosition.getY()).get(currentPosition.getX()+1).equals("W")){
-							currentPosition.setX(currentPosition.getX()+1);
-							path += "RF";
-							direction = Orientation.RIGHT;
-						}
-						else if(!maze.get(currentPosition.getY()-1).get(currentPosition.getX()).equals("W")){
-							currentPosition.setY(currentPosition.getY()-1);
-							path += "F";
-						}
-						else if(!maze.get(currentPosition.getY()).get(currentPosition.getX()-1).equals("W")){
-							currentPosition.setX(currentPosition.getX()-1);
-							path += "LF";
-							direction = Orientation.LEFT;
-						}else{
-							currentPosition.setY(currentPosition.getY()+1);
-							path += "RRF";
-							direction = Orientation.DOWN;
-						}
-						break;
-					}
-					break;
-			}
-			System.out.println(path);
-			System.out.println(direction);
-		}
-		// Obtaining factorized path prior to returning both results.
-		String factorizedPath = Factorization.FactorPath(path);
-		String[] paths = {path, factorizedPath};
-		return paths;
+		System.out.println("Marking junctions...");
+		JunctionList junctions = markJunctions(startPos, endPos, maze, direction);
+		System.out.println("Now carving path...");
+		String path = createPath(junctions, startPos, endPos, maze, direction);
+		System.out.println("Completed path.");
+		
+		return path;
 	}
 
-	// Converting to integer 2D Array to track junction entrance visits.
-	public ArrayList<ArrayList<Integer>> convertToInteger(ArrayList<ArrayList<String>> maze){
-		ArrayList<ArrayList<Integer>> intMaze = new ArrayList<ArrayList<Integer>>();
-		for(int i=0; i<maze.size(); i++){
-			intMaze.add(new ArrayList<Integer>());
-			for(int j=0; j<maze.get(0).size(); j++){
-				if(maze.get(i).get(j).equals("W")){
-					intMaze.get(i).add(-1);
+	private JunctionList markJunctions(Coordinate startPos, Coordinate endPos, Maze maze, Orientation input_dir){
+		JunctionList junctions = new JunctionList();
+		Coordinate currentPos = new Coordinate(startPos.X(),startPos.Y());
+		Orientation direction = input_dir;
+		while(!currentPos.equivalentTo(endPos)){
+			System.out.println("Current Position: " + currentPos.toString());
+			if(currentPos.X() == 0){
+				currentPos.straight(direction,Moves.FORWARD);
+				continue;
+			}
+			if(isJunction(currentPos, maze, direction) && maze.inBounds(currentPos)){
+				Junction j = new Junction(currentPos, direction, maze);
+				Junction current;
+				int index = junctions.has(j);
+				if(index == -1){
+					j.incrementPrev(direction);
+					junctions.add(j);
+					current = j;
 				}else{
-					intMaze.get(i).add(0);
+					junctions.get(index).incrementPrev(direction);
+					current = junctions.get(index);
+				}
+				
+				int prev = 0, right = 0, left = 0, straight = 0;
+
+				switch(direction){
+					case Orientation.DOWN:
+						prev = current.top(); 
+						right = current.left(); 
+						left = current.right(); 
+						straight = current.bottom();
+						break;
+					case Orientation.LEFT:
+						prev = current.right(); 
+						right = current.top(); 
+						left = current.bottom(); 
+						straight = current.left();
+						break;
+					case Orientation.RIGHT:
+						prev = current.left(); 
+						right = current.bottom(); 
+						left = current.top(); 
+						straight = current.right();
+						break;
+					case Orientation.UP:
+						prev = current.bottom(); 
+						right = current.right(); 
+						left = current.left(); 
+						straight = current.top();
+						break;
+				}
+
+				if(prev == 1 && ((right <= 0 || right == Integer.MAX_VALUE) && (left <= 0 || left == Integer.MAX_VALUE) && (straight <= 0 || straight == Integer.MAX_VALUE))){
+					// Checking for left turn availability
+					if(maze.rightTurnAvailable(currentPos, direction)){
+						current.incrementMove(Moves.RIGHT, direction);
+						currentPos.turn(direction,Moves.RIGHT);
+						direction = direction.turnRight();
+					// Checking for right turn availability
+					}else if(maze.leftTurnAvailable(currentPos, direction)){
+						current.incrementMove(Moves.LEFT, direction);
+						currentPos.turn(direction,Moves.LEFT);
+						direction = direction.turnLeft();
+					// Checking for straight ability
+					}else if(maze.straightAvailable(currentPos, direction)){
+						current.incrementMove(Moves.FORWARD, direction);
+						currentPos.straight(direction, Moves.FORWARD);	
+					}
+				}
+				// Returning on original path
+				else if(prev == 1){
+					current.incrementPrev(direction);
+					currentPos.straight(direction,Moves.UTURN);
+					direction = direction.opposite();
+				}
+				// Otherwise selecting lowest flagged option (path travelled 0 times is ideal, then 1)
+				else{
+					String min_string = current.minMark(direction);
+					switch(min_string){
+						case "LEFT":
+							current.incrementMove(Moves.LEFT,direction);
+							currentPos.turn(direction,Moves.LEFT);
+							direction = direction.turnLeft();
+							break;
+						case "RIGHT":
+							current.incrementMove(Moves.RIGHT, direction);
+							currentPos.turn(direction,Moves.RIGHT);
+							direction = direction.turnRight();
+							break;
+						case "FORWARD":
+							current.incrementMove(Moves.FORWARD, direction);
+							currentPos.straight(direction, Moves.FORWARD);
+							break;
+						case "PREV":
+							current.incrementPrev(direction);
+							currentPos.straight(direction,Moves.UTURN);
+							direction = direction.opposite();
+							break;
+					}
+					
+				}
+
+			}else{
+				// Traditional right hand method until junction is reached again.
+				if(maze.rightTurnAvailable(currentPos,direction)){
+					currentPos.turn(direction,Moves.RIGHT);
+					direction = direction.turnRight();
+				}else if(maze.straightAvailable(currentPos,direction)){
+					currentPos.straight(direction,Moves.FORWARD);
+				}else if(maze.leftTurnAvailable(currentPos,direction)){
+					currentPos.turn(direction,Moves.LEFT);
+					direction = direction.turnLeft();
+				}else{
+					currentPos.straight(direction,Moves.UTURN);
+					direction = direction.opposite();
 				}
 			}
 		}
-		return intMaze;
-	}	
+		return junctions;
+	}
+	
+	private String createPath(JunctionList junctions, Coordinate startPos, Coordinate endPos, Maze maze, Orientation input_dir){
+		
+		Coordinate currentPos = new Coordinate(startPos.X(),startPos.Y());
+		Orientation direction = input_dir;
+		String path = "";
+
+		while(!currentPos.equivalentTo(endPos)){
+			if(currentPos.X() == 0){
+				path += "F";
+				currentPos.straight(direction,Moves.FORWARD);
+				continue;
+			}
+			if(isJunction(currentPos, maze, direction) && maze.inBounds(currentPos)){
+				Junction j = new Junction(currentPos, direction, maze);
+				Junction current;
+				int index = junctions.has(j);
+				current = junctions.get(index);
+				
+				int prev = 0, right = 0, left = 0, straight = 0;
+				switch(direction){
+					case Orientation.DOWN:
+						prev = current.top(); 
+						right = current.left(); 
+						left = current.right(); 
+						straight = current.bottom();
+						break;
+					case Orientation.LEFT:
+						prev = current.right(); 
+						right = current.top(); 
+						left = current.bottom(); 
+						straight = current.left();
+						break;
+					case Orientation.RIGHT:
+						prev = current.left(); 
+						right = current.bottom(); 
+						left = current.top(); 
+						straight = current.right();
+						break;
+					case Orientation.UP:
+						prev = current.bottom(); 
+						right = current.right(); 
+						left = current.left(); 
+						straight = current.top();
+						break;
+				}
+
+				if(straight == 1){
+					path += "F";
+					currentPos.straight(direction,Moves.FORWARD);
+				}else if(right == 1){
+					path += "RF";
+					currentPos.turn(direction,Moves.RIGHT);
+					direction = direction.turnRight();
+				}else if(left == 1){
+					path += "LF";
+					currentPos.turn(direction,Moves.LEFT);
+					direction = direction.turnLeft();
+				}else if(prev == 1){
+					path += "RRF";
+					currentPos.straight(direction,Moves.UTURN);
+					direction = direction.opposite();
+				}
+			}else{
+				// Traditional right hand method until junction is reached again.
+				if(maze.rightTurnAvailable(currentPos,direction)){
+					path += "RF";
+					currentPos.turn(direction,Moves.RIGHT);
+					direction = direction.turnRight();
+				}else if(maze.straightAvailable(currentPos,direction)){
+					path += "F";
+					currentPos.straight(direction,Moves.FORWARD);
+				}else if(maze.leftTurnAvailable(currentPos,direction)){
+					path += "LF";
+					currentPos.turn(direction,Moves.LEFT);
+					direction = direction.turnLeft();
+				}else{
+					path += "RRF";
+					currentPos.straight(direction,Moves.UTURN);
+					direction = direction.opposite();
+				}
+				
+			}
+			System.out.println("Current path: " + path);
+		}
+		return path;
+	}
+
+	private boolean isJunction(Coordinate c, Maze maze, Orientation direction){
+		boolean result = false;
+		int count = 0;
+		if(maze.leftTurnAvailable(c,direction)){count++;};
+		if(maze.rightTurnAvailable(c,direction)){count++;};
+		if(maze.straightAvailable(c,direction)){count++;};
+		if(maze.prevAvailable(c, direction)){count++;};
+		if(count >= 3){result = true;}
+		return result;
+	}
 }
 
