@@ -23,6 +23,9 @@ public class Maze {
 	public Coordinate getEnd(){
 		return this.entryPoints.get(1);
 	}
+	public boolean isTile(int x, int y){
+		return matrix.get(y).get(x).equals("P");
+	}
 
 	public List<Integer> getDimensions(){
 		List<Integer> dimensions = new ArrayList<Integer>();
@@ -106,8 +109,6 @@ public class Maze {
 		}
 		return result;
 	}
-
-	
 
 	public boolean inBounds(Coordinate currentPos) {
 		List<Integer> dimensions = this.getDimensions();
