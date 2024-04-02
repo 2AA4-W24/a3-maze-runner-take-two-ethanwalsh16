@@ -8,6 +8,9 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
+import java.time.Duration;
+import java.time.Instant;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,13 +28,19 @@ public class Main {
 			logger.info("** Importing maze");
 
 			Configuration config = configure(args);
+			double readStart = System.currentTimeMillis();
 			Maze maze = new Maze(config.input_filename());
+			double readEnd = System.currentTimeMillis();
+			double readTime = readEnd - readStart;
 			Verifier verifier = new Verifier();
 			Factorization factorizer = new Factorization();
 			
 			// Determining if user path is correct.
-			if(!config.user_path().isEmpty()){
-
+			if(!config.benchmark().isEmpty() && !config.method().isEmpty()){
+				System.out.println("Benchmarking performed here.");
+				System.out.println("Maze read time: " + readTime + "ms");
+			}
+			else if(!config.user_path().isEmpty()){
 				List<Boolean> pathResults = verifier.correctPath(config.user_path());
 				boolean correctEntry = pathResults.get(0);
 				boolean isFactorized = pathResults.get(1);
@@ -74,6 +83,7 @@ public class Main {
 		options.addOption("i", true, "Name of input maze file");
 		options.addOption("p", true, "User input path to compare");
 		options.addOption("method", true, "Method to solve maze (righthand or tremaux)");
+		options.addOption("baseline", true, "Method for benchmarking and measuring speedup.");
 
         CommandLineParser parser = new DefaultParser();
 		CommandLine cmd = parser.parse(options, args);
@@ -81,9 +91,10 @@ public class Main {
 		String input_filename = cmd.getOptionValue("i", "");
 		String user_path = cmd.getOptionValue("p", "");
 		String method = cmd.getOptionValue("method", "righthand");
+		String benchmark = cmd.getOptionValue("baseline", "");
 
-		return new Configuration(input_filename,user_path,method);	  
+		return new Configuration(input_filename,user_path,method,benchmark);	  
 	}
 
-	private record Configuration(String input_filename, String user_path, String method){ Configuration {} }
+	private record Configuration(String input_filename, String user_path, String method, String benchmark){ Configuration {} }
 }
