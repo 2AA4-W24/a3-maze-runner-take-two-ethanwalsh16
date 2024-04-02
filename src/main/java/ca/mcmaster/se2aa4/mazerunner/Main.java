@@ -32,14 +32,7 @@ public class Main {
 			Factorization factorizer = new Factorization();
 			
 			// Determining if user path is correct.
-			if(!config.benchmark().isEmpty() && !config.method().isEmpty()){
-				System.out.println("Maze read time: " + readTime + "ms");
-				Benchmark measurer = new Benchmark();
-				System.out.println("Baseline: " + config.benchmark());
-				double speedup = measurer.benchmarkResults(maze, config.method(), config.benchmark());
-				System.out.println("Speedup: " + speedup);
-			}
-			else if(!config.user_path().isEmpty()){
+			if(!config.user_path().isEmpty()){
 				Verifier verifier = new Verifier();
 				List<Boolean> pathResults = verifier.correctPath(config.user_path());
 				boolean correctEntry = pathResults.get(0);
@@ -62,6 +55,7 @@ public class Main {
 				}
 
 			}else{
+				
 				MazeSolver solver;
 				String method = config.method();
 				String path = "";
@@ -75,10 +69,25 @@ public class Main {
 					solver = new RightHand();
 					path = solver.solveMaze(maze);
 				}
-				String factorizedPath = factorizer.FactorPath(path);
-				// Returning factorized path
-				System.out.println(path);
-				System.out.println(factorizedPath);
+
+				if(!config.benchmark().isEmpty()){
+					Benchmark measurer = new Benchmark();
+					String baseline = measurer.benchmarkResults(maze, config.benchmark());
+
+					double pathLength = path.length();
+					double baselineLength = baseline.length();
+					double speedup = Math.round((baselineLength / pathLength)*100) / 100.0;
+
+					System.out.println("Maze read time: " + readTime + "ms");
+					System.out.println("Speedup: " + speedup);
+
+				}else{
+
+					String factorizedPath = factorizer.FactorPath(path);
+					// Returning factorized path
+					System.out.println(path);
+					System.out.println(factorizedPath);
+				}
 			}
 
 			logger.info("** End of Maze Runner");	
