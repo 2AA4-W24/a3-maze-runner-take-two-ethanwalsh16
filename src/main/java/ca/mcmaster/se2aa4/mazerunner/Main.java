@@ -37,8 +37,8 @@ public class Main {
 			
 			// Determining if user path is correct.
 			if(!config.benchmark().isEmpty() && !config.method().isEmpty()){
-				System.out.println("Benchmarking performed here.");
 				System.out.println("Maze read time: " + readTime + "ms");
+				
 			}
 			else if(!config.user_path().isEmpty()){
 				List<Boolean> pathResults = verifier.correctPath(config.user_path());
