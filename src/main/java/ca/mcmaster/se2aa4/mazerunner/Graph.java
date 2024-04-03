@@ -25,7 +25,9 @@ public class Graph {
     }
 
     public void addNeighbour(int index, Node n){
-        this.getNode(index).connectNodes(n);
+        if(this.has(n) == -1){
+            this.getNode(index).connectNodes(n);
+        }
     }
 
     public int has(Node n){

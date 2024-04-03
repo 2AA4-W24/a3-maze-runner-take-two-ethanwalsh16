@@ -17,14 +17,8 @@ public class Node {
         this.surroundings = new HashSet<Node>();
     }
 
-    public List<Node> getSurroundings(){
-        List<Node> surroundings = new ArrayList<Node>();
-        Iterator<Node> surroundingsIterator = surroundings.iterator();
-        while(surroundingsIterator.hasNext()){
-            Node n = surroundingsIterator.next();
-            surroundings.add(n);
-        }
-        return surroundings;
+    public Set<Node> getSurroundings(){
+        return this.surroundings;
     }
 
     public int getCost(){
@@ -50,14 +44,12 @@ public class Node {
 
     public void print(){
         System.out.println("ID: " + this.id + "Cost: " + this.cost);
-        /*
         System.out.println("Surroundings");
         Iterator<Node> surroundingsIterator = surroundings.iterator();
         while(surroundingsIterator.hasNext()){
             Node n = surroundingsIterator.next();
             System.out.println(n.getId().toString());
         }
-         */
     }
 
 }
