@@ -33,7 +33,6 @@ public class Coordinate {
 
 	public void turn(Orientation o, Moves m){
 		int mult = m.equals(Moves.LEFT) ? 1 : -1;
-
 		switch(o){
 			case Orientation.DOWN:
 				this.x += 1*mult;

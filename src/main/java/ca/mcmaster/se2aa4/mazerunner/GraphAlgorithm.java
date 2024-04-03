@@ -12,95 +12,93 @@ public class GraphAlgorithm {
         int yDim = dimensions.get(1);
         for(int i=1; i<yDim-1; i++){
             for(int j=1; j<xDim-1; j++){
-                Coordinate currentPos = new Coordinate(i,j);
-                Node n = new Node(currentPos);
-                int index = graph.has(n);
-                Node current;
+                Coordinate currentPos = new Coordinate(j,i);
+                Node newNode = new Node(currentPos);
+                int index = graph.has(newNode);
+
+                Boolean canAdd = false;
+                Boolean canAddUp = false;
+                Boolean canAddDown = false;
+                Boolean canAddRight = false;
+                Boolean canAddLeft = false;
+                Node upNode = new Node(new Coordinate(j,i-1));
+                Node rightNode = new Node(new Coordinate(j+1,i));
+                Node leftNode = new Node(new Coordinate(j-1,i));
+                Node downNode = new Node(new Coordinate(j,i+1));
+
                 // Finding current node to deal with (to avoid duplicates.)
-                if(index == -1){
-                    graph.addNode(n);
-                    current = n;
-                }else{
-                    current = graph.getNode(index);
-                }
-                if(maze.isTile(i,j) && maze.inBounds(currentPos)){
-                    if(maze.straightAvailable(currentPos,direction)){
-                        Coordinate up = new Coordinate(i-1,j);
-                        Node upNode = new Node(up);
-                        int iUp = graph.has(upNode);
-                        if(iUp == -1){
-                            graph.addNode(upNode);
+                if(maze.isTile(j,i) && maze.inBounds(currentPos)){
+                    canAdd = (index == -1) ? true : false;
+                    if(maze.straightAvailable(currentPos, direction)){
+                        int upIndex = graph.has(upNode);
+                        if(upIndex == -1){
+                            canAddUp = true;
                         }else{
-                            upNode = graph.getNode(iUp);
+                            graph.addNeighbour(upIndex,newNode);
                         }
-                        upNode.connectNodes(current);
-                        current.connectNodes(upNode);
                     }
                     if(maze.rightTurnAvailable(currentPos,direction)){
-                        Coordinate right = new Coordinate(i,j+1);
-                        Node rightNode = new Node(right);
-                        int iRight = graph.has(rightNode);
-                        if(iRight == -1){
-                            graph.addNode(rightNode);
+                        int rightIndex = graph.has(rightNode);
+                        if(rightIndex == -1){
+                            canAddRight = true;
                         }else{
-                            rightNode = graph.getNode(iRight);
+                            graph.addNeighbour(rightIndex,newNode);
                         }
-                        rightNode.connectNodes(current);
-                        current.connectNodes(rightNode);
                     }
                     if(maze.leftTurnAvailable(currentPos,direction)){
-                        Coordinate left = new Coordinate(i,j-1);
-                        Node leftNode= new Node(left);
-                        int iLeft = graph.has(leftNode);
-                        if(iLeft == -1){
-                            graph.addNode(leftNode);
+                        int leftIndex = graph.has(leftNode);
+                        System.out.println("HERE: " + leftIndex);
+                        if(leftIndex == -1){
+                            canAddLeft = true;
                         }else{
-                            leftNode = graph.getNode(iLeft);
+                            graph.addNeighbour(leftIndex,newNode);
                         }
-                        leftNode.connectNodes(current);
-                        current.connectNodes(leftNode);
                     }
                     if(maze.prevAvailable(currentPos,direction)){
-                        Coordinate down = new Coordinate(i+1,j);
-                        Node downNode = new Node(down);
-                        int iDown = graph.has(downNode);
-                        if(iDown == -1){
-                            graph.addNode(downNode);
+                        int downIndex = graph.has(downNode);
+                        if(downIndex == -1){
+                            canAddDown = true;
                         }else{
-                            downNode = graph.getNode(iDown);
+                            graph.addNeighbour(downIndex,newNode);
                         }
-                        downNode.connectNodes(current);
-                        current.connectNodes(downNode);
+                    }
+                    if(canAdd){
+                        if(canAddUp){
+                            newNode.connectNodes(upNode);
+                            upNode.connectNodes(newNode);
+                            System.out.println("ADDING UP NODE : " + upNode.getId() + " JI: " + j + ", " + i);
+                            graph.addNode(upNode);
+                        }if(canAddDown){
+                            newNode.connectNodes(downNode);
+                            downNode.connectNodes(newNode);
+                            System.out.println("ADDING DOWN NODE : " + downNode.getId() + " JI: " + j + ", " + i);
+                            graph.addNode(downNode);
+                        }if(canAddLeft){
+                            newNode.connectNodes(leftNode);
+                            leftNode.connectNodes(newNode);
+                            System.out.println("ADDING LEFT NODE : " + leftNode.getId() + " JI: " + j + ", " + i);
+                            graph.addNode(leftNode);
+                        }if(canAddRight){
+                            newNode.connectNodes(rightNode);
+                            rightNode.connectNodes(newNode);
+                            System.out.println("ADDING RIGHT NODE : " + rightNode.getId() + " JI: " + j + ", " + i);
+                            graph.addNode(rightNode);
+                        }
+                        graph.addNode(newNode);
                     }
                 }
             }
-            // Add entry and end points at the end.
-            Coordinate startPos = maze.getStart();
-            Coordinate endPos = maze.getEnd();
-            Node start = new Node(startPos);
-            Node end = new Node(endPos);
-            Node right = new Node(new Coordinate(startPos.X()+1, startPos.Y()));
-            Node left = new Node(new Coordinate(endPos.X()-1, endPos.Y()));
-
-            int rightIndex = graph.has(right);
-            right = graph.getNode(rightIndex);
-            right.connectNodes(start);
-            start.connectNodes(right);
-
-            int leftIndex = graph.has(left);
-            left = graph.getNode(leftIndex);
-            left.connectNodes(end);
-            end.connectNodes(left);
-            
-            graph.addNode(start);
-            graph.addNode(end);
         }
         return graph;
     }
 
     public String findShortestPath(Maze maze){
         Graph graph = BuildGraph(maze);
-        graph.toString(); // Printing for now to test it.
+        System.out.println("Printing graph:");
+        System.out.println("SIZE: " + graph.getSize());
+        for(int i=0; i<graph.getSize(); i++){
+            graph.getNode(i).print();
+        }// Printing for now to test it.
         return "Empty path, not implemented yet.";
     }
 }

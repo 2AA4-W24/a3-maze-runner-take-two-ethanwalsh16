@@ -2,6 +2,7 @@ package ca.mcmaster.se2aa4.mazerunner;
 
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Iterator;
 
 public class Node {
     private int cost;
@@ -37,8 +38,14 @@ public class Node {
 
     public void print(){
         System.out.println("ID: " + this.id + "Cost: " + this.cost);
+        /*
         System.out.println("Surroundings");
-        System.out.println(surroundings.toString());
+        Iterator<Node> surroundingsIterator = surroundings.iterator();
+        while(surroundingsIterator.hasNext()){
+            Node n = surroundingsIterator.next();
+            System.out.println(n.getId().toString());
+        }
+         */
     }
 
 }

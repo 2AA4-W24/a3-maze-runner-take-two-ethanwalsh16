@@ -11,11 +11,21 @@ public class Graph {
 	}
 
     public void addNode(Node n){
-        nodes.add(n);
+        if(this.has(n) == -1){
+            nodes.add(n);
+        }
+    }
+
+    public int getSize(){
+        return nodes.size();
     }
 
     public Node getNode(int index){
         return nodes.get(index);
+    }
+
+    public void addNeighbour(int index, Node n){
+        this.getNode(index).connectNodes(n);
     }
 
     public int has(Node n){
