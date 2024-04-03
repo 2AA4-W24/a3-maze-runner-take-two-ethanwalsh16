@@ -108,7 +108,13 @@ public class GraphAlgorithm {
         System.out.println("Starting BFS");
         while(!nodeQueue.isEmpty()){
             Node current = nodeQueue.remove();
-            
+            List<Node> surroundings = current.getSurroundings();
+            for(int i = 0; i < surroundings.size(); i++){
+                if(surroundings.get(i).getCost() == Integer.MAX_VALUE){
+                    graph.changeCost(graph.has(surroundings.get(i)), current.getCost()+1);
+                    nodeQueue.add(surroundings.get(i));
+                }
+            }
         }
         return "Empty path, not implemented yet.";
     }

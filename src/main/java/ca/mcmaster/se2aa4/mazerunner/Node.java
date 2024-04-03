@@ -1,8 +1,10 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 import java.util.Set;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 
 public class Node {
     private int cost;
@@ -13,6 +15,16 @@ public class Node {
         this.id = c;
         this.cost = Integer.MAX_VALUE;
         this.surroundings = new HashSet<Node>();
+    }
+
+    public List<Node> getSurroundings(){
+        List<Node> surroundings = new ArrayList<Node>();
+        Iterator<Node> surroundingsIterator = surroundings.iterator();
+        while(surroundingsIterator.hasNext()){
+            Node n = surroundingsIterator.next();
+            surroundings.add(n);
+        }
+        return surroundings;
     }
 
     public int getCost(){
