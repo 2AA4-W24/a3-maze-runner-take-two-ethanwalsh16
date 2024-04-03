@@ -1,6 +1,8 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 import java.util.List;
+import java.util.Queue;
+import java.util.ArrayDeque;
 
 public class GraphAlgorithm {
 
@@ -47,7 +49,6 @@ public class GraphAlgorithm {
                     }
                     if(maze.leftTurnAvailable(currentPos,direction)){
                         int leftIndex = graph.has(leftNode);
-                        System.out.println("HERE: " + leftIndex);
                         if(leftIndex == -1){
                             canAddLeft = true;
                         }else{
@@ -66,22 +67,18 @@ public class GraphAlgorithm {
                         if(canAddUp){
                             newNode.connectNodes(upNode);
                             upNode.connectNodes(newNode);
-                            System.out.println("ADDING UP NODE : " + upNode.getId() + " JI: " + j + ", " + i);
                             graph.addNode(upNode);
                         }if(canAddDown){
                             newNode.connectNodes(downNode);
                             downNode.connectNodes(newNode);
-                            System.out.println("ADDING DOWN NODE : " + downNode.getId() + " JI: " + j + ", " + i);
                             graph.addNode(downNode);
                         }if(canAddLeft){
                             newNode.connectNodes(leftNode);
                             leftNode.connectNodes(newNode);
-                            System.out.println("ADDING LEFT NODE : " + leftNode.getId() + " JI: " + j + ", " + i);
                             graph.addNode(leftNode);
                         }if(canAddRight){
                             newNode.connectNodes(rightNode);
                             rightNode.connectNodes(newNode);
-                            System.out.println("ADDING RIGHT NODE : " + rightNode.getId() + " JI: " + j + ", " + i);
                             graph.addNode(rightNode);
                         }
                         graph.addNode(newNode);
@@ -89,16 +86,30 @@ public class GraphAlgorithm {
                 }
             }
         }
+        Coordinate startPos = maze.getStart();
+        Node start = new Node(startPos);
+        graph.changeCost(graph.has(start),0);
         return graph;
+        
     }
 
     public String findShortestPath(Maze maze){
         Graph graph = BuildGraph(maze);
         System.out.println("Printing graph:");
         System.out.println("SIZE: " + graph.getSize());
+        Queue<Node> nodeQueue = new ArrayDeque<Node>();
         for(int i=0; i<graph.getSize(); i++){
             graph.getNode(i).print();
+            if(graph.getNode(i).getCost() == 0){
+                nodeQueue.add(graph.getNode(i));
+            }
+
         }// Printing for now to test it.
+        System.out.println("Starting BFS");
+        while(!nodeQueue.isEmpty()){
+            Node current = nodeQueue.remove();
+            
+        }
         return "Empty path, not implemented yet.";
     }
 }

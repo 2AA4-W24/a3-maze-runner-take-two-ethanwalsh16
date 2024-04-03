@@ -37,4 +37,8 @@ public class Graph {
 		}
 		return -1;
 	}
+
+    public void changeCost(int index, int cost){
+        this.getNode(index).setCost(cost);
+    }
 }
