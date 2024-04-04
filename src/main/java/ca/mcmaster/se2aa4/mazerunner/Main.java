@@ -94,7 +94,6 @@ public class Main {
 			
 		}catch (Exception e){
 			logger.error("An error has occured");
-			e.printStackTrace();
 			System.exit(1);
 		}  
     }

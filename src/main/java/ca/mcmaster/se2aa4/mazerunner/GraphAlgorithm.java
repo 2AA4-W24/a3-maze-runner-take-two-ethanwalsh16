@@ -50,23 +50,23 @@ public class GraphAlgorithm {
 			if(currentPos.equivalentTo(maze.getStart())){
 				disableLeft = true;
 			}
-			if(maze.isTile(currentPos.X(),currentPos.Y()-1)){
-				Coordinate up = new Coordinate(currentPos.X(),currentPos.Y()-1);
+			if(maze.isTile(currentPos.x(),currentPos.y()-1)){
+				Coordinate up = new Coordinate(currentPos.x(),currentPos.y()-1);
 				graph.getNode(graph.has(new Node(currentPos))).connectNodes(graph.getNode(graph.has(new Node(up))));
 			}
-			if(maze.isTile(currentPos.X(),currentPos.Y()+1)){
-				Coordinate down = new Coordinate(currentPos.X(),currentPos.Y()+1);
+			if(maze.isTile(currentPos.x(),currentPos.y()+1)){
+				Coordinate down = new Coordinate(currentPos.x(),currentPos.y()+1);
 				graph.getNode(graph.has(new Node(currentPos))).connectNodes(graph.getNode(graph.has(new Node(down))));
 			}
 			if(!disableRight){
-				if(maze.isTile(currentPos.X()+1,currentPos.Y())){
-					Coordinate right = new Coordinate(currentPos.X()+1,currentPos.Y());
+				if(maze.isTile(currentPos.x()+1,currentPos.y())){
+					Coordinate right = new Coordinate(currentPos.x()+1,currentPos.y());
 					graph.getNode(graph.has(new Node(currentPos))).connectNodes(graph.getNode(graph.has(new Node(right))));
 				}
 			}
 			if(!disableLeft){
-				if(maze.isTile(currentPos.X()-1,currentPos.Y())){
-					Coordinate left = new Coordinate(currentPos.X()-1,currentPos.Y());
+				if(maze.isTile(currentPos.x()-1,currentPos.y())){
+					Coordinate left = new Coordinate(currentPos.x()-1,currentPos.y());
 					graph.getNode(graph.has(new Node(currentPos))).connectNodes(graph.getNode(graph.has(new Node(left))));
 				}
 			}

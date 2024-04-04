@@ -21,16 +21,8 @@ public class Node {
         return this.surroundings;
     }
 
-	public boolean equivalentTo(Node n1){
-		return n1.getId().equivalentTo(n1.getId());
-	}
-
     public int getCost(){
         return this.cost;
-    }
-
-    public void incCost(){
-        this.cost += 1;
     }
 
     public void setCost(int newCost){

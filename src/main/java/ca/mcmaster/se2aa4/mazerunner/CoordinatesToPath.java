@@ -8,7 +8,7 @@ public class CoordinatesToPath {
 		String path = "";
 
 		Coordinate startPos = maze.getStart();
-		Coordinate currentPos = new Coordinate(startPos.X(),startPos.Y());
+		Coordinate currentPos = new Coordinate(startPos.x(),startPos.y());
 		Orientation direction = Orientation.RIGHT;
 
 		for(int i=0; i<coords.size(); i++){

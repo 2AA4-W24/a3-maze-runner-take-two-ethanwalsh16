@@ -30,16 +30,16 @@ public class Verifier {
 	public String verifyPath(String userPath, Maze maze, Coordinate entry1, Coordinate entry2){
 		
 		// Tracking position and orientation for moving through the maze.
-		Coordinate currentPos = new Coordinate(entry1.X(), entry1.Y());
+		Coordinate currentPos = new Coordinate(entry1.x(), entry1.y());
 		Coordinate endPoint = entry2;
 		Orientation direction = Orientation.RIGHT;
 		String result = "Incorrect";
 		userPath = userPath.replaceAll("\\s","");
 		// Verifying path from Left to right.
 		result = iteration(direction, currentPos, endPoint, userPath, maze);
-		if(result != "Correct"){
+		if(!result.equals("Correct")){
 			// If not, also verifying path as right to left.
-			currentPos = new Coordinate(entry2.X(), entry2.Y());
+			currentPos = new Coordinate(entry2.x(), entry2.y());
 			endPoint = entry1;
 			direction = Orientation.LEFT;
 			result = iteration(direction, currentPos, endPoint, userPath, maze);
