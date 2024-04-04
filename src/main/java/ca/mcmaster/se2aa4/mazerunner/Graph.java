@@ -25,9 +25,9 @@ public class Graph {
     }
 
     public void addNeighbour(int index, Node n){
-        if(this.has(n) == -1){
-            this.getNode(index).connectNodes(n);
-        }
+		if(this.has(n) == -1){
+			this.getNode(index).connectNodes(n);
+		}
     }
 
     public int has(Node n){
@@ -43,4 +43,8 @@ public class Graph {
     public void changeCost(int index, int cost){
         this.getNode(index).setCost(cost);
     }
+
+	public void addPrev(int neighbourIndex, Node current) {
+		this.getNode(neighbourIndex).addPrev(current.getId());
+	}
 }

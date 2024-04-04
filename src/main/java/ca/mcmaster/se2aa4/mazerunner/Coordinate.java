@@ -66,4 +66,34 @@ public class Coordinate {
 				break;
 		}
 	}
+
+	public boolean rightOf(Coordinate currentPos, Orientation direction) {
+		switch(direction){
+			case Orientation.UP:
+				return (this.X() - 1 == currentPos.X());
+			case Orientation.RIGHT:
+				return (this.Y() - 1 == currentPos.Y());
+			case Orientation.DOWN:
+				return (this.X() + 1 == currentPos.X());
+			case Orientation.LEFT:
+				return (this.Y() + 1 == currentPos.Y());
+			default:
+				return false;
+		}
+	}
+
+	public boolean leftOf(Coordinate currentPos, Orientation direction) {
+		switch(direction){
+			case Orientation.UP:
+				return (this.X() + 1 == currentPos.X());
+			case Orientation.RIGHT:
+				return (this.Y() + 1 == currentPos.Y());
+			case Orientation.DOWN:
+				return (this.X() - 1 == currentPos.X());
+			case Orientation.LEFT:
+				return (this.Y() - 1 == currentPos.Y());
+			default:
+				return false;
+		}
+	}
 }

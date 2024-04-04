@@ -1,25 +1,29 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 import java.util.Set;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 
 public class Node {
     private int cost;
     private Set<Node> surroundings;
     private Coordinate id;
+	private Coordinate prev;
 
     public Node(Coordinate c){
         this.id = c;
         this.cost = Integer.MAX_VALUE;
         this.surroundings = new HashSet<Node>();
+		this.prev = new Coordinate(0,0);
     }
 
     public Set<Node> getSurroundings(){
         return this.surroundings;
     }
+
+	public boolean equivalentTo(Node n1){
+		return n1.getId().equivalentTo(n1.getId());
+	}
 
     public int getCost(){
         return this.cost;
@@ -42,14 +46,12 @@ public class Node {
         newNode.surroundings.add(this);
     }
 
-    public void print(){
-        System.out.println("ID: " + this.id + "Cost: " + this.cost);
-        System.out.println("Surroundings");
-        Iterator<Node> surroundingsIterator = surroundings.iterator();
-        while(surroundingsIterator.hasNext()){
-            Node n = surroundingsIterator.next();
-            System.out.println(n.getId().toString());
-        }
-    }
+	public void addPrev(Coordinate current) {
+		this.prev = current;
+	}
+
+	public Coordinate getPrev(){
+		return this.prev;
+	}
 
 }
