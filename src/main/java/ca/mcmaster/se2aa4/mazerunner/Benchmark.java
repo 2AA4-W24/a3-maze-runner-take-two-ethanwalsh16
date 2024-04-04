@@ -11,7 +11,7 @@ public class Benchmark {
 				pathBase = baseSolver.solveMaze(maze);
 				break;
 			case "graph":
-				baseSolver = new GraphAlgorithm();
+				baseSolver = new GraphAdapter();
 				pathBase = baseSolver.solveMaze(maze);
 				break;
 			default: 

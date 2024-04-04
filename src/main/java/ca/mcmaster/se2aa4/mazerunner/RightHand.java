@@ -34,7 +34,6 @@ public class RightHand implements MazeSolver {
 				direction = direction.opposite();
 			}
 		}
-		System.out.println("Right hand path: " + path);
 		return path;
 	}
 }

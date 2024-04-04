@@ -33,7 +33,6 @@ public class Coordinate {
 
 	public void turn(Orientation o, Moves m){
 		int mult = m.equals(Moves.LEFT) ? 1 : -1;
-
 		switch(o){
 			case Orientation.DOWN:
 				this.x += 1*mult;
@@ -65,6 +64,36 @@ public class Coordinate {
 			case Orientation.RIGHT:
 				this.x += mult;
 				break;
+		}
+	}
+
+	public boolean rightOf(Coordinate currentPos, Orientation direction) {
+		switch(direction){
+			case Orientation.UP:
+				return (this.X() - 1 == currentPos.X());
+			case Orientation.RIGHT:
+				return (this.Y() - 1 == currentPos.Y());
+			case Orientation.DOWN:
+				return (this.X() + 1 == currentPos.X());
+			case Orientation.LEFT:
+				return (this.Y() + 1 == currentPos.Y());
+			default:
+				return false;
+		}
+	}
+
+	public boolean leftOf(Coordinate currentPos, Orientation direction) {
+		switch(direction){
+			case Orientation.UP:
+				return (this.X() + 1 == currentPos.X());
+			case Orientation.RIGHT:
+				return (this.Y() + 1 == currentPos.Y());
+			case Orientation.DOWN:
+				return (this.X() - 1 == currentPos.X());
+			case Orientation.LEFT:
+				return (this.Y() - 1 == currentPos.Y());
+			default:
+				return false;
 		}
 	}
 }

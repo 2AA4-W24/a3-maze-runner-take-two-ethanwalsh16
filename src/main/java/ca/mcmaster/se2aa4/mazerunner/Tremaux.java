@@ -9,12 +9,8 @@ public class Tremaux implements MazeSolver {
 		Coordinate endPos = maze.getEnd();
 		Orientation direction = Orientation.RIGHT;
 
-		System.out.println("Marking junctions...");
 		JunctionList junctions = markJunctions(startPos, endPos, maze, direction);
-		System.out.println("Now carving path...");
 		String path = createPath(junctions, startPos, endPos, maze, direction);
-		System.out.println("Completed path.");
-		System.out.println("Path: " + path);
 		return path;
 	}
 
@@ -23,7 +19,6 @@ public class Tremaux implements MazeSolver {
 		Coordinate currentPos = new Coordinate(startPos.X(),startPos.Y());
 		Orientation direction = input_dir;
 		while(!currentPos.equivalentTo(endPos)){
-			System.out.println("Current Position: " + currentPos.toString());
 			if(currentPos.X() == 0){
 				currentPos.straight(direction,Moves.FORWARD);
 				continue;
@@ -221,7 +216,6 @@ public class Tremaux implements MazeSolver {
 				}
 				
 			}
-			System.out.println("Current path: " + path);
 		}
 		return path;
 	}

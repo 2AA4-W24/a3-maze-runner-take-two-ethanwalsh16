@@ -63,7 +63,7 @@ public class Main {
 					solver = new Tremaux();
 					path = solver.solveMaze(maze);
 				}else if(method.equals("graph")){
-					solver = new GraphAlgorithm();
+					solver = new GraphAdapter();
 					path = solver.solveMaze(maze);
 				}else{
 					solver = new RightHand();
