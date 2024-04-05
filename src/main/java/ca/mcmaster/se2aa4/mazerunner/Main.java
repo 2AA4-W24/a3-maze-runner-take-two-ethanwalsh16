@@ -41,6 +41,7 @@ public class Main {
 			
 			// Determining if user path is correct.
 			if(!config.user_path().isEmpty()){
+
 				Verifier verifier = new Verifier();
 				List<Boolean> pathResults = verifier.correctPath(config.user_path());
 				boolean correctEntry = pathResults.get(0);
@@ -67,26 +68,40 @@ public class Main {
 				MazeSolver solver;
 				String method = config.method();
 				String path = "";
+
+				double solveStart;
+				double solveEnd; 
+
 				if(method.equals("tremaux")){
 					solver = new Tremaux();
+					solveStart = System.currentTimeMillis();
 					path = solver.solveMaze(maze);
+					solveEnd = System.currentTimeMillis();
 				}else if(method.equals("graph")){
 					solver = new GraphAdapter();
+					solveStart = System.currentTimeMillis();
 					path = solver.solveMaze(maze);
+					solveEnd = System.currentTimeMillis();
 				}else{
 					solver = new RightHand();
+					solveStart = System.currentTimeMillis();
 					path = solver.solveMaze(maze);
+					solveEnd = System.currentTimeMillis();
 				}
 
 				if(!config.benchmark().isEmpty()){
 					Benchmark measurer = new Benchmark();
+					double baselineStart = System.currentTimeMillis();
 					String baseline = measurer.benchmarkResults(maze, config.benchmark());
+					double baselineEnd = System.currentTimeMillis();
 
 					double pathLength = path.length();
 					double baselineLength = baseline.length();
 					double speedup = Math.round((baselineLength / pathLength)*100) / 100.0;
 
 					System.out.println("Maze read time: " + readTime + "ms");
+					System.out.println("Solve time (method): " + Math.round((solveEnd - solveStart)*100) / 100.0 + "ms");
+					System.out.println("Solve time (baseline): " + Math.round((baselineEnd - baselineStart)*100) / 100.0 + "ms");
 					System.out.println("Speedup: " + speedup);
 
 				}else{
