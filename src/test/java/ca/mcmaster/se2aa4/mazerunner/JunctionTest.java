@@ -12,20 +12,20 @@ public class JunctionTest {
 	private static final Logger logger = LogManager.getLogger();
 
     @Test
-    public void incrementTest() {
+    void incrementTest() {
 		Maze maze;
 		try {
 			maze = new Maze("./examples/small.maz.txt");
 			Junction j = new Junction(new Coordinate(1,1),Orientation.RIGHT,maze);
 			j.incrementPrev(Orientation.RIGHT);
-			assertEquals(j.left(),1);
+			assertEquals(1,j.left());
 		} catch (FileNotFoundException e) {
 			logger.error("File not found.");
 		}
     }
 
 	@Test
-	public void minMarkTest(){
+	void minMarkTest(){
 		Maze maze;
 		try {
 			maze = new Maze("./examples/small.maz.txt");
@@ -34,7 +34,7 @@ public class JunctionTest {
 			j.incrementMove(Moves.FORWARD,Orientation.RIGHT);
 			j.incrementMove(Moves.LEFT,Orientation.RIGHT);
 			String min = j.minMark(Orientation.RIGHT);
-			assertTrue(min.equals("PREV"));
+			assertEquals("PREV",min);
 		} catch (FileNotFoundException e) {
 			logger.error("File not found.");
 		}

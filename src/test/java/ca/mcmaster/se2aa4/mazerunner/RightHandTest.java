@@ -12,13 +12,13 @@ public class RightHandTest {
 	private static final Logger logger = LogManager.getLogger();
 	
 	@Test
-	public void baseSolve(){
+	void baseSolve(){
 		MazeSolver solver = new RightHand();
 		try {
 			Maze m = new Maze("./examples/small.maz.txt");
 			String path = solver.solveMaze(m);
 			String expected = "FRFRRFFRFFRFFRRFFFFRFFRFFFFRRFFRFFFFRFFRFFRRFFLFFLFFFFRFFRFFRRFFFFRFFRFFRRFFRFFRFFFFRFFLFFRFFLF";
-			assertTrue(path.equals(expected));
+			assertEquals(expected,path);
 		} catch (FileNotFoundException e) {
 			logger.error("File not found");
 		}

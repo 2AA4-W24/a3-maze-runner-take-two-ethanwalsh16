@@ -152,28 +152,24 @@ public class Tremaux implements MazeSolver {
 				int index = junctions.has(j);
 				current = junctions.get(index);
 				
-				int prev = 0, right = 0, left = 0, straight = 0;
+				int right = 0, left = 0, straight = 0;
 				switch(direction){
 					case Orientation.DOWN:
-						prev = current.top(); 
 						right = current.left(); 
 						left = current.right(); 
 						straight = current.bottom();
 						break;
 					case Orientation.LEFT:
-						prev = current.right(); 
 						right = current.top(); 
 						left = current.bottom(); 
 						straight = current.left();
 						break;
-					case Orientation.RIGHT:
-						prev = current.left(); 
+					case Orientation.RIGHT: 
 						right = current.bottom(); 
 						left = current.top(); 
 						straight = current.right();
 						break;
 					case Orientation.UP:
-						prev = current.bottom(); 
 						right = current.right(); 
 						left = current.left(); 
 						straight = current.top();

@@ -6,29 +6,29 @@ import static org.junit.jupiter.api.Assertions.*;
 public class FactorizationTest {
 
     @Test
-    public void baseFactorTest() {
+    void baseFactorTest() {
 		String path = "FFFFFLLFFRRRF";
 		Factorization factorizer = new Factorization();
 		String factorPath = factorizer.FactorPath(path);
 		String expected = "5F 2L 2F 3R F ";
-		assertTrue(factorPath.equals(expected));
+		assertEquals(expected,factorPath);
     }
 
 	@Test
-	public void doubleDigitTest(){
+	void doubleDigitTest(){
 		String path = "FFFFFFFFFRRRRRRRRRR";
 		Factorization factorizer = new Factorization();
 		String factorPath = factorizer.FactorPath(path);
 		String expected = "9F 10R ";
-		assertTrue(factorPath.equals(expected));
+		assertEquals(expected,factorPath);
 	}
 
 	@Test
-	public void unfactorizeTest(){
+	void unfactorizeTest(){
 		String path = "5F 2R 3L";
 		Factorization factorizer = new Factorization();
 		String unfactorPath = factorizer.unfactorize(path);
 		String expected = "FFFFFRRLLL";
-		assertTrue(unfactorPath.equals(expected));
+		assertEquals(expected,unfactorPath);
 	}
 }

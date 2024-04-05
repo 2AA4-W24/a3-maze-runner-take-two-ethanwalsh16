@@ -12,7 +12,7 @@ public class BenchmarkTest {
 	private static final Logger logger = LogManager.getLogger();
 
     @Test
-    public void baseTest() {
+    void baseTest() {
 		Benchmark benchmarker = new Benchmark();
 		String benchMarkResultGraph = "";
 		String benchMarkResultTremaux = "";
