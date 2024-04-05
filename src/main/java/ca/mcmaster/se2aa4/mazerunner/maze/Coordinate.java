@@ -1,4 +1,7 @@
-package ca.mcmaster.se2aa4.mazerunner;
+package ca.mcmaster.se2aa4.mazerunner.maze;
+
+import ca.mcmaster.se2aa4.mazerunner.enums.Moves;
+import ca.mcmaster.se2aa4.mazerunner.enums.Orientation;
 
 public class Coordinate {
 	// Class to handle coordinates, used for moving through mazes and finding solution path.

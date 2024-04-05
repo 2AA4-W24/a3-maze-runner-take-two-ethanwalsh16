@@ -11,6 +11,14 @@ import org.apache.commons.cli.ParseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import ca.mcmaster.se2aa4.mazerunner.graphalgorithm.GraphAdapter;
+import ca.mcmaster.se2aa4.mazerunner.maze.Maze;
+import ca.mcmaster.se2aa4.mazerunner.righthand.RightHand;
+import ca.mcmaster.se2aa4.mazerunner.tools.Benchmark;
+import ca.mcmaster.se2aa4.mazerunner.tools.Factorization;
+import ca.mcmaster.se2aa4.mazerunner.tools.Verifier;
+import ca.mcmaster.se2aa4.mazerunner.tremaux.Tremaux;
+
 import java.util.List;
 
 public class Main {

@@ -1,6 +1,12 @@
-package ca.mcmaster.se2aa4.mazerunner;
+package ca.mcmaster.se2aa4.mazerunner.tremaux;
 
 import java.util.Map;
+
+import ca.mcmaster.se2aa4.mazerunner.enums.Moves;
+import ca.mcmaster.se2aa4.mazerunner.enums.Orientation;
+import ca.mcmaster.se2aa4.mazerunner.maze.Coordinate;
+import ca.mcmaster.se2aa4.mazerunner.maze.Maze;
+
 import java.util.HashMap;
 import java.util.Iterator;
 

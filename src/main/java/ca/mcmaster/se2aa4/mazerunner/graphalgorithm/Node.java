@@ -1,6 +1,9 @@
-package ca.mcmaster.se2aa4.mazerunner;
+package ca.mcmaster.se2aa4.mazerunner.graphalgorithm;
 
 import java.util.Set;
+
+import ca.mcmaster.se2aa4.mazerunner.maze.Coordinate;
+
 import java.util.HashSet;
 
 public class Node {

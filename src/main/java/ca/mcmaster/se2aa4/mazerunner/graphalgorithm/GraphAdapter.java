@@ -1,16 +1,23 @@
-package ca.mcmaster.se2aa4.mazerunner;
+package ca.mcmaster.se2aa4.mazerunner.graphalgorithm;
 
 import java.util.List;
-import java.util.Queue;
-import java.util.Set;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 
-public class GraphAlgorithm {
+import ca.mcmaster.se2aa4.mazerunner.MazeSolver;
+import ca.mcmaster.se2aa4.mazerunner.maze.Coordinate;
+import ca.mcmaster.se2aa4.mazerunner.maze.Maze;
 
-    private Graph BuildNodes(Maze maze){
+public class GraphAdapter implements MazeSolver{
+	
+	@Override
+	public String solveMaze(Maze maze) {
+		Graph g = BuildNodes(maze);
+		connectGraph(g,maze);
+		GraphAlgorithm graphAlg = new GraphAlgorithm();
+		String result = graphAlg.findShortestPath(g,maze);
+		return result;
+	}
+
+	private Graph BuildNodes(Maze maze){
 
         List<Integer> dimensions = maze.getDimensions();
         Graph graph = new Graph();
@@ -72,50 +79,4 @@ public class GraphAlgorithm {
 			}
 		}
 	}
-
-    public String findShortestPath(Maze maze){
-        Graph graph = BuildNodes(maze);
-		connectGraph(graph,maze);
-        Queue<Node> nodeQueue = new ArrayDeque<Node>();
-
-		graph.changeCost(graph.has(new Node(maze.getStart())),0);
-		graph.addPrev(graph.has(new Node(maze.getStart())),new Node(maze.getStart()));
-        for(int i=0; i<graph.getSize(); i++){
-            if(graph.getNode(i).getCost() == 0){
-                nodeQueue.add(graph.getNode(i));
-            }
-        }// Printing for now to test it.
-
-        while(!nodeQueue.isEmpty()){
-            Node current = nodeQueue.remove();
-            int index = graph.has(current);
-
-            Set<Node> surroundings = graph.getNode(index).getSurroundings();
-            Iterator<Node> iterator = surroundings.iterator();
-
-            while(iterator.hasNext()){
-                int neighbourIndex = graph.has(iterator.next());
-                if(graph.getNode(neighbourIndex).getCost() == Integer.MAX_VALUE){
-                    graph.changeCost(neighbourIndex,graph.getNode(index).getCost()+1);
-					graph.addPrev(neighbourIndex,current);
-                    nodeQueue.add(graph.getNode(neighbourIndex));
-                }
-            }
-        }
-
-        Node end = new Node(maze.getEnd());
-		List<Coordinate> path = new ArrayList<Coordinate>();
-
-		Coordinate iterator = end.getId();
-		while(!iterator.equivalentTo(maze.getStart())){
-			path.add(iterator);
-			iterator = graph.getNode(graph.has(new Node(iterator))).getPrev();
-		}
-
-		Collections.reverse(path);
-		CoordinatesToPath ctp = new CoordinatesToPath();
-		String stringPath = ctp.toPath(path,maze);
-    
-        return stringPath;
-    }
 }

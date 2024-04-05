@@ -1,4 +1,10 @@
-package ca.mcmaster.se2aa4.mazerunner;
+package ca.mcmaster.se2aa4.mazerunner.tremaux;
+
+import ca.mcmaster.se2aa4.mazerunner.MazeSolver;
+import ca.mcmaster.se2aa4.mazerunner.enums.Moves;
+import ca.mcmaster.se2aa4.mazerunner.enums.Orientation;
+import ca.mcmaster.se2aa4.mazerunner.maze.Coordinate;
+import ca.mcmaster.se2aa4.mazerunner.maze.Maze;
 
 public class Tremaux implements MazeSolver {
 	// Tremaux maze solving method, implemented as bonus option for assignment 1.

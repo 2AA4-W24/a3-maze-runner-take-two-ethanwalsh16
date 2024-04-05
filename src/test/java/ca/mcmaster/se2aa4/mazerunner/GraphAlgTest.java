@@ -8,6 +8,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
 
+import ca.mcmaster.se2aa4.mazerunner.graphalgorithm.GraphAdapter;
+import ca.mcmaster.se2aa4.mazerunner.maze.Maze;
+
 public class GraphAlgTest {
 
 	private static final Logger logger = LogManager.getLogger();

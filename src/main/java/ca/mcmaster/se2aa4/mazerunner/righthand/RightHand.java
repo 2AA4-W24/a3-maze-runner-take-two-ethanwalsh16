@@ -1,4 +1,10 @@
-package ca.mcmaster.se2aa4.mazerunner;
+package ca.mcmaster.se2aa4.mazerunner.righthand;
+
+import ca.mcmaster.se2aa4.mazerunner.MazeSolver;
+import ca.mcmaster.se2aa4.mazerunner.enums.Moves;
+import ca.mcmaster.se2aa4.mazerunner.enums.Orientation;
+import ca.mcmaster.se2aa4.mazerunner.maze.Coordinate;
+import ca.mcmaster.se2aa4.mazerunner.maze.Maze;
 
 public class RightHand implements MazeSolver {
 	// Specific solver iteration, using right hand algorithm.

@@ -1,8 +1,11 @@
-package ca.mcmaster.se2aa4.mazerunner;
+package ca.mcmaster.se2aa4.mazerunner.maze;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+
+import ca.mcmaster.se2aa4.mazerunner.Reader;
+import ca.mcmaster.se2aa4.mazerunner.enums.Orientation;
 
 public class Maze {
 

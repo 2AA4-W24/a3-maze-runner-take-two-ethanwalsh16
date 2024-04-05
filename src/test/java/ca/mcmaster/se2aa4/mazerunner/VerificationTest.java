@@ -3,6 +3,10 @@ package ca.mcmaster.se2aa4.mazerunner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
+
+import ca.mcmaster.se2aa4.mazerunner.maze.Maze;
+import ca.mcmaster.se2aa4.mazerunner.tools.Verifier;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.FileNotFoundException;

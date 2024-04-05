@@ -1,4 +1,4 @@
-package ca.mcmaster.se2aa4.mazerunner;
+package ca.mcmaster.se2aa4.mazerunner.tremaux;
 
 import java.util.List;
 import java.util.ArrayList;

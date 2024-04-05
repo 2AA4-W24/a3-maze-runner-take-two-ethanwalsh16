@@ -1,4 +1,4 @@
-package ca.mcmaster.se2aa4.mazerunner;
+package ca.mcmaster.se2aa4.mazerunner.tools;
 
 public class Factorization {
 	// Used to convert paths from unfactorized (e.g. FFFFF) to factorized (e.g. 5F)

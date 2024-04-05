@@ -1,6 +1,12 @@
-package ca.mcmaster.se2aa4.mazerunner;
+package ca.mcmaster.se2aa4.mazerunner.tools;
 
 import java.util.List;
+
+import ca.mcmaster.se2aa4.mazerunner.enums.Moves;
+import ca.mcmaster.se2aa4.mazerunner.enums.Orientation;
+import ca.mcmaster.se2aa4.mazerunner.maze.Coordinate;
+import ca.mcmaster.se2aa4.mazerunner.maze.Maze;
+
 import java.util.ArrayList;
 
 public class Verifier {
