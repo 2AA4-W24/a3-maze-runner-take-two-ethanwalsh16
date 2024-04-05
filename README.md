@@ -115,11 +115,13 @@ incorrect path
 mosser@azrael A1-Template %
 ```
 
-When in baseline mode, the program prints the speedup between the two specified methods, as well as provide a time (ms) to read in the maze file.
+When in baseline mode, the program prints the speedup between the two specified methods, as well as provide a time (ms) to read in the maze file and perform both solves.
 
 ```
 mosser@azrael A1-Template % java -jar target/mazerunner.jar -i ./examples/straight.maz.txt -method graph -baseline righthand
 Maze read time: 1.0ms
-Speedup: 3.28
+Solve time (method): 2.0ms
+Solve time (baseline): 0.0ms
+Speedup: 1.0
 mosser@azrael A1-Template %
 ```
