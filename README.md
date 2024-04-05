@@ -83,7 +83,11 @@ The delivered program at the end of this assignment should use the following fla
 
 If you are also delivering the bonus, your program will react to a third flag:
 
-- `-method {tremaux, righthand}`: specifies which path computation method to use. (default is right hand)
+- `-method {tremaux, righthand, graph}`: specifies which path computation method to use. (default is right hand)
+
+An additional flag now that the revised version has been completed: 
+
+- `-baseline {tremaux, righthand, graph}`: specifies which baseline to compare the `-method` to. (Numerical result that is the ratio of their path lengths)
 
 #### Examples
 
@@ -107,6 +111,15 @@ If a given path is incorrect, the program prints the message `incorrect path` on
 
 ```
 mosser@azrael A1-Template % java -jar target/mazerunner.jar -i ./examples/straight.maz.txt -p 3F
-inccorrect path
+incorrect path
+mosser@azrael A1-Template %
+```
+
+When in baseline mode, the program prints the speedup between the two specified methods, as well as provide a time (ms) to read in the maze file.
+
+```
+mosser@azrael A1-Template % java -jar target/mazerunner.jar -i ./examples/straight.maz.txt -method graph -baseline righthand
+Maze read time: 1.0ms
+Speedup: 3.28
 mosser@azrael A1-Template %
 ```
