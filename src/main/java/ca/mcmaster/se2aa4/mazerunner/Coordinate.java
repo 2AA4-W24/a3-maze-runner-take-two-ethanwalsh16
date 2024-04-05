@@ -10,11 +10,11 @@ public class Coordinate {
 		y = yCoordinate;
 	}
 
-	public int X(){
+	public int x(){
 		return this.x;
 	}
 
-	public int Y(){
+	public int y(){
 		return this.y;
 	}
 
@@ -24,11 +24,7 @@ public class Coordinate {
 
 	// Comparator function, used to determine whether path is at end of maze.
 	public boolean equivalentTo(Coordinate c){
-		if((this.X() == c.X()) && (this.Y() == c.Y())){
-			return true;
-		}else{
-			return false;
-		}
+		return (this.x() == c.x()) && (this.y() == c.y());
 	}
 
 	public void turn(Orientation o, Moves m){
@@ -70,13 +66,13 @@ public class Coordinate {
 	public boolean rightOf(Coordinate currentPos, Orientation direction) {
 		switch(direction){
 			case Orientation.UP:
-				return (this.X() - 1 == currentPos.X());
+				return (this.x() - 1 == currentPos.x());
 			case Orientation.RIGHT:
-				return (this.Y() - 1 == currentPos.Y());
+				return (this.y() - 1 == currentPos.y());
 			case Orientation.DOWN:
-				return (this.X() + 1 == currentPos.X());
+				return (this.x() + 1 == currentPos.x());
 			case Orientation.LEFT:
-				return (this.Y() + 1 == currentPos.Y());
+				return (this.y() + 1 == currentPos.y());
 			default:
 				return false;
 		}
@@ -85,13 +81,13 @@ public class Coordinate {
 	public boolean leftOf(Coordinate currentPos, Orientation direction) {
 		switch(direction){
 			case Orientation.UP:
-				return (this.X() + 1 == currentPos.X());
+				return (this.x() + 1 == currentPos.x());
 			case Orientation.RIGHT:
-				return (this.Y() + 1 == currentPos.Y());
+				return (this.y() + 1 == currentPos.y());
 			case Orientation.DOWN:
-				return (this.X() - 1 == currentPos.X());
+				return (this.x() - 1 == currentPos.x());
 			case Orientation.LEFT:
-				return (this.Y() - 1 == currentPos.Y());
+				return (this.y() - 1 == currentPos.y());
 			default:
 				return false;
 		}

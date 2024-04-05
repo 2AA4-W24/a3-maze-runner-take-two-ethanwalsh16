@@ -31,6 +31,12 @@ public class Reader {
 			}
 		} catch (IOException e) {
 			logger.error("/!\\ An error has occured /!\\");
+		}finally{
+			try {
+				reader.close();
+			} catch (IOException e) {
+				logger.error("/!\\ An error has occured /!\\");
+			}
 		}
 		return matrix;
 	}

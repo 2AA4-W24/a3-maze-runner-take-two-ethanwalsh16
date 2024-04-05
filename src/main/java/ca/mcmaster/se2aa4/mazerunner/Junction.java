@@ -13,8 +13,8 @@ public class Junction {
 	int left;
 
 	public Junction(Coordinate c, Orientation direction, Maze maze){
-		this.x = c.X();
-		this.y = c.Y();
+		this.x = c.x();
+		this.y = c.y();
 		switch(direction){
 			case Orientation.UP:
 				this.bottom = 0;

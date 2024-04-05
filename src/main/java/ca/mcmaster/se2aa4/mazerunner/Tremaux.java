@@ -16,10 +16,10 @@ public class Tremaux implements MazeSolver {
 
 	private JunctionList markJunctions(Coordinate startPos, Coordinate endPos, Maze maze, Orientation input_dir){
 		JunctionList junctions = new JunctionList();
-		Coordinate currentPos = new Coordinate(startPos.X(),startPos.Y());
+		Coordinate currentPos = new Coordinate(startPos.x(),startPos.y());
 		Orientation direction = input_dir;
 		while(!currentPos.equivalentTo(endPos)){
-			if(currentPos.X() == 0){
+			if(currentPos.x() == 0){
 				currentPos.straight(direction,Moves.FORWARD);
 				continue;
 			}
@@ -136,12 +136,12 @@ public class Tremaux implements MazeSolver {
 	
 	private String createPath(JunctionList junctions, Coordinate startPos, Coordinate endPos, Maze maze, Orientation input_dir){
 		
-		Coordinate currentPos = new Coordinate(startPos.X(),startPos.Y());
+		Coordinate currentPos = new Coordinate(startPos.x(),startPos.y());
 		Orientation direction = input_dir;
 		String path = "";
 
 		while(!currentPos.equivalentTo(endPos)){
-			if(currentPos.X() == 0){
+			if(currentPos.x() == 0){
 				path += "F";
 				currentPos.straight(direction,Moves.FORWARD);
 				continue;
@@ -191,10 +191,6 @@ public class Tremaux implements MazeSolver {
 					path += "LF";
 					currentPos.turn(direction,Moves.LEFT);
 					direction = direction.turnLeft();
-				}else if(prev == 1){
-					path += "RRF";
-					currentPos.straight(direction,Moves.UTURN);
-					direction = direction.opposite();
 				}
 			}else{
 				// Traditional right hand method until junction is reached again.
@@ -209,12 +205,7 @@ public class Tremaux implements MazeSolver {
 					path += "LF";
 					currentPos.turn(direction,Moves.LEFT);
 					direction = direction.turnLeft();
-				}else{
-					path += "RRF";
-					currentPos.straight(direction,Moves.UTURN);
-					direction = direction.opposite();
-				}
-				
+				}	
 			}
 		}
 		return path;
