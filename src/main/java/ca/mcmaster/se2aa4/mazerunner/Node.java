@@ -2,7 +2,6 @@ package ca.mcmaster.se2aa4.mazerunner;
 
 import java.util.Set;
 import java.util.HashSet;
-import java.util.Iterator;
 
 public class Node {
     private int cost;

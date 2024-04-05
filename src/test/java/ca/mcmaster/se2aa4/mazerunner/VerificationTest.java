@@ -13,21 +13,21 @@ public class VerificationTest {
 	private static final Logger logger = LogManager.getLogger();
 
 	@Test
-	public void verifyPath(){
+	void verifyPath(){
 		Verifier verifier = new Verifier();
 		Maze maze;
 		try {
 			maze = new Maze("./examples/straight.maz.txt");
 			String result = verifier.verifyPath("FFFF",maze,maze.getStart(),maze.getEnd());
 			System.out.println(result);
-			assertTrue(result.equals("correct"));
+			assertEquals("correct",result);
 		} catch (FileNotFoundException e) {
 			logger.error("File not found");
 		}	
 	}
 
 	@Test
-	public void validPath(){
+	void validPath(){
 		Verifier verifier = new Verifier();
 		List<Boolean> results = verifier.correctPath("FRFLFRRRRF");
 		// Valid path

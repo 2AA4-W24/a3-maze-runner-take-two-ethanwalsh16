@@ -1,6 +1,6 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.FileNotFoundException;
 
@@ -13,26 +13,26 @@ public class TremauxTest {
 	private static final Logger logger = LogManager.getLogger();
 	
 	@Test
-	public void baseSolve(){
+	void baseSolve(){
 		MazeSolver solver = new Tremaux();
 		try {
 			Maze m = new Maze("./examples/small.maz.txt");
 			String path = solver.solveMaze(m);
 			String expected = "FLFRFFLFFFFFFRFFFFRFFLFFRFFLF";
-			assertTrue(path.equals(expected));
+			assertEquals(expected,path);
 		} catch (FileNotFoundException e) {
 			logger.error("File not found");
 		}
 	}
 
 	@Test
-	public void largeSolve(){
+	void largeSolve(){
 		MazeSolver solver = new Tremaux();
 		try {
 			Maze m = new Maze("./examples/huge.maz.txt");
 			String path = solver.solveMaze(m);
 			String expected = "FLFFFFFFFRFFLFFFFRFFFFLFFRFFFFFFRFFLFFFFFFRFFFFLFFRFFLFFFFFFFFFFLFFRFFRFFLFFFFRFFFFFFFFFFLFFRFFFFLFFFFFFRFFLFFRFFFFLFFRFFFFFFLFFRFFLFFRFFLFFRFFFFLFFFFRFFLFFFFRFFFFRFFLFFFFLFFFFRFFLFFFFFFRFFLFFRFFFFFFLFFFFRFFLFFFFRFFLFFRFFLFFRFFFFLFFFFFFRFFFFLFFFFRFFFFFFLFFFFRFLF";
-			assertTrue(path.equals(expected));
+			assertEquals(expected,path);
 		} catch (FileNotFoundException e) {
 			logger.error("File not found");
 		}

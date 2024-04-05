@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CoordinateTest {
 	
 	@Test
-	public void turnTest(){
+	void turnTest(){
 		Coordinate base = new Coordinate(0,0);
 		base.turn(Orientation.RIGHT,Moves.RIGHT);
 		Coordinate expected = new Coordinate(0,1);
@@ -18,14 +18,14 @@ public class CoordinateTest {
 	}
 
 	@Test
-	public void inequivalency(){
+	void inequivalency(){
 		Coordinate base = new Coordinate(1,1);
 		Coordinate c2 = new Coordinate(2,2);
 		assertFalse(base.equivalentTo(c2));
 	}
 
 	@Test
-	public void equivalency(){
+	void equivalency(){
 		Coordinate base = new Coordinate(1,1);
 		Coordinate c2 = new Coordinate(1,1);
 		assertTrue(base.equivalentTo(c2));
