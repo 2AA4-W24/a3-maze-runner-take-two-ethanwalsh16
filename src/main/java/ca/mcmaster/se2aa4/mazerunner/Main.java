@@ -33,10 +33,11 @@ public class Main {
 			logger.info("** Importing maze");
 
 			Configuration config = configure(args);
-			double readStart = System.currentTimeMillis();
+
+			double readStart = System.nanoTime();
 			Maze maze = new Maze(config.input_filename());
-			double readEnd = System.currentTimeMillis();
-			double readTime = readEnd - readStart;
+			double readEnd = System.nanoTime();
+
 			Factorization factorizer = new Factorization();
 			
 			// Determining if user path is correct.
@@ -74,39 +75,39 @@ public class Main {
 
 				if(method.equals("tremaux")){
 					solver = new Tremaux();
-					solveStart = System.currentTimeMillis();
+					solveStart = System.nanoTime();
 					path = solver.solveMaze(maze);
-					solveEnd = System.currentTimeMillis();
+					solveEnd = System.nanoTime();
 				}else if(method.equals("graph")){
 					solver = new GraphAdapter();
-					solveStart = System.currentTimeMillis();
+					solveStart = System.nanoTime();
 					path = solver.solveMaze(maze);
-					solveEnd = System.currentTimeMillis();
+					solveEnd = System.nanoTime();
 				}else{
 					solver = new RightHand();
-					solveStart = System.currentTimeMillis();
+					solveStart = System.nanoTime();
 					path = solver.solveMaze(maze);
-					solveEnd = System.currentTimeMillis();
+					solveEnd = System.nanoTime();
 				}
 
 				if(!config.benchmark().isEmpty()){
 					Benchmark measurer = new Benchmark();
-					double baselineStart = System.currentTimeMillis();
+					double baselineStart = System.nanoTime();
 					String baseline = measurer.benchmarkResults(maze, config.benchmark());
-					double baselineEnd = System.currentTimeMillis();
+					double baselineEnd = System.nanoTime();
 
 					double pathLength = path.length();
 					double baselineLength = baseline.length();
 					double speedup = Math.round((baselineLength / pathLength)*100) / 100.0;
 
-					System.out.println("Maze read time: " + readTime + "ms");
-					System.out.println("Solve time (method): " + Math.round((solveEnd - solveStart)*100) / 100.0 + "ms");
-					System.out.println("Solve time (baseline): " + Math.round((baselineEnd - baselineStart)*100) / 100.0 + "ms");
+					System.out.println("Maze read time: " + Math.round((readEnd - readStart)/1.0e4) / 100.0 + "ms");
+					System.out.println("Solve time (method): " + Math.round((solveEnd - solveStart)/1.0e4) / 100.0 + "ms");
+					System.out.println("Solve time (baseline): " + Math.round((baselineEnd - baselineStart)/1.0e4) / 100.0 + "ms");
 					System.out.println("Speedup: " + speedup);
 
 				}else{
 
-					String factorizedPath = factorizer.FactorPath(path);
+					String factorizedPath = factorizer.factorPath(path);
 					// Returning factorized path
 					System.out.println(path);
 					System.out.println(factorizedPath);

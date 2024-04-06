@@ -44,7 +44,7 @@ public class Graph {
         this.getNode(index).setCost(cost);
     }
 
-	public void addPrev(int neighbourIndex, Node current) {
+	public void addPrevID(int neighbourIndex, Node current) {
 		this.getNode(neighbourIndex).addPrev(current.getId());
 	}
 }

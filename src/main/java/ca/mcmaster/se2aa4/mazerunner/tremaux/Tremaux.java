@@ -26,7 +26,7 @@ public class Tremaux implements MazeSolver {
 		Orientation direction = input_dir;
 		while(!currentPos.equivalentTo(endPos)){
 			if(currentPos.x() == 0){
-				currentPos.straight(direction,Moves.FORWARD);
+				currentPos.straight(direction, Moves.FORWARD);
 				continue;
 			}
 			if(isJunction(currentPos, maze, direction) && maze.inBounds(currentPos)){
@@ -72,18 +72,18 @@ public class Tremaux implements MazeSolver {
 				}
 
 				if(prev == 1 && ((right <= 0 || right == Integer.MAX_VALUE) && (left <= 0 || left == Integer.MAX_VALUE) && (straight <= 0 || straight == Integer.MAX_VALUE))){
-					// Checking for left turn availability
-					if(maze.rightTurnAvailable(currentPos, direction)){
-						current.incrementMove(Moves.RIGHT, direction);
-						currentPos.turn(direction,Moves.RIGHT);
-						direction = direction.turnRight();
 					// Checking for right turn availability
-					}else if(maze.leftTurnAvailable(currentPos, direction)){
+					if(maze.moveAvailable(currentPos, direction, Moves.RIGHT)){
+						current.incrementMove(Moves.RIGHT, direction);
+						currentPos.turn(direction, Moves.RIGHT);
+						direction = direction.turnRight();
+					// Checking for left turn availability
+					}else if(maze.moveAvailable(currentPos, direction, Moves.LEFT)){
 						current.incrementMove(Moves.LEFT, direction);
-						currentPos.turn(direction,Moves.LEFT);
+						currentPos.turn(direction, Moves.LEFT);
 						direction = direction.turnLeft();
 					// Checking for straight ability
-					}else if(maze.straightAvailable(currentPos, direction)){
+					}else if(maze.moveAvailable(currentPos, direction, Moves.FORWARD)){
 						current.incrementMove(Moves.FORWARD, direction);
 						currentPos.straight(direction, Moves.FORWARD);	
 					}
@@ -91,7 +91,7 @@ public class Tremaux implements MazeSolver {
 				// Returning on original path
 				else if(prev == 1){
 					current.incrementPrev(direction);
-					currentPos.straight(direction,Moves.UTURN);
+					currentPos.straight(direction, Moves.UTURN);
 					direction = direction.opposite();
 				}
 				// Otherwise selecting lowest flagged option (path travelled 0 times is ideal, then 1)
@@ -100,12 +100,12 @@ public class Tremaux implements MazeSolver {
 					switch(min_string){
 						case "LEFT":
 							current.incrementMove(Moves.LEFT,direction);
-							currentPos.turn(direction,Moves.LEFT);
+							currentPos.turn(direction, Moves.LEFT);
 							direction = direction.turnLeft();
 							break;
 						case "RIGHT":
 							current.incrementMove(Moves.RIGHT, direction);
-							currentPos.turn(direction,Moves.RIGHT);
+							currentPos.turn(direction, Moves.RIGHT);
 							direction = direction.turnRight();
 							break;
 						case "FORWARD":
@@ -114,7 +114,7 @@ public class Tremaux implements MazeSolver {
 							break;
 						case "PREV":
 							current.incrementPrev(direction);
-							currentPos.straight(direction,Moves.UTURN);
+							currentPos.straight(direction, Moves.UTURN);
 							direction = direction.opposite();
 							break;
 					}
@@ -123,16 +123,16 @@ public class Tremaux implements MazeSolver {
 
 			}else{
 				// Traditional right hand method until junction is reached again.
-				if(maze.rightTurnAvailable(currentPos,direction)){
-					currentPos.turn(direction,Moves.RIGHT);
+				if(maze.moveAvailable(currentPos,direction, Moves.RIGHT)){
+					currentPos.turn(direction, Moves.RIGHT);
 					direction = direction.turnRight();
-				}else if(maze.straightAvailable(currentPos,direction)){
-					currentPos.straight(direction,Moves.FORWARD);
-				}else if(maze.leftTurnAvailable(currentPos,direction)){
-					currentPos.turn(direction,Moves.LEFT);
+				}else if(maze.moveAvailable(currentPos,direction, Moves.FORWARD)){
+					currentPos.straight(direction, Moves.FORWARD);
+				}else if(maze.moveAvailable(currentPos,direction, Moves.LEFT)){
+					currentPos.turn(direction, Moves.LEFT);
 					direction = direction.turnLeft();
 				}else{
-					currentPos.straight(direction,Moves.UTURN);
+					currentPos.straight(direction, Moves.UTURN);
 					direction = direction.opposite();
 				}
 			}
@@ -149,7 +149,7 @@ public class Tremaux implements MazeSolver {
 		while(!currentPos.equivalentTo(endPos)){
 			if(currentPos.x() == 0){
 				path += "F";
-				currentPos.straight(direction,Moves.FORWARD);
+				currentPos.straight(direction, Moves.FORWARD);
 				continue;
 			}
 			if(isJunction(currentPos, maze, direction) && maze.inBounds(currentPos)){
@@ -184,28 +184,28 @@ public class Tremaux implements MazeSolver {
 
 				if(straight == 1){
 					path += "F";
-					currentPos.straight(direction,Moves.FORWARD);
+					currentPos.straight(direction, Moves.FORWARD);
 				}else if(right == 1){
 					path += "RF";
-					currentPos.turn(direction,Moves.RIGHT);
+					currentPos.turn(direction, Moves.RIGHT);
 					direction = direction.turnRight();
 				}else if(left == 1){
 					path += "LF";
-					currentPos.turn(direction,Moves.LEFT);
+					currentPos.turn(direction, Moves.LEFT);
 					direction = direction.turnLeft();
 				}
 			}else{
 				// Traditional right hand method until junction is reached again.
-				if(maze.rightTurnAvailable(currentPos,direction)){
+				if(maze.moveAvailable(currentPos,direction, Moves.RIGHT)){
 					path += "RF";
-					currentPos.turn(direction,Moves.RIGHT);
+					currentPos.turn(direction, Moves.RIGHT);
 					direction = direction.turnRight();
-				}else if(maze.straightAvailable(currentPos,direction)){
+				}else if(maze.moveAvailable(currentPos,direction, Moves.FORWARD)){
 					path += "F";
-					currentPos.straight(direction,Moves.FORWARD);
-				}else if(maze.leftTurnAvailable(currentPos,direction)){
+					currentPos.straight(direction, Moves.FORWARD);
+				}else if(maze.moveAvailable(currentPos,direction, Moves.LEFT)){
 					path += "LF";
-					currentPos.turn(direction,Moves.LEFT);
+					currentPos.turn(direction, Moves.LEFT);
 					direction = direction.turnLeft();
 				}	
 			}
@@ -216,10 +216,10 @@ public class Tremaux implements MazeSolver {
 	private boolean isJunction(Coordinate c, Maze maze, Orientation direction){
 		boolean result = false;
 		int count = 0;
-		if(maze.leftTurnAvailable(c,direction)){count++;};
-		if(maze.rightTurnAvailable(c,direction)){count++;};
-		if(maze.straightAvailable(c,direction)){count++;};
-		if(maze.prevAvailable(c, direction)){count++;};
+		if(maze.moveAvailable(c,direction, Moves.LEFT)){count++;};
+		if(maze.moveAvailable(c,direction, Moves.RIGHT)){count++;};
+		if(maze.moveAvailable(c,direction, Moves.FORWARD)){count++;};
+		if(maze.moveAvailable(c, direction, Moves.UTURN)){count++;};
 		if(count >= 3){result = true;}
 		return result;
 	}

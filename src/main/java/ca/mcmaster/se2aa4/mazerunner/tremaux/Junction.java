@@ -24,27 +24,27 @@ public class Junction {
 		switch(direction){
 			case Orientation.UP:
 				this.bottom = 0;
-				this.top = (maze.straightAvailable(c, direction)) ? 0 : Integer.MAX_VALUE;
-				this.left = (maze.leftTurnAvailable(c, direction)) ? 0 : Integer.MAX_VALUE;
-				this.right = (maze.rightTurnAvailable(c, direction)) ? 0 : Integer.MAX_VALUE;
+				this.top = (maze.moveAvailable(c, direction, Moves.FORWARD)) ? 0 : Integer.MAX_VALUE;
+				this.left = (maze.moveAvailable(c, direction, Moves.LEFT)) ? 0 : Integer.MAX_VALUE;
+				this.right = (maze.moveAvailable(c, direction, Moves.RIGHT)) ? 0 : Integer.MAX_VALUE;
 				break;
 			case Orientation.DOWN:
 				this.top = 0;
-				this.bottom = (maze.straightAvailable(c, direction)) ? 0 : Integer.MAX_VALUE;
-				this.right = (maze.leftTurnAvailable(c, direction)) ? 0 : Integer.MAX_VALUE;
-				this.left = (maze.rightTurnAvailable(c, direction)) ? 0 : Integer.MAX_VALUE;
+				this.bottom = (maze.moveAvailable(c, direction, Moves.FORWARD)) ? 0 : Integer.MAX_VALUE;
+				this.right = (maze.moveAvailable(c, direction, Moves.LEFT)) ? 0 : Integer.MAX_VALUE;
+				this.left = (maze.moveAvailable(c, direction, Moves.RIGHT)) ? 0 : Integer.MAX_VALUE;
 				break;
 			case Orientation.LEFT:
 				this.right = 0;
-				this.left = (maze.straightAvailable(c, direction)) ? 0 : Integer.MAX_VALUE;
-				this.bottom = (maze.leftTurnAvailable(c, direction)) ? 0 : Integer.MAX_VALUE;
-				this.top = (maze.rightTurnAvailable(c, direction)) ? 0 : Integer.MAX_VALUE;
+				this.left = (maze.moveAvailable(c, direction, Moves.FORWARD)) ? 0 : Integer.MAX_VALUE;
+				this.bottom = (maze.moveAvailable(c, direction, Moves.LEFT)) ? 0 : Integer.MAX_VALUE;
+				this.top = (maze.moveAvailable(c, direction, Moves.RIGHT)) ? 0 : Integer.MAX_VALUE;
 				break;
 			case Orientation.RIGHT:
 				this.left = 0;
-				this.right = (maze.straightAvailable(c, direction)) ? 0 : Integer.MAX_VALUE;
-				this.top = (maze.leftTurnAvailable(c, direction)) ? 0 : Integer.MAX_VALUE;
-				this.bottom = (maze.rightTurnAvailable(c, direction)) ? 0 : Integer.MAX_VALUE;
+				this.right = (maze.moveAvailable(c, direction, Moves.FORWARD)) ? 0 : Integer.MAX_VALUE;
+				this.top = (maze.moveAvailable(c, direction, Moves.LEFT)) ? 0 : Integer.MAX_VALUE;
+				this.bottom = (maze.moveAvailable(c, direction, Moves.RIGHT)) ? 0 : Integer.MAX_VALUE;
 				break;
 		}
 	}
@@ -129,11 +129,5 @@ public class Junction {
 				break;
 		}
 		return move;
-	}
-
-	// For easy debugging, remove later.
-	public String toString(){
-		return "TOP: " + this.top + " BOTTOM: " + this.bottom + " LEFT: " + this.left + " RIGHT: " + this.right;
-
 	}
 }

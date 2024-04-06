@@ -12,7 +12,7 @@ public class FactorizationTest {
     void baseFactorTest() {
 		String path = "FFFFFLLFFRRRF";
 		Factorization factorizer = new Factorization();
-		String factorPath = factorizer.FactorPath(path);
+		String factorPath = factorizer.factorPath(path);
 		String expected = "5F 2L 2F 3R F ";
 		assertEquals(expected,factorPath);
     }
@@ -21,7 +21,7 @@ public class FactorizationTest {
 	void doubleDigitTest(){
 		String path = "FFFFFFFFFRRRRRRRRRR";
 		Factorization factorizer = new Factorization();
-		String factorPath = factorizer.FactorPath(path);
+		String factorPath = factorizer.factorPath(path);
 		String expected = "9F 10R ";
 		assertEquals(expected,factorPath);
 	}

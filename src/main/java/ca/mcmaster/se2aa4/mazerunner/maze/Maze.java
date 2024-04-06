@@ -6,13 +6,20 @@ import java.util.List;
 
 import ca.mcmaster.se2aa4.mazerunner.Reader;
 import ca.mcmaster.se2aa4.mazerunner.enums.Orientation;
+import ca.mcmaster.se2aa4.mazerunner.enums.Moves;
 
 public class Maze {
+	
+	private ArrayList<ArrayList<String>> matrix;
+	private List<Coordinate> entryPoints;
 
 	Entries entryFinder = new Entries();
-	ArrayList<ArrayList<String>> matrix;
-	List<Coordinate> entryPoints;
 	Reader reader = new Reader();
+
+	private int[] lMods = {-1,0,0,1,1,0,0,-1};
+	private int[] rMods = {1,0,0,-1,-1,0,0,1};
+	private int[] sMods = {0,1,1,0,0,-1,-1,0};
+	private int[] pMods = {0,-1,-1,0,0,1,1,0};
 
 	public Maze(String file_input) throws FileNotFoundException{
 		matrix = reader.read(file_input);
@@ -37,77 +44,32 @@ public class Maze {
 		return dimensions;
 	}
 
-	public boolean rightTurnAvailable(Coordinate currentPos, Orientation direction){
-		boolean result = true;
-		switch(direction){
-			case Orientation.RIGHT:
-				result = matrix.get(currentPos.y()+1).get(currentPos.x()).equals("P");
-				break;
-			case Orientation.DOWN:
-				result = matrix.get(currentPos.y()).get(currentPos.x()-1).equals("P");
-				break;
-			case Orientation.LEFT:
-				result = matrix.get(currentPos.y()-1).get(currentPos.x()).equals("P");
-				break;
-			case Orientation.UP:
-				result = matrix.get(currentPos.y()).get(currentPos.x()+1).equals("P");
-				break;
+	public boolean moveAvailable(Coordinate currentPos, Orientation direction, Moves move){
+		
+		int[] mods = new int[8];
+		if(move.equals(Moves.LEFT)){
+			mods = lMods;
+		}else if(move.equals(Moves.RIGHT)){
+			mods = rMods;
+		}else if(move.equals(Moves.FORWARD)){
+			mods = sMods;
+		}else{
+			mods = pMods;
 		}
-		return result;
-	}
 
-	public boolean leftTurnAvailable(Coordinate currentPos, Orientation direction){
 		boolean result = false;
 		switch(direction){
 			case Orientation.RIGHT:
-				result = matrix.get(currentPos.y()-1).get(currentPos.x()).equals("P");
+				result = matrix.get(currentPos.y()+mods[0]).get(currentPos.x()+mods[1]).equals("P");
 				break;
 			case Orientation.DOWN:
-				result = matrix.get(currentPos.y()).get(currentPos.x()+1).equals("P");
+				result = matrix.get(currentPos.y()+mods[2]).get(currentPos.x()+mods[3]).equals("P");
 				break;
 			case Orientation.LEFT:
-				result = matrix.get(currentPos.y()+1).get(currentPos.x()).equals("P");
+				result = matrix.get(currentPos.y()+mods[4]).get(currentPos.x()+mods[5]).equals("P");
 				break;
 			case Orientation.UP:
-				result = matrix.get(currentPos.y()).get(currentPos.x()-1).equals("P");
-				break;
-		}
-		return result;
-	}
-
-	public boolean straightAvailable(Coordinate currentPos, Orientation direction){
-		boolean result = false;
-		switch(direction){
-			case Orientation.RIGHT:
-				result = matrix.get(currentPos.y()).get(currentPos.x()+1).equals("P");
-				break;
-			case Orientation.DOWN:
-				result = matrix.get(currentPos.y()+1).get(currentPos.x()).equals("P");
-				break;
-			case Orientation.LEFT:
-				result = matrix.get(currentPos.y()).get(currentPos.x()-1).equals("P");
-				break;
-			case Orientation.UP:
-				result = matrix.get(currentPos.y()-1).get(currentPos.x()).equals("P");
-				break;
-		}
-		return result;
-	}
-
-	public boolean prevAvailable(Coordinate currentPos, Orientation direction){
-		boolean result = false;
-		switch(direction){
-			case Orientation.RIGHT:
-				result = matrix.get(currentPos.y()).get(currentPos.x()-1).equals("P");
-				break;
-			case Orientation.DOWN:
-				result = matrix.get(currentPos.y()-1).get(currentPos.x()).equals("P");
-				break;
-			case Orientation.LEFT:
-				result = matrix.get(currentPos.y()).get(currentPos.x()+1).equals("P");
-				break;
-			case Orientation.UP:
-				result = matrix.get(currentPos.y()+1).get(currentPos.x()).equals("P");
+				result = matrix.get(currentPos.y()+mods[6]).get(currentPos.x()+mods[7]).equals("P");
 				break;
 		}
 		return result;

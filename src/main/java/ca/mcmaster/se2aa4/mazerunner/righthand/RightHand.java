@@ -20,23 +20,23 @@ public class RightHand implements MazeSolver {
 
 		while(!currentPos.equivalentTo(endPos)){
 			// Different process depending on orientation.
-			if(maze.rightTurnAvailable(currentPos,direction)){
+			if(maze.moveAvailable(currentPos,direction, Moves.RIGHT)){
 				path += "RF";
-				currentPos.turn(direction,Moves.RIGHT);
+				currentPos.turn(direction, Moves.RIGHT);
 				direction = direction.turnRight();
 
-			}else if(maze.straightAvailable(currentPos,direction)){
+			}else if(maze.moveAvailable(currentPos,direction, Moves.FORWARD)){
 				path += "F";
-				currentPos.straight(direction,Moves.FORWARD);
+				currentPos.straight(direction, Moves.FORWARD);
 			
-			}else if(maze.leftTurnAvailable(currentPos,direction)){
+			}else if(maze.moveAvailable(currentPos,direction, Moves.LEFT)){
 				path += "LF";
-				currentPos.turn(direction,Moves.LEFT);
+				currentPos.turn(direction, Moves.LEFT);
 				direction = direction.turnLeft();
 
 			}else{
 				path += "RRF";
-				currentPos.straight(direction,Moves.UTURN);
+				currentPos.straight(direction, Moves.UTURN);
 				direction = direction.opposite();
 			}
 		}

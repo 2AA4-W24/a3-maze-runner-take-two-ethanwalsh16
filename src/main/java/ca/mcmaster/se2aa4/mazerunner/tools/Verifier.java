@@ -58,10 +58,10 @@ public class Verifier {
 		String result = "Incorrect";
 		for(int i=0; i<userPath.length(); i++){
 			if(userPath.charAt(i) == 'F'){
-				if(!maze.straightAvailable(currentPos,direction)){
+				if(!maze.moveAvailable(currentPos,direction, Moves.FORWARD)){
 					return result;
 				}else{
-					currentPos.straight(direction,Moves.FORWARD);
+					currentPos.straight(direction, Moves.FORWARD);
 				}
 			}else if(userPath.charAt(i) == 'R'){
 				direction = direction.turnRight();

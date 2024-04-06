@@ -19,7 +19,7 @@ public class GraphAlgorithm {
         Queue<Node> nodeQueue = new ArrayDeque<Node>();
 
 		graph.changeCost(graph.has(new Node(maze.getStart())),0);
-		graph.addPrev(graph.has(new Node(maze.getStart())),new Node(maze.getStart()));
+		graph.addPrevID(graph.has(new Node(maze.getStart())),new Node(maze.getStart()));
         for(int i=0; i<graph.getSize(); i++){
             if(graph.getNode(i).getCost() == 0){
                 nodeQueue.add(graph.getNode(i));
@@ -37,7 +37,7 @@ public class GraphAlgorithm {
                 int neighbourIndex = graph.has(iterator.next());
                 if(graph.getNode(neighbourIndex).getCost() == Integer.MAX_VALUE){
                     graph.changeCost(neighbourIndex,graph.getNode(index).getCost()+1);
-					graph.addPrev(neighbourIndex,current);
+					graph.addPrevID(neighbourIndex,current);
                     nodeQueue.add(graph.getNode(neighbourIndex));
                 }
             }

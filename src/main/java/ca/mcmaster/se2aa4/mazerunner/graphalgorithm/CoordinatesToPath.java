@@ -25,14 +25,14 @@ public class CoordinatesToPath {
 			
 			if(rightOf){
 				path += "RF";
-				currentPos.turn(direction,Moves.RIGHT);
+				currentPos.turn(direction, Moves.RIGHT);
 				direction = direction.turnRight();
 			}else if(leftOf){
 				path += "LF";
-				currentPos.turn(direction,Moves.LEFT);
+				currentPos.turn(direction, Moves.LEFT);
 				direction = direction.turnLeft();
 			}else{
-				currentPos.straight(direction,Moves.FORWARD);
+				currentPos.straight(direction, Moves.FORWARD);
 				path += "F";
 			}
 		}
