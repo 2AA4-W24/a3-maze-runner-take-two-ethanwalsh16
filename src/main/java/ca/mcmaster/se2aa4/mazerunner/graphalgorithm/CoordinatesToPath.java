@@ -9,6 +9,7 @@ import ca.mcmaster.se2aa4.mazerunner.maze.Maze;
 
 public class CoordinatesToPath {
 
+	// Converts an incoming list of coordinates from the BFS algorithm, and converts into path string.
 	public String toPath(List<Coordinate> coords, Maze maze) {
 		String path = "";
 
@@ -16,6 +17,7 @@ public class CoordinatesToPath {
 		Coordinate currentPos = new Coordinate(startPos.x(),startPos.y());
 		Orientation direction = Orientation.RIGHT;
 
+		// Iteratively cycle through coordinate list, appending to string each time.
 		for(int i=0; i<coords.size(); i++){
 
 			Coordinate nextPos = coords.get(i);
@@ -23,6 +25,7 @@ public class CoordinatesToPath {
 			boolean rightOf = nextPos.rightOf(currentPos,direction);
 			boolean leftOf = nextPos.leftOf(currentPos, direction);
 			
+			// Determining if next move is turn or proceeding forward.
 			if(rightOf){
 				path += "RF";
 				currentPos.turn(direction, Moves.RIGHT);
@@ -35,6 +38,7 @@ public class CoordinatesToPath {
 				currentPos.straight(direction, Moves.FORWARD);
 				path += "F";
 			}
+
 		}
 		return path;
 	}

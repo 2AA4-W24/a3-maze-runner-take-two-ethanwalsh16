@@ -21,15 +21,12 @@ public class Coordinate {
 		return this.y;
 	}
 
-	public String toString(){
-		return "(" + this.x + ", " + this.y + ")";
-	}
-
 	// Comparator function, used to determine whether path is at end of maze.
 	public boolean equivalentTo(Coordinate c){
 		return (this.x() == c.x()) && (this.y() == c.y());
 	}
 
+	// Method to handle updating coordinate based on turn direction and orientation in the maze.
 	public void turn(Orientation o, Moves m){
 		int mult = m.equals(Moves.LEFT) ? 1 : -1;
 		switch(o){
@@ -48,6 +45,7 @@ public class Coordinate {
 		}
 	}
 
+	// Method to update coordinate for straight and u-turn moves.
 	public void straight(Orientation o, Moves m){
 		int mult = m.equals(Moves.FORWARD) ? 1 : -1;
 		switch(o){
@@ -66,6 +64,7 @@ public class Coordinate {
 		}
 	}
 
+	// Determining if one Coordinate is right of another (used for converting list of coordinates to path string)
 	public boolean rightOf(Coordinate currentPos, Orientation direction) {
 		switch(direction){
 			case Orientation.UP:
@@ -81,6 +80,7 @@ public class Coordinate {
 		}
 	}
 
+	// Determining if one Coordinate is left of another (used for converting list of coordinates to path string)
 	public boolean leftOf(Coordinate currentPos, Orientation direction) {
 		switch(direction){
 			case Orientation.UP:

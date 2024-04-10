@@ -32,7 +32,7 @@ public class Entries {
 	}
 
 	// Used to return a column of the maze (useful in finding entry points specifically)
-	public ArrayList<String> returnColumn(int n, ArrayList<ArrayList<String>> matrix){
+	private ArrayList<String> returnColumn(int n, ArrayList<ArrayList<String>> matrix){
 		ArrayList<String> column = new ArrayList<>();
 		for(int i=0; i<matrix.size(); i++){
 			String currentSlot = matrix.get(i).get(n);

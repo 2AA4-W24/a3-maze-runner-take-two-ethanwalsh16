@@ -20,19 +20,26 @@ public class Tremaux implements MazeSolver {
 		return path;
 	}
 
+	// Marking all junctions in the maze (first step to Tremaux method)
 	private JunctionList markJunctions(Coordinate startPos, Coordinate endPos, Maze maze, Orientation input_dir){
+		
 		JunctionList junctions = new JunctionList();
 		Coordinate currentPos = new Coordinate(startPos.x(),startPos.y());
 		Orientation direction = input_dir;
+		
 		while(!currentPos.equivalentTo(endPos)){
+
 			if(currentPos.x() == 0){
+				// Moving forward initially as this is only option.
 				currentPos.straight(direction, Moves.FORWARD);
 				continue;
 			}
+			// Determining if exploration is at a junction
 			if(isJunction(currentPos, maze, direction) && maze.inBounds(currentPos)){
 				Junction j = new Junction(currentPos, direction, maze);
 				Junction current;
 				int index = junctions.has(j);
+				// Adding or accessing this new junction.
 				if(index == -1){
 					j.incrementPrev(direction);
 					junctions.add(j);
@@ -44,6 +51,7 @@ public class Tremaux implements MazeSolver {
 				
 				int prev = 0, right = 0, left = 0, straight = 0;
 
+				// Obtaining entrance mark values for later comparison.
 				switch(direction){
 					case Orientation.DOWN:
 						prev = current.top(); 
@@ -140,6 +148,7 @@ public class Tremaux implements MazeSolver {
 		return junctions;
 	}
 	
+	// Part 2 of Tremaux method, following entrances marked with one mark to reach end position.
 	private String createPath(JunctionList junctions, Coordinate startPos, Coordinate endPos, Maze maze, Orientation input_dir){
 		
 		Coordinate currentPos = new Coordinate(startPos.x(),startPos.y());
@@ -158,6 +167,7 @@ public class Tremaux implements MazeSolver {
 				int index = junctions.has(j);
 				current = junctions.get(index);
 				
+				// Obtaining junction values.
 				int right = 0, left = 0, straight = 0;
 				switch(direction){
 					case Orientation.DOWN:
@@ -182,6 +192,7 @@ public class Tremaux implements MazeSolver {
 						break;
 				}
 
+				// Determining which turn to take based on which value is 1.
 				if(straight == 1){
 					path += "F";
 					currentPos.straight(direction, Moves.FORWARD);
@@ -213,6 +224,7 @@ public class Tremaux implements MazeSolver {
 		return path;
 	}
 
+	// Additional method used for determining if a coordinate is a junction depending on how many adjacent paths there are.
 	private boolean isJunction(Coordinate c, Maze maze, Orientation direction){
 		boolean result = false;
 		int count = 0;

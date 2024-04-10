@@ -11,6 +11,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class Junction {
+	/* Junction object, used to track intersections for Tremaux method (tiles with >2 path exits/entries)
+	   Also used for entrance marking.
+	*/ 
 	int x;
 	int y;
 	int top;
@@ -56,6 +59,7 @@ public class Junction {
 	public int left(){return this.left;}
 	public int right(){return this.right;}
 
+	// Incrementing mark on previous entry
 	public void incrementPrev(Orientation direction) {
 		switch(direction){
 			case Orientation.UP:
@@ -73,6 +77,7 @@ public class Junction {
 		}
 	}
 
+	// Incrementing any other entry depending on move.
 	public void incrementMove(Moves m, Orientation direction) {
 		switch(direction){
 			case Orientation.UP:
@@ -90,6 +95,7 @@ public class Junction {
 		}
 	}
 
+	// Finding direction with the least amount of marks, and returning string for recommended move.
 	public String minMark(Orientation direction){
 		String result = "";
 		Map<String, Integer> turn_values = new HashMap<String, Integer>();

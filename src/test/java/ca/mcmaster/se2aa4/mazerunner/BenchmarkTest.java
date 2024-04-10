@@ -10,6 +10,8 @@ import ca.mcmaster.se2aa4.mazerunner.tools.Benchmark;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.FileNotFoundException;
+import java.util.List;
+import java.util.ArrayList;
 
 
 public class BenchmarkTest {
@@ -18,20 +20,19 @@ public class BenchmarkTest {
     @Test
     void baseTest() {
 		Benchmark benchmarker = new Benchmark();
-		String benchMarkResultGraph = "";
-		String benchMarkResultTremaux = "";
-		String benchMarkResultRightHand = "";
+		List<Double> benchMarkResultGraph = new ArrayList<Double>();
+		List<Double> benchMarkResultTremaux = new ArrayList<Double>();
+		List<Double> benchMarkResultRightHand = new ArrayList<Double>();
 		try {
-			benchMarkResultGraph = benchmarker.benchmarkResults(new Maze("./examples/straight.maz.txt"), "graph");
-			benchMarkResultTremaux = benchmarker.benchmarkResults(new Maze("./examples/straight.maz.txt"), "tremaux");
-			benchMarkResultRightHand = benchmarker.benchmarkResults(new Maze("./examples/straight.maz.txt"), "righthand");
+			benchMarkResultGraph = benchmarker.benchmarkResults(new Maze("./examples/straight.maz.txt"), "graph", "FFFF");
+			benchMarkResultTremaux = benchmarker.benchmarkResults(new Maze("./examples/straight.maz.txt"), "tremaux", "FFFF");
+			benchMarkResultRightHand = benchmarker.benchmarkResults(new Maze("./examples/straight.maz.txt"), "righthand","FFFF");
 		} catch (FileNotFoundException e) {
 			logger.error("File not found.");
 		}
-		String expected = "FFFF";
-		assertTrue(expected.length()/benchMarkResultGraph.length()==1.0);
-		assertTrue(expected.length()/benchMarkResultTremaux.length()==1.0);
-		assertTrue(expected.length()/benchMarkResultRightHand.length()==1.0);
+		assertTrue(benchMarkResultGraph.get(1)-1.0<1e-6);
+		assertTrue(benchMarkResultTremaux.get(1)-1.0<1e-6);
+		assertTrue(benchMarkResultRightHand.get(1)-1.0<1e-6);
     }
 
 

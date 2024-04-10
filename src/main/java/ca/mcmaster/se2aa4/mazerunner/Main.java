@@ -91,25 +91,19 @@ public class Main {
 				}
 
 				if(!config.benchmark().isEmpty()){
+					// Performing benchmarking if supplied by user.
 					Benchmark measurer = new Benchmark();
-					double baselineStart = System.nanoTime();
-					String baseline = measurer.benchmarkResults(maze, config.benchmark());
-					double baselineEnd = System.nanoTime();
-
-					double pathLength = path.length();
-					double baselineLength = baseline.length();
-					double speedup = Math.round((baselineLength / pathLength)*100) / 100.0;
+					List<Double> results = measurer.benchmarkResults(maze, config.benchmark(),path);
 
 					System.out.println("Maze read time: " + Math.round((readEnd - readStart)/1.0e4) / 100.0 + "ms");
 					System.out.println("Solve time (method): " + Math.round((solveEnd - solveStart)/1.0e4) / 100.0 + "ms");
-					System.out.println("Solve time (baseline): " + Math.round((baselineEnd - baselineStart)/1.0e4) / 100.0 + "ms");
-					System.out.println("Speedup: " + speedup);
+					System.out.println("Solve time (baseline): " + results.get(0) + "ms");
+					System.out.println("Speedup: " + results.get(1));
 
 				}else{
 
 					String factorizedPath = factorizer.factorPath(path);
 					// Returning factorized path
-					System.out.println(path);
 					System.out.println(factorizedPath);
 				}
 			}
@@ -122,6 +116,7 @@ public class Main {
 		}  
     }
 
+	// Handling command line interface and flags.
 	private static Configuration configure(String [] args) throws ParseException, FileNotFoundException{
 
 		Options options = new Options();

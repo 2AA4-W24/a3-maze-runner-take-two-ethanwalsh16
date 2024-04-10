@@ -7,6 +7,11 @@ import ca.mcmaster.se2aa4.mazerunner.maze.Coordinate;
 import java.util.HashSet;
 
 public class Node {
+    /* Basic data structure that is used for graph representation.
+     Includes cost, surrounding nodes (allows for edge traversal),
+     and tracking of id/prev for a Node's coordinates.
+    */
+    
     private int cost;
     private Set<Node> surroundings;
     private Coordinate id;

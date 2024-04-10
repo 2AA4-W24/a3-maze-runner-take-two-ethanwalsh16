@@ -8,7 +8,6 @@ import ca.mcmaster.se2aa4.mazerunner.maze.Maze;
 
 public class RightHand implements MazeSolver {
 	// Specific solver iteration, using right hand algorithm.
-	// Enum for tracking orientation within maze, as 2D array coordinates will vary
 
 	@Override
 	public String solveMaze(Maze maze){
@@ -19,7 +18,7 @@ public class RightHand implements MazeSolver {
 		Orientation direction = Orientation.RIGHT;
 
 		while(!currentPos.equivalentTo(endPos)){
-			// Different process depending on orientation.
+			// Determining next move, and appending to path depending on result.
 			if(maze.moveAvailable(currentPos,direction, Moves.RIGHT)){
 				path += "RF";
 				currentPos.turn(direction, Moves.RIGHT);

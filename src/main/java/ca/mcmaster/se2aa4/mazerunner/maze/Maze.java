@@ -10,12 +10,17 @@ import ca.mcmaster.se2aa4.mazerunner.enums.Moves;
 
 public class Maze {
 	
+	// Primary class for storing and exploring the maze.
 	private ArrayList<ArrayList<String>> matrix;
 	private List<Coordinate> entryPoints;
 
 	Entries entryFinder = new Entries();
 	Reader reader = new Reader();
 
+	/*  Modifiers for determining if an adjacent coordinate is suitable for a move to
+		Depending on move, will use one of these lists to check adjacent coordinates.
+		lMods for left, rMods for right, sMods for straight, and pMods for prev/u-turn.
+	*/
 	private int[] lMods = {-1,0,0,1,1,0,0,-1};
 	private int[] rMods = {1,0,0,-1,-1,0,0,1};
 	private int[] sMods = {0,1,1,0,0,-1,-1,0};
@@ -26,10 +31,12 @@ public class Maze {
 		entryPoints = entryFinder.findEntries(matrix); 	
 	}
 
+	// Returns starting coordinate of maze
 	public Coordinate getStart(){
 		return this.entryPoints.get(0);
 	}
 
+	// Returns ending coordinate of maze
 	public Coordinate getEnd(){
 		return this.entryPoints.get(1);
 	}
@@ -44,6 +51,7 @@ public class Maze {
 		return dimensions;
 	}
 
+	// Determining if move is available.
 	public boolean moveAvailable(Coordinate currentPos, Orientation direction, Moves move){
 		
 		int[] mods = new int[8];
@@ -75,6 +83,7 @@ public class Maze {
 		return result;
 	}
 
+	// Determining if current coordinate is within bounds of the maze.
 	public boolean inBounds(Coordinate currentPos) {
 		List<Integer> dimensions = this.getDimensions();
 		if((1 <= currentPos.x() && currentPos.x() < dimensions.get(0)-1) && (1 <= currentPos.y() && currentPos.y() < dimensions.get(1)-1)){

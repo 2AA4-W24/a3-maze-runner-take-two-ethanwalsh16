@@ -8,6 +8,7 @@ import ca.mcmaster.se2aa4.mazerunner.maze.Maze;
 
 public class GraphAdapter implements MazeSolver{
 	
+	// Converts the string array based maze input into a graph representation, and finds shortest path using BFS.
 	@Override
 	public String solveMaze(Maze maze) {
 		Graph g = BuildNodes(maze);
@@ -17,6 +18,7 @@ public class GraphAdapter implements MazeSolver{
 		return result;
 	}
 
+	// Creating nodes for each path tile on the maze.
 	private Graph BuildNodes(Maze maze){
 
         List<Integer> dimensions = maze.getDimensions();
@@ -46,6 +48,7 @@ public class GraphAdapter implements MazeSolver{
         
     }
 
+	// Connecting adjacent tiles (nodes).
 	private void connectGraph(Graph graph, Maze maze){
 		for(int i=0; i<graph.getSize(); i++){
 			Coordinate currentPos = graph.getNode(i).getId();
